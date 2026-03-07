@@ -1,9 +1,9 @@
 <template>
-  <article class="w-full">
+  <article class="w-2/3 space-y-8">
     <h1 class="divider w-full pb-6 text-quaternary">Notice Board</h1>
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-col items-center gap-10">
       <template v-for="update in updates">
-        <div class="bg-white/5 rounded-xl p-4">
+        <div class="bg-app-tertiary rounded-xl p-4 w-2/3">
           <div
             class="flex flex-col md:flex-row items-start justify-between gap-4 mb-2"
           >
