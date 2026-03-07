@@ -2,7 +2,7 @@
   <main class="flex flex-col items-center">
     <!--Loading-->
     <section v-if="loading">
-      <div class="flex justify-center items-center">
+      <div class="flex justify-center items-center h-64">
         <LoadingSpinner />
       </div>
     </section>
@@ -32,8 +32,8 @@ const error = ref(null);
 const updates = ref([]);
 
 async function getAllUpdates() {
+  loading.value = true;
   try {
-    loading.value = true;
     const { data, err } = await supabase.from("updates").select("*");
     if (err) throw err;
     updates.value = data;
