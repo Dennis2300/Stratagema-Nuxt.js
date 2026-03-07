@@ -1,5 +1,5 @@
 <template>
-  <article class="w-full space-y-8">
+  <article class="w-2/3 space-y-8">
     <h1 class="divider w-full">Current Banner</h1>
     <div
       class="grid auto-cols-max grid-flow-col gap-5 text-center justify-center"
