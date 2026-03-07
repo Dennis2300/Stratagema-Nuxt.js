@@ -28,7 +28,7 @@
       </button>
     </section>
     <!--Content-->
-    <section v-else class="mt-10 space-y-10">
+    <section v-else class="mt-10 space-y-20">
       <!--Navigation Cards-->
       <article class="flex flex-wrap justify-center gap-10">
         <div
@@ -73,7 +73,7 @@
         </div>
       </article>
       <!-- Current Banner characters-->
-      <article>Current Banner</article>
+      <CurrentBanner />
       <!--Notice Boards-->
       <article>
         <h1>Notice Board</h1>
