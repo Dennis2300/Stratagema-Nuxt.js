@@ -1,7 +1,8 @@
 <template>
   <article class="flex flex-wrap justify-center gap-10">
-    <div
+    <NuxtLink
       v-for="link in navLinks"
+      :to="link.path"
       class="group flex flex-col items-center cursor-pointer"
     >
       <div class="relative w-[300px] h-[300px] overflow-hidden rounded-xl">
@@ -15,7 +16,6 @@
           fetchpriority="high"
           decoding="async"
         />
-
         <!-- Overlay (appears on hover) -->
         <div
           class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -23,23 +23,17 @@
         <div
           class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 opacity-50"
         ></div>
-
         <!-- Always-visible alt_name + sliding text -->
         <div class="absolute inset-x-0 bottom-0 p-4">
-          <!-- Sliding description text -->
           <p
             class="text-xs text-white transform translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 mb-1"
           >
             {{ link.text }}
           </p>
-
-          <!-- alt_name always visible, slides up with the block naturally -->
-          <h4 class="text-white text-sm font-semibold">
-            {{ link.alt_name }}
-          </h4>
+          <h4 class="text-white text-sm font-semibold">{{ link.alt_name }}</h4>
         </div>
       </div>
-    </div>
+    </NuxtLink>
   </article>
 </template>
 

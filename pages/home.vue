@@ -13,7 +13,7 @@
     <!--Content-->
     <section
       v-else
-      class="flex flex-col justify-center items-center space-y-24"
+      class="flex flex-col justify-center items-center space-y-24 mt-10"
     >
       <!--Navigation Cards-->
       <HomePageNavigation />
