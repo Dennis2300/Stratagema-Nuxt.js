@@ -1,31 +1,20 @@
 <template>
   <main class="flex flex-col items-center">
     <!--Loading-->
-    <section
-      v-if="loading"
-      class="h-screen w-screen flex justify-center items-center"
-    >
-      <l-trefoil
-        size="160"
-        stroke="12"
-        stroke-length="0.15"
-        bg-opacity="0.1"
-        speed="1.4"
-        color="white"
-        scale="5"
-      />
+    <section v-if="loading">
+      <div class="flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
     </section>
     <!--Error-->
-    <section
-      v-else-if="error"
-      class="flex flex-col items-center gap-4 text-center"
-    >
-      <p class="text-4xl">⚠️</p>
-      <h2 class="text-xl font-bold text-red-400">Something went wrong</h2>
-      <p class="text-sm text-gray-400">{{ error.message }}</p>
+    <section v-else-if="error">
+      <ErrorMessage :error="error" />
     </section>
     <!--Content-->
-    <section v-else class="flex flex-col justify-center items-center space-y-16">
+    <section
+      v-else
+      class="flex flex-col justify-center items-center space-y-24"
+    >
       <!--Navigation Cards-->
       <HomePageNavigation />
       <!-- Current Banner characters-->
@@ -38,7 +27,7 @@
 
 <script setup>
 const supabase = useSupabaseClient();
-const loading = ref(false);
+const loading = ref(null);
 const error = ref(null);
 const updates = ref([]);
 

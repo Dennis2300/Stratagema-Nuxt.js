@@ -1,0 +1,11 @@
+<template>
+  <l-trefoil
+    size="160"
+    stroke="12"
+    stroke-length="0.15"
+    bg-opacity="0.1"
+    speed="1.4"
+    color="white"
+    scale="5"
+  />
+</template>
