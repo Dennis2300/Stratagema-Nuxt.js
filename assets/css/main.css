@@ -10,9 +10,10 @@
   --color-app-muted: #7a7470;
 }
 
-html {
-  padding: 0%;
-  margin: 0%;
+html,
+body {
+  height: 100%;
+  overflow: hidden;
   background-color: var(--color-app-primary);
 }
 
