@@ -8,7 +8,9 @@
     </section>
     <!--Error-->
     <section v-else-if="error">
-      <ErrorMessage :error="error" />
+      <div class="flex justify-center items-center h-64">
+        <ErrorMessage :error="error" />
+      </div>
     </section>
     <!--Content-->
     <section v-else class="flex flex-col items-center mt-8">
@@ -22,7 +24,9 @@
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
-        <h2 class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide">
+        <h2
+          class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide"
+        >
           Characters Archive
         </h2>
       </header>
