@@ -13,7 +13,7 @@
     <!--Content-->
     <section v-else class="flex flex-col items-center mt-8">
       <header class="relative">
-        <div class="relative w-[800px] h-[150px] overflow-hidden rounded-xl">
+        <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-bottom"
             src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/06/13/237301566/fcea1426526d00185e04c4abe3cd8bdc_5451103014835655107.png?x-oss-process=image%2Fformat%2Cwebp"
