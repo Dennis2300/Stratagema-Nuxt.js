@@ -13,7 +13,7 @@
       </div>
     </section>
     <!--Content-->
-    <section v-else class="flex flex-col items-center mt-8">
+    <section v-else class="flex flex-col items-center mt-8 space-y-4">
       <header class="relative">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
@@ -30,7 +30,45 @@
           Characters Archive
         </h2>
       </header>
+      <!--Filter-->
+      <form class="space-y-2">
+        <!--Regions Filter-->
+        <div class="space-x-2">
+          <template v-for="region in regions">
+            <input
+              class="btn"
+              type="checkbox"
+              name="frameworks"
+              :aria-label="region.name"
+            />
+          </template>
+        </div>
+        <!--Visions Filter-->
+        <div class="space-x-2">
+          <template v-for="vision in visions">
+            <input
+              class="btn"
+              type="checkbox"
+              name="frameworks"
+              :aria-label="vision.name"
+            />
+          </template>
+        </div>
+        <!--Weapon Type Filter-->
+        <div class="space-x-2">
+          <template v-for="weapon_type in weapon_types">
+            <input
+              class="btn"
+              type="checkbox"
+              name="frameworks"
+              :aria-label="weapon_type.name"
+            />
+          </template>
+        </div>
+        <input class="btn btn-square" type="reset" value="×" />
+      </form>
       <div class="divider px-32"></div>
+      <!--Character Card-->
       <article class="w-full min-h-screen flex flex-col items-center gap-12">
         <div
           v-for="character in characters"
@@ -149,6 +187,9 @@ const noMoreResults = computed(
 );
 
 const characters = ref([]);
+const visions = ref([]);
+const regions = ref([]);
+const weapon_types = ref([]);
 
 const CACHE_KEY = "characters_cache";
 
@@ -217,6 +258,39 @@ async function loadMoreCharacter() {
   }
 }
 
+async function getAllVisions() {
+  try {
+    const { data, err } = await supabase.from("visions").select("*");
+    if (err) throw err;
+    visions.value = data;
+  } catch (e) {
+    error.value = e;
+    console.log(e);
+  }
+}
+
+async function getAllRegions() {
+  try {
+    const { data, err } = await supabase.from("regions").select("*");
+    if (err) throw err;
+    regions.value = data;
+  } catch (e) {
+    error.value = e;
+    console.log(e);
+  }
+}
+
+async function getAllWeaponTypes() {
+  try {
+    const { data, err } = await supabase.from("weapon_types").select("*");
+    if (err) throw err;
+    weapon_types.value = data;
+  } catch (e) {
+    error.value = e;
+    console.log(e);
+  }
+}
+
 onMounted(async () => {
   const cached = loadFromCache();
   if (cached) {
@@ -227,6 +301,10 @@ onMounted(async () => {
   } else {
     await loadMoreCharacter();
   }
+
+  getAllVisions();
+  getAllRegions();
+  getAllWeaponTypes();
 
   await nextTick();
 
