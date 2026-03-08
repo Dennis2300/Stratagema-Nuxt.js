@@ -159,13 +159,24 @@ function saveToCache(characters, totalCount, currentPage) {
       characters,
       totalCount,
       currentPage,
+      timestamp: Date.now(),
     }),
   );
 }
 
 function loadFromCache() {
   const cached = sessionStorage.getItem(CACHE_KEY);
-  return cached ? JSON.parse(cached) : null;
+  if (!cached) return null;
+
+  const parsed = JSON.parse(cached);
+  const oneHour = 60 * 60 * 1000;
+
+  if (Date.now() - parsed.timestamp > oneHour) {
+    sessionStorage.removeItem(CACHE_KEY);
+    return null;
+  }
+
+  return parsed;
 }
 
 async function loadMoreCharacter() {
@@ -207,7 +218,16 @@ async function loadMoreCharacter() {
 }
 
 onMounted(async () => {
-  await loadMoreCharacter();
+  const cached = loadFromCache();
+  if (cached) {
+    characters.value = cached.characters;
+    totalCount.value = cached.totalCount;
+    currentPage.value = cached.currentPage;
+    loading.value = false;
+  } else {
+    await loadMoreCharacter();
+  }
+
   await nextTick();
 
   const observer = new IntersectionObserver(
