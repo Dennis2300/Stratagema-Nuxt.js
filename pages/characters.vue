@@ -150,6 +150,24 @@ const noMoreResults = computed(
 
 const characters = ref([]);
 
+const CACHE_KEY = "characters_cache";
+
+function saveToCache(characters, totalCount, currentPage) {
+  sessionStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify({
+      characters,
+      totalCount,
+      currentPage,
+    }),
+  );
+}
+
+function loadFromCache() {
+  const cached = sessionStorage.getItem(CACHE_KEY);
+  return cached ? JSON.parse(cached) : null;
+}
+
 async function loadMoreCharacter() {
   if (paginationLoading.value || noMoreResults.value) return;
 
@@ -178,6 +196,7 @@ async function loadMoreCharacter() {
     characters.value.push(...data);
     totalCount.value = count;
     currentPage.value++;
+    saveToCache(characters.value, totalCount.value, currentPage.value);
   } catch (e) {
     error.value = e;
     console.log(e);
