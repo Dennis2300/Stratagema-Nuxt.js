@@ -41,7 +41,7 @@
           <!-- Character Card -->
           <div class="flex items-center gap-4 px-5 py-4">
             <div
-              class="w-20 h-20 rounded-full overflow-hidden"
+              class="w-24 h-24 rounded-full overflow-hidden"
               :class="{
                 'rarity-5': character.rarity === 5,
                 'rarity-4': character.rarity === 4,
