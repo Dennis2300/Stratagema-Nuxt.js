@@ -7,9 +7,9 @@
           <div
             class="flex flex-col md:flex-row items-start justify-between gap-4 mb-2"
           >
-            <h3 class="text-warning leading-snug">
+            <h6 class="text-warning leading-snug">
               {{ update.title }}
-            </h3>
+            </h6>
             <span
               class="text-xs text-gray-400 whitespace-nowrap mt-0.5 font-mono"
             >
