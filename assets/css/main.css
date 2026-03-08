@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Dirt&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -8,6 +9,8 @@
   --color-app-accent: #ff9800;
   --color-app-text: #f0ece6;
   --color-app-muted: #7a7470;
+
+  --font-rubik-dirt: "Rubik Dirt", sans-serif;
 }
 
 html,
@@ -15,6 +18,7 @@ body {
   height: 100%;
   overflow: hidden;
   background-color: var(--color-app-primary);
+  font-family: "Roboto", sans-serif;
 }
 
 h1 {

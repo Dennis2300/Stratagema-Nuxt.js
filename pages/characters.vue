@@ -22,7 +22,7 @@
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
-        <h2 class="absolute inset-0 flex items-center justify-center">
+        <h2 class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide">
           Characters Archive
         </h2>
       </header>
@@ -54,12 +54,12 @@
               />
             </div>
             <div>
-              <h3 class="font-semibold text-white">{{ character.name }}</h3>
-              <div class="flex gap-0.5 mt-1">
+              <h3 class="leading-none">{{ character.name }}</h3>
+              <div class="flex gap-0.5 items-center">
                 <span
                   v-for="n in character.rarity"
                   :key="n"
-                  class="text-xs"
+                  class="text-lg leading-none"
                   :class="
                     character.rarity === 5
                       ? 'text-amber-400'
