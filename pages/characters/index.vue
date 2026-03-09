@@ -59,7 +59,7 @@
         <div
           v-for="character in characters"
           :key="character.name"
-          class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5"
+          class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5 transition-transform duration-200 hover:translate-x-2"
         >
           <NuxtLink :to="`/characters/${character.id}`" target="_blank">
             <!-- Splash Art -->
@@ -83,7 +83,9 @@
                 />
               </div>
               <div>
-                <h3 class="leading-none">{{ character.name }}</h3>
+                <h3 class="leading-none font-acme">
+                  {{ character.name }}
+                </h3>
                 <div class="flex gap-0.5 items-center">
                   <span
                     v-for="n in character.rarity"
