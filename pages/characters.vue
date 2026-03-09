@@ -13,8 +13,8 @@
       </div>
     </section>
     <!--Content-->
-    <section v-else class="flex flex-col items-center mt-8 space-y-4">
-      <header class="relative">
+    <section v-else>
+      <header class="relative flex justify-center items-center mt-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-bottom"
@@ -31,43 +31,26 @@
         </h2>
       </header>
       <!--Filter-->
-      <form class="space-y-2">
-        <!--Regions Filter-->
-        <div class="space-x-2">
-          <template v-for="region in regions">
-            <input
-              class="btn"
-              type="checkbox"
-              name="frameworks"
-              :aria-label="region.name"
+      <div class="pl-32 w-fit cursor-pointer">
+        <div
+          class="bg-app-muted py-1 px-3 flex items-center gap-1 w-fit rounded-md"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            fill="currentColor"
+            class="bi bi-funnel-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
             />
-          </template>
+          </svg>
+          <span>Filters</span>
         </div>
-        <!--Visions Filter-->
-        <div class="space-x-2">
-          <template v-for="vision in visions">
-            <input
-              class="btn"
-              type="checkbox"
-              name="frameworks"
-              :aria-label="vision.name"
-            />
-          </template>
-        </div>
-        <!--Weapon Type Filter-->
-        <div class="space-x-2">
-          <template v-for="weapon_type in weapon_types">
-            <input
-              class="btn"
-              type="checkbox"
-              name="frameworks"
-              :aria-label="weapon_type.name"
-            />
-          </template>
-        </div>
-        <input class="btn btn-square" type="reset" value="×" />
-      </form>
-      <div class="divider px-32"></div>
+      </div>
+      <div class="divider px-32 mt-0"></div>
       <!--Character Card-->
       <article class="w-full min-h-screen flex flex-col items-center gap-12">
         <div
@@ -193,7 +176,7 @@ const weapon_types = ref([]);
 
 const CACHE_KEY = "characters_cache";
 
-function saveToCache(characters, totalCount, currentPage) {
+function saveCharactersToCache(characters, totalCount, currentPage) {
   sessionStorage.setItem(
     CACHE_KEY,
     JSON.stringify({
@@ -204,8 +187,7 @@ function saveToCache(characters, totalCount, currentPage) {
     }),
   );
 }
-
-function loadFromCache() {
+function loadCharactersFromCache() {
   const cached = sessionStorage.getItem(CACHE_KEY);
   if (!cached) return null;
 
@@ -220,7 +202,7 @@ function loadFromCache() {
   return parsed;
 }
 
-async function loadMoreCharacter() {
+async function getMoreCharacters() {
   if (paginationLoading.value || noMoreResults.value) return;
 
   paginationLoading.value = true;
@@ -248,7 +230,11 @@ async function loadMoreCharacter() {
     characters.value.push(...data);
     totalCount.value = count;
     currentPage.value++;
-    saveToCache(characters.value, totalCount.value, currentPage.value);
+    saveCharactersToCache(
+      characters.value,
+      totalCount.value,
+      currentPage.value,
+    );
   } catch (e) {
     error.value = e;
     console.log(e);
@@ -292,14 +278,14 @@ async function getAllWeaponTypes() {
 }
 
 onMounted(async () => {
-  const cached = loadFromCache();
+  const cached = loadCharactersFromCache();
   if (cached) {
     characters.value = cached.characters;
     totalCount.value = cached.totalCount;
     currentPage.value = cached.currentPage;
     loading.value = false;
   } else {
-    await loadMoreCharacter();
+    await getMoreCharacters();
   }
 
   getAllVisions();
@@ -310,7 +296,7 @@ onMounted(async () => {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) loadMoreCharacter();
+      if (entries[0].isIntersecting) getMoreCharacters();
     },
     { threshold: 0.1 },
   );
