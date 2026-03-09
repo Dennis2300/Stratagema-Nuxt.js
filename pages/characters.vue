@@ -231,6 +231,8 @@
                         type="checkbox"
                         name="frameworks"
                         :aria-label="vision.name"
+                        :checked="selectedFilters.visions.includes(vision.id)"
+                        @change="toggleVision(vision.id)"
                       />
                       <img
                         :src="vision.img_url"
@@ -345,6 +347,7 @@ const isFiltered = ref(false);
 const filtersWereApplied = ref(false);
 const selectedFilters = ref({
   rarity: null,
+  visions: [],
 });
 
 function saveCharactersToCache(characters, totalCount, currentPage) {
@@ -483,6 +486,14 @@ async function getAllWeaponTypes() {
 function selectRarity(value) {
   selectedFilters.value.rarity = value;
 }
+function toggleVision(id) {
+  const index = selectedFilters.value.visions.indexOf(id);
+  if (index === -1) {
+    selectedFilters.value.visions.push(id);
+  } else {
+    selectedFilters.value.visions.splice(index, 1);
+  }
+}
 async function getFilteredCharacters() {
   if (!hasActiveFilters.value) return;
   filtersWereApplied.value = true;
@@ -502,7 +513,9 @@ async function getFilteredCharacters() {
     if (selectedFilters.value.rarity !== null) {
       query = query.eq("rarity", selectedFilters.value.rarity);
     }
-
+    if (selectedFilters.value.visions.length > 0) {
+      query = query.in("vision", selectedFilters.value.visions);
+    }
     const { data, error: fetchError } = await query;
     if (fetchError) throw fetchError;
     characters.value = data;
@@ -524,11 +537,14 @@ function resetFilters() {
   }
   isFiltered.value = false;
   filtersWereApplied.value = false;
-  selectedFilters.value = { rarity: null };
+  selectedFilters.value = { rarity: null, visions: [] };
   isFilterPanelOpen.value = false;
 }
 const hasActiveFilters = computed(() => {
-  return Object.values(selectedFilters.value).some((v) => v !== null);
+  return (
+    selectedFilters.value.rarity !== null ||
+    selectedFilters.value.visions.length > 0
+  );
 });
 
 onMounted(async () => {
