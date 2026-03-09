@@ -192,18 +192,21 @@
                     type="radio"
                     name="metaframeworks"
                     aria-label="All"
+                    @click="selectRarity(null)"
                   />
                   <input
                     class="btn"
                     type="radio"
                     name="metaframeworks"
                     aria-label="★★★★★"
+                    @click="selectRarity(5)"
                   />
                   <input
                     class="btn"
                     type="radio"
                     name="metaframeworks"
                     aria-label="★★★★"
+                    @click="selectRarity(4)"
                   />
                 </div>
               </div>
@@ -281,8 +284,12 @@
               </div>
               <!--Apply/Reset Button-->
               <div class="flex justify-center items-center gap-10">
-                <button class="btn btn-success">Apply</button>
-                <button class="btn btn-warning">Reset</button>
+                <button class="btn btn-success" @click="getFilteredCharacters">
+                  Apply
+                </button>
+                <button class="btn btn-warning" @click="resetFilters">
+                  Reset
+                </button>
               </div>
             </div>
           </div>
@@ -305,17 +312,23 @@ const paginationLoading = ref(false);
 const currentPage = ref(0);
 const totalCount = ref(0);
 const pageSize = 10;
-
 const noMoreResults = computed(
   () => characters.value.length >= totalCount.value && totalCount.value > 0,
 );
 
+// Data
 const characters = ref([]);
 const visions = ref([]);
 const regions = ref([]);
 const weapon_types = ref([]);
 
 const CACHE_KEY = "characters_cache";
+
+// Filter
+const isFiltered = ref(false);
+const selectedFilters = ref({
+  rarity: null,
+});
 
 function saveCharactersToCache(characters, totalCount, currentPage) {
   sessionStorage.setItem(
@@ -342,7 +355,6 @@ function loadCharactersFromCache() {
 
   return parsed;
 }
-
 function setCache(key, data, ttl = 60 * 60 * 1000) {
   const entry = {
     data,
@@ -350,7 +362,6 @@ function setCache(key, data, ttl = 60 * 60 * 1000) {
   };
   sessionStorage.setItem(key, JSON.stringify(entry));
 }
-
 function getCache(key) {
   const cachedData = sessionStorage.getItem(key);
   if (!cachedData) return null;
@@ -366,7 +377,8 @@ function getCache(key) {
 }
 
 async function getMoreCharacters() {
-  if (paginationLoading.value || noMoreResults.value) return;
+  if (paginationLoading.value || noMoreResults.value || isFiltered.value)
+    return;
 
   paginationLoading.value = true;
   error.value = null;
@@ -397,15 +409,14 @@ async function getMoreCharacters() {
       totalCount.value,
       currentPage.value,
     );
-  } catch (e) {
-    error.value = e;
-    console.log(e);
+  } catch (fetchError) {
+    error.value = fetchError;
+    console.log(fetchError);
   } finally {
     loading.value = false;
     paginationLoading.value = false;
   }
 }
-
 async function getAllVisions() {
   try {
     const cached = getCache("visions");
@@ -421,7 +432,6 @@ async function getAllVisions() {
     console.log(e);
   }
 }
-
 async function getAllRegions() {
   try {
     const cached = getCache("regions");
@@ -437,7 +447,6 @@ async function getAllRegions() {
     console.log(e);
   }
 }
-
 async function getAllWeaponTypes() {
   try {
     const cached = getCache("weapon_types");
@@ -452,6 +461,50 @@ async function getAllWeaponTypes() {
     error.value = e;
     console.log(e);
   }
+}
+
+function selectRarity(value) {
+  selectedFilters.value.rarity = value;
+}
+
+async function getFilteredCharacters() {
+  isFiltered.value = true;
+  characters.value = [];
+  currentPage.value = 0;
+  totalCount.value = 0;
+  paginationLoading.value = true;
+  try {
+    let query = supabase
+      .from("characters")
+      .select(
+        "*, vision(*), weapon_type(id, name), regions:character_region(region(id, name))",
+      )
+      .order("release_date", { ascending: false });
+
+    if (selectedFilters.value.rarity !== null) {
+      query = query.eq("rarity", selectedFilters.value.rarity);
+    }
+
+    const { data, error: fetchError } = await query;
+    if (fetchError) throw fetchError;
+    characters.value = data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isFilterPanelOpen.value = false;
+    paginationLoading.value = false;
+  }
+}
+
+function resetFilters() {
+  isFiltered.value = false;
+  selectedFilters.value = { rarity: null };
+  characters.value = [];
+  currentPage.value = 0;
+  totalCount.value = 0;
+  sessionStorage.removeItem(CACHE_KEY);
+  getMoreCharacters();
+  isFilterPanelOpen.value = false;
 }
 
 onMounted(async () => {
