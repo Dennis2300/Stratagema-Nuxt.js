@@ -52,7 +52,10 @@
       </div>
       <div class="divider px-32 mt-0 mb-8"></div>
       <!--Character Card-->
-      <article class="w-full min-h-screen flex flex-col items-center gap-12">
+      <article
+        v-if="characters.length > 0"
+        class="w-full min-h-screen flex flex-col items-center gap-12"
+      >
         <div
           v-for="character in characters"
           :key="character.name"
@@ -148,6 +151,7 @@
         </div>
         <div ref="scrollTrigger"></div>
       </article>
+      <NoCharacterFound v-else />
       <!--Filter Panel-->
       <Transition name="fade">
         <div
@@ -255,6 +259,8 @@
                         type="checkbox"
                         name="frameworks"
                         :aria-label="region.name"
+                        :checked="selectedFilters.regions.includes(region.id)"
+                        @change="toggleRegion(region.id)"
                       />
                       <img
                         v-if="region.img_url"
@@ -299,7 +305,11 @@
                   @click="getFilteredCharacters"
                   :disabled="!hasActiveFilters"
                 >
-                  Apply
+                  <span
+                    v-if="filterLoading"
+                    class="loading loading-spinner loading-sm"
+                  ></span>
+                  <span>Apply</span>
                 </button>
                 <button
                   class="btn btn-warning"
@@ -321,6 +331,7 @@
 const supabase = useSupabaseClient();
 
 const loading = ref(true);
+const filterLoading = ref(false);
 const error = ref(null);
 const isFilterPanelOpen = ref(false);
 
@@ -348,6 +359,7 @@ const filtersWereApplied = ref(false);
 const selectedFilters = ref({
   rarity: null,
   visions: [],
+  regions: [],
 });
 
 function saveCharactersToCache(characters, totalCount, currentPage) {
@@ -482,6 +494,66 @@ async function getAllWeaponTypes() {
     console.log(e);
   }
 }
+async function buildFilterQuery() {
+  let query = supabase
+    .from("characters")
+    .select(
+      "*, vision(*), weapon_type(id, name), regions:character_region(region(id, name))",
+    )
+    .order("release_date", { ascending: false });
+
+  if (selectedFilters.value.rarity !== null) {
+    query = query.eq("rarity", selectedFilters.value.rarity);
+  }
+
+  if (selectedFilters.value.visions.length > 0) {
+    query = query.in("vision", selectedFilters.value.visions);
+  }
+
+  if (selectedFilters.value.regions.length > 0) {
+    const { data: regionData, error: regionError } = await supabase
+      .from("character_region")
+      .select("character")
+      .in("region", selectedFilters.value.regions);
+
+    if (regionError) throw regionError;
+
+    const characterIds = regionData.map((r) => r.character);
+    query = query.in("id", characterIds);
+  }
+
+  return query;
+}
+async function getFilteredCharacters() {
+  if (!hasActiveFilters.value) return;
+
+  setFilterActiveState();
+  clearCharacterState();
+
+  try {
+    const query = await buildFilterQuery();
+    const { data, error: fetchError } = await query;
+    if (fetchError) throw fetchError;
+    characters.value = data;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isFilterPanelOpen.value = false;
+    filterLoading.value = false;
+  }
+}
+async function resetFilters() {
+  if (!hasActiveFilters.value) return;
+
+  const wasFiltered = isFiltered.value; // 👈 capture before clearing
+  clearFilterState();
+  isFilterPanelOpen.value = false;
+
+  if (wasFiltered) {
+    clearCharacterState();
+    await getMoreCharacters();
+  }
+}
 
 function selectRarity(value) {
   selectedFilters.value.rarity = value;
@@ -494,56 +566,35 @@ function toggleVision(id) {
     selectedFilters.value.visions.splice(index, 1);
   }
 }
-async function getFilteredCharacters() {
-  if (!hasActiveFilters.value) return;
+function toggleRegion(id) {
+  const index = selectedFilters.value.regions.indexOf(id);
+  if (index === -1) {
+    selectedFilters.value.regions.push(id);
+  } else {
+    selectedFilters.value.regions.splice(index, 1);
+  }
+}
+function setFilterActiveState() {
   filtersWereApplied.value = true;
   isFiltered.value = true;
+  filterLoading.value = true;
+}
+function clearFilterState() {
+  selectedFilters.value = { rarity: null, visions: [], regions: [] };
+  isFiltered.value = false;
+  filtersWereApplied.value = false;
+}
+function clearCharacterState() {
   characters.value = [];
   currentPage.value = 0;
   totalCount.value = 0;
-  paginationLoading.value = true;
-  try {
-    let query = supabase
-      .from("characters")
-      .select(
-        "*, vision(*), weapon_type(id, name), regions:character_region(region(id, name))",
-      )
-      .order("release_date", { ascending: false });
-
-    if (selectedFilters.value.rarity !== null) {
-      query = query.eq("rarity", selectedFilters.value.rarity);
-    }
-    if (selectedFilters.value.visions.length > 0) {
-      query = query.in("vision", selectedFilters.value.visions);
-    }
-    const { data, error: fetchError } = await query;
-    if (fetchError) throw fetchError;
-    characters.value = data;
-  } catch (error) {
-    console.log(error);
-  } finally {
-    isFilterPanelOpen.value = false;
-    paginationLoading.value = false;
-  }
-}
-function resetFilters() {
-  if (!hasActiveFilters.value) return;
-  if (isFiltered.value) {
-    characters.value = [];
-    currentPage.value = 0;
-    totalCount.value = 0;
-    sessionStorage.removeItem(CACHE_KEY);
-    getMoreCharacters();
-  }
-  isFiltered.value = false;
-  filtersWereApplied.value = false;
-  selectedFilters.value = { rarity: null, visions: [] };
-  isFilterPanelOpen.value = false;
+  sessionStorage.removeItem(CACHE_KEY);
 }
 const hasActiveFilters = computed(() => {
   return (
     selectedFilters.value.rarity !== null ||
-    selectedFilters.value.visions.length > 0
+    selectedFilters.value.visions.length > 0 ||
+    selectedFilters.value.regions.length > 0
   );
 });
 
