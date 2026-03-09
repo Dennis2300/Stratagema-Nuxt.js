@@ -246,7 +246,7 @@ async function getMoreCharacters() {
 
 async function getAllVisions() {
   try {
-    const { data, err } = await supabase.from("visions").select("*");
+    const { data, error: err } = await supabase.from("visions").select("*");
     if (err) throw err;
     visions.value = data;
   } catch (e) {
@@ -257,7 +257,7 @@ async function getAllVisions() {
 
 async function getAllRegions() {
   try {
-    const { data, err } = await supabase.from("regions").select("*");
+    const { data, error: err } = await supabase.from("regions").select("*");
     if (err) throw err;
     regions.value = data;
   } catch (e) {
@@ -268,7 +268,9 @@ async function getAllRegions() {
 
 async function getAllWeaponTypes() {
   try {
-    const { data, err } = await supabase.from("weapon_types").select("*");
+    const { data, error: err } = await supabase
+      .from("weapon_types")
+      .select("*");
     if (err) throw err;
     weapon_types.value = data;
   } catch (e) {
