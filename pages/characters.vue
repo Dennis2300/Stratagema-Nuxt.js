@@ -50,7 +50,7 @@
           <span>Filters</span>
         </div>
       </div>
-      <div class="divider px-32 mt-0"></div>
+      <div class="divider px-32 mt-0 mb-8"></div>
       <!--Character Card-->
       <article class="w-full min-h-screen flex flex-col items-center gap-12">
         <div
@@ -202,6 +202,28 @@ function loadCharactersFromCache() {
   return parsed;
 }
 
+function setCache(key, data, ttl = 60 * 60 * 1000) {
+  const entry = {
+    data,
+    expiresAt: Date.now() + ttl,
+  };
+  sessionStorage.setItem(key, JSON.stringify(entry));
+}
+
+function getCache(key) {
+  const cachedData = sessionStorage.getItem(key);
+  if (!cachedData) return null;
+
+  const entry = JSON.parse(cachedData);
+
+  if (Date.now() > entry.expiresAt) {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+
+  return entry.data;
+}
+
 async function getMoreCharacters() {
   if (paginationLoading.value || noMoreResults.value) return;
 
@@ -212,7 +234,7 @@ async function getMoreCharacters() {
   const to = from + pageSize - 1;
 
   try {
-    const { data, error: fetchError } = await supabase
+    const { data, count, error: fetchError } = await supabase
       .from("characters")
       .select(
         "*, vision(*), weapon_type(id, name), regions:character_region(region(id, name))",
@@ -241,11 +263,14 @@ async function getMoreCharacters() {
 
 async function getAllVisions() {
   try {
+    const cached = getCache("visions");
+    if (cached) return (visions.value = cached);
     const { data, error: fetchError } = await supabase
       .from("visions")
       .select("*");
     if (fetchError) throw fetchError;
     visions.value = data;
+    setCache("visions", data);
   } catch (e) {
     error.value = e;
     console.log(e);
@@ -254,11 +279,14 @@ async function getAllVisions() {
 
 async function getAllRegions() {
   try {
+    const cached = getCache("regions");
+    if (cached) return (regions.value = cached);
     const { data, error: fetchError } = await supabase
       .from("regions")
       .select("*");
     if (fetchError) throw fetchError;
     regions.value = data;
+    setCache("regions", data);
   } catch (e) {
     error.value = e;
     console.log(e);
@@ -267,11 +295,14 @@ async function getAllRegions() {
 
 async function getAllWeaponTypes() {
   try {
+    const cached = getCache("weapon_types");
+    if (cached) return (weapon_types.value = cached);
     const { data, error: fetchError } = await supabase
       .from("weapon_types")
       .select("*");
     if (fetchError) throw fetchError;
     weapon_types.value = data;
+    setCache("weapon_types", data);
   } catch (e) {
     error.value = e;
     console.log(e);
