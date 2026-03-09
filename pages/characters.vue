@@ -279,6 +279,11 @@
                   </template>
                 </div>
               </div>
+              <!--Apply/Reset Button-->
+              <div class="flex justify-center items-center gap-10">
+                <button class="btn btn-success">Apply</button>
+                <button class="btn btn-warning">Reset</button>
+              </div>
             </div>
           </div>
         </div>
