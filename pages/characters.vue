@@ -149,138 +149,140 @@
         <div ref="scrollTrigger"></div>
       </article>
       <!--Filter Panel-->
-      <div
-        v-if="isFilterPanelOpen"
-        class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
-      >
+      <Transition name="fade">
         <div
-          class="max-w-1/2 bg-app-secondary rounded-b-2xl border-t-4 border-app-accent p-4"
+          v-if="isFilterPanelOpen"
+          class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
         >
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                fill="currentColor"
-                class="bi bi-funnel-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-                />
-              </svg>
-              <h4>Filter Characters</h4>
-            </div>
-            <button
-              class="btn btn-error btn-xs"
-              @click="isFilterPanelOpen = false"
-            >
-              X
-            </button>
-          </div>
-          <div class="space-y-8">
-            <!--Visions-->
-            <div>
-              <span class="divider divider-start font-acme tracking-wide mb-2"
-                >Rarity</span
-              >
-              <div class="filter">
-                <input
-                  class="btn filter-reset"
-                  type="radio"
-                  name="metaframeworks"
-                  aria-label="All"
-                />
-                <input
-                  class="btn"
-                  type="radio"
-                  name="metaframeworks"
-                  aria-label="★★★★★"
-                />
-                <input
-                  class="btn"
-                  type="radio"
-                  name="metaframeworks"
-                  aria-label="★★★★"
-                />
+          <div
+            class="max-w-1/2 bg-app-tertiary rounded-b-2xl border-t-4 border-app-accent p-4"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  fill="currentColor"
+                  class="bi bi-funnel-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+                  />
+                </svg>
+                <h4>Filter Characters</h4>
               </div>
-            </div>
-            <!--Visions-->
-            <div>
-              <span class="divider divider-start font-acme tracking-wide mb-2"
-                >Visions/Element</span
+              <button
+                class="btn btn-error btn-xs"
+                @click="isFilterPanelOpen = false"
               >
-              <div class="flex flex-wrap gap-4">
-                <template v-for="vision in visions">
-                  <div class="relative inline-flex items-center">
-                    <input
-                      class="btn pl-10"
-                      type="checkbox"
-                      name="frameworks"
-                      :aria-label="vision.name"
-                    />
-                    <img
-                      :src="vision.img_url"
-                      class="absolute left-2 w-6 h-6 pointer-events-none"
-                    />
-                  </div>
-                </template>
+                X
+              </button>
+            </div>
+            <div class="space-y-8">
+              <!--Visions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Rarity</span
+                >
+                <div class="filter">
+                  <input
+                    class="btn filter-reset"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="All"
+                  />
+                  <input
+                    class="btn"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="★★★★★"
+                  />
+                  <input
+                    class="btn"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="★★★★"
+                  />
+                </div>
               </div>
-            </div>
-            <!--Regions-->
-            <div>
-              <span class="divider divider-start font-acme tracking-wide mb-2"
-                >Regions</span
-              >
-              <div class="flex flex-wrap gap-4">
-                <template v-for="region in regions">
-                  <div class="relative inline-flex items-center">
-                    <input
-                      class="btn pl-10"
-                      type="checkbox"
-                      name="frameworks"
-                      :aria-label="region.name"
-                    />
-                    <img
-                      v-if="region.img_url"
-                      :src="region.img_url"
-                      class="absolute left-2 w-6 h-6 pointer-events-none"
-                    />
-                    <img
-                      v-else
-                      src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
-                      class="absolute left-2 w-6 h-6 pointer-events-none"
-                    />
-                  </div>
-                </template>
+              <!--Visions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Visions/Element</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="vision in visions">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="vision.name"
+                      />
+                      <img
+                        :src="vision.img_url"
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                      />
+                    </div>
+                  </template>
+                </div>
               </div>
-            </div>
-            <!--Weapon Types-->
-            <div>
-              <span class="divider divider-start font-acme tracking-wide mb-2"
-                >Weapon Types</span
-              >
-              <div class="flex flex-wrap gap-4">
-                <template v-for="weapon_type in weapon_types">
-                  <div class="relative inline-flex items-center">
-                    <input
-                      class="btn pl-10"
-                      type="checkbox"
-                      name="frameworks"
-                      :aria-label="weapon_type.name"
-                    />
-                    <img
-                      :src="weapon_type.img_url"
-                      class="absolute left-2 w-6 h-6 pointer-events-none"
-                    />
-                  </div>
-                </template>
+              <!--Regions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Regions</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="region in regions">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="region.name"
+                      />
+                      <img
+                        v-if="region.img_url"
+                        :src="region.img_url"
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                      />
+                      <img
+                        v-else
+                        src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                      />
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <!--Weapon Types-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Weapon Types</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="weapon_type in weapon_types">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="weapon_type.name"
+                      />
+                      <img
+                        :src="weapon_type.img_url"
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                      />
+                    </div>
+                  </template>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Transition>
     </section>
   </main>
 </template>
@@ -290,7 +292,7 @@ const supabase = useSupabaseClient();
 
 const loading = ref(true);
 const error = ref(null);
-const isFilterPanelOpen = ref(true);
+const isFilterPanelOpen = ref(false);
 
 // Pagination
 const scrollTrigger = ref(null);
