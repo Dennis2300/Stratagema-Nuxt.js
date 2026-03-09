@@ -26,7 +26,10 @@
             <path d="M14 10l2 2l-2 2"></path>
           </svg>
         </label>
-        <div class="px-4">Stratagema</div>
+        <div class="flex items-center gap-2">
+          <img class="w-8" src="/public/favicon.webp" alt="" />
+          <h5 class="uppercase font-freeman tracking-wide">Stratagema</h5>
+        </div>
       </nav>
       <!-- Page content -->
       <slot />
