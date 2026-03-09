@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Freeman&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Dirt&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Acme&family=Freeman&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Dirt&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
@@ -13,6 +13,7 @@
   --font-rubik-dirt: "Rubik Dirt", sans-serif;
   --font-roboto: "Roboto", sans-serif;
   --font-freeman: "Freeman", sans-serif;
+  --font-acme: "Acme", sans-serif;
 }
 
 html,
