@@ -153,9 +153,11 @@
         <div
           v-if="isFilterPanelOpen"
           class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
+          @click="isFilterPanelOpen = false"
         >
           <div
             class="max-w-1/2 bg-app-tertiary rounded-b-2xl border-t-4 border-app-accent p-4"
+            @click.stop
           >
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -175,7 +177,13 @@
               </div>
               <button
                 class="btn btn-error btn-xs"
-                @click="isFilterPanelOpen = false"
+                @click="
+                  filtersWereApplied
+                    ? (isFilterPanelOpen = false)
+                    : hasActiveFilters
+                      ? resetFilters()
+                      : (isFilterPanelOpen = false)
+                "
               >
                 X
               </button>
@@ -284,10 +292,18 @@
               </div>
               <!--Apply/Reset Button-->
               <div class="flex justify-center items-center gap-10">
-                <button class="btn btn-success" @click="getFilteredCharacters">
+                <button
+                  class="btn btn-success"
+                  @click="getFilteredCharacters"
+                  :disabled="!hasActiveFilters"
+                >
                   Apply
                 </button>
-                <button class="btn btn-warning" @click="resetFilters">
+                <button
+                  class="btn btn-warning"
+                  @click="resetFilters"
+                  :disabled="!hasActiveFilters"
+                >
                   Reset
                 </button>
               </div>
@@ -326,6 +342,7 @@ const CACHE_KEY = "characters_cache";
 
 // Filter
 const isFiltered = ref(false);
+const filtersWereApplied = ref(false);
 const selectedFilters = ref({
   rarity: null,
 });
@@ -466,8 +483,9 @@ async function getAllWeaponTypes() {
 function selectRarity(value) {
   selectedFilters.value.rarity = value;
 }
-
 async function getFilteredCharacters() {
+  if (!hasActiveFilters.value) return;
+  filtersWereApplied.value = true;
   isFiltered.value = true;
   characters.value = [];
   currentPage.value = 0;
@@ -495,17 +513,23 @@ async function getFilteredCharacters() {
     paginationLoading.value = false;
   }
 }
-
 function resetFilters() {
+  if (!hasActiveFilters.value) return;
+  if (isFiltered.value) {
+    characters.value = [];
+    currentPage.value = 0;
+    totalCount.value = 0;
+    sessionStorage.removeItem(CACHE_KEY);
+    getMoreCharacters();
+  }
   isFiltered.value = false;
+  filtersWereApplied.value = false;
   selectedFilters.value = { rarity: null };
-  characters.value = [];
-  currentPage.value = 0;
-  totalCount.value = 0;
-  sessionStorage.removeItem(CACHE_KEY);
-  getMoreCharacters();
   isFilterPanelOpen.value = false;
 }
+const hasActiveFilters = computed(() => {
+  return Object.values(selectedFilters.value).some((v) => v !== null);
+});
 
 onMounted(async () => {
   const cached = loadCharactersFromCache();
