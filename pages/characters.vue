@@ -289,6 +289,10 @@
                         type="checkbox"
                         name="frameworks"
                         :aria-label="weapon_type.name"
+                        :checked="
+                          selectedFilters.weapon_types.includes(weapon_type.id)
+                        "
+                        @change="toggleWeaponType(weapon_type.id)"
                       />
                       <img
                         :src="weapon_type.img_url"
@@ -360,6 +364,7 @@ const selectedFilters = ref({
   rarity: null,
   visions: [],
   regions: [],
+  weapon_types: [],
 });
 
 function saveCharactersToCache(characters, totalCount, currentPage) {
@@ -505,11 +510,12 @@ async function buildFilterQuery() {
   if (selectedFilters.value.rarity !== null) {
     query = query.eq("rarity", selectedFilters.value.rarity);
   }
-
   if (selectedFilters.value.visions.length > 0) {
     query = query.in("vision", selectedFilters.value.visions);
   }
-
+  if (selectedFilters.value.weapon_types.length > 0) {
+    query = query.in("weapon_type", selectedFilters.value.weapon_types);
+  }
   if (selectedFilters.value.regions.length > 0) {
     const { data: regionData, error: regionError } = await supabase
       .from("character_region")
@@ -518,10 +524,9 @@ async function buildFilterQuery() {
 
     if (regionError) throw regionError;
 
-    const characterIds = regionData.map((r) => r.character);
+    const characterIds = [...new Set(regionData.map((r) => r.character))];
     query = query.in("id", characterIds);
   }
-
   return query;
 }
 async function getFilteredCharacters() {
@@ -533,6 +538,9 @@ async function getFilteredCharacters() {
   try {
     const query = await buildFilterQuery();
     const { data, error: fetchError } = await query;
+    console.log("filtered data:", data); // 👈
+    console.log("fetchError:", fetchError); // 👈
+    console.log("selectedFilters:", JSON.stringify(selectedFilters.value)); // 👈
     if (fetchError) throw fetchError;
     characters.value = data;
   } catch (error) {
@@ -574,13 +582,26 @@ function toggleRegion(id) {
     selectedFilters.value.regions.splice(index, 1);
   }
 }
+function toggleWeaponType(id) {
+  const index = selectedFilters.value.weapon_types.indexOf(id);
+  if (index === -1) {
+    selectedFilters.value.weapon_types.push(id);
+  } else {
+    selectedFilters.value.weapon_types.splice(index, 1);
+  }
+}
 function setFilterActiveState() {
   filtersWereApplied.value = true;
   isFiltered.value = true;
   filterLoading.value = true;
 }
 function clearFilterState() {
-  selectedFilters.value = { rarity: null, visions: [], regions: [] };
+  selectedFilters.value = {
+    rarity: null,
+    visions: [],
+    regions: [],
+    weapon_types: [],
+  };
   isFiltered.value = false;
   filtersWereApplied.value = false;
 }
@@ -594,7 +615,8 @@ const hasActiveFilters = computed(() => {
   return (
     selectedFilters.value.rarity !== null ||
     selectedFilters.value.visions.length > 0 ||
-    selectedFilters.value.regions.length > 0
+    selectedFilters.value.regions.length > 0 ||
+    selectedFilters.value.weapon_types.length > 0
   );
 });
 
