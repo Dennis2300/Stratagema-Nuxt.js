@@ -527,7 +527,7 @@ async function buildFilterQuery() {
     const characterIds = [...new Set(regionData.map((r) => r.character))];
     query = query.in("id", characterIds);
   }
-  return query;
+  return await query;
 }
 async function getFilteredCharacters() {
   if (!hasActiveFilters.value) return;
@@ -537,10 +537,7 @@ async function getFilteredCharacters() {
 
   try {
     const query = await buildFilterQuery();
-    const { data, error: fetchError } = await query;
-    console.log("filtered data:", data); // 👈
-    console.log("fetchError:", fetchError); // 👈
-    console.log("selectedFilters:", JSON.stringify(selectedFilters.value)); // 👈
+    const { data, error: fetchError } = await buildFilterQuery();
     if (fetchError) throw fetchError;
     characters.value = data;
   } catch (error) {
@@ -553,7 +550,7 @@ async function getFilteredCharacters() {
 async function resetFilters() {
   if (!hasActiveFilters.value) return;
 
-  const wasFiltered = isFiltered.value; // 👈 capture before clearing
+  const wasFiltered = isFiltered.value;
   clearFilterState();
   isFilterPanelOpen.value = false;
 
