@@ -1,11 +1,16 @@
 <template>
-  <main v-if="error" class="mt-8">
-    <NoCharacterFound />
-  </main>
-  <main v-else-if="character">
-    <img :src="character.img_url" alt="">
-    {{ character.name }}
-  </main>
+  <template>
+    <main>
+      <ErrorMessage v-if="error" :error="error" />
+      <template v-else-if="character">
+        <div>
+          <img :src="character.img_url" alt="" />
+          {{ character.name }}
+        </div>
+      </template>
+      <NoCharacterFound v-else />
+    </main>
+  </template>
 </template>
 
 <script setup>
