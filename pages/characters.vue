@@ -212,11 +212,7 @@ async function getMoreCharacters() {
   const to = from + pageSize - 1;
 
   try {
-    const {
-      data,
-      error: err,
-      count,
-    } = await supabase
+    const { data, error: fetchError } = await supabase
       .from("characters")
       .select(
         "*, vision(*), weapon_type(id, name), regions:character_region(region(id, name))",
@@ -225,8 +221,7 @@ async function getMoreCharacters() {
       .order("release_date", { ascending: false })
       .range(from, to);
 
-    if (err) throw err;
-
+    if (fetchError) throw fetchError;
     characters.value.push(...data);
     totalCount.value = count;
     currentPage.value++;
@@ -246,8 +241,10 @@ async function getMoreCharacters() {
 
 async function getAllVisions() {
   try {
-    const { data, error: err } = await supabase.from("visions").select("*");
-    if (err) throw err;
+    const { data, error: fetchError } = await supabase
+      .from("visions")
+      .select("*");
+    if (fetchError) throw fetchError;
     visions.value = data;
   } catch (e) {
     error.value = e;
@@ -257,8 +254,10 @@ async function getAllVisions() {
 
 async function getAllRegions() {
   try {
-    const { data, error: err } = await supabase.from("regions").select("*");
-    if (err) throw err;
+    const { data, error: fetchError } = await supabase
+      .from("regions")
+      .select("*");
+    if (fetchError) throw fetchError;
     regions.value = data;
   } catch (e) {
     error.value = e;
@@ -268,10 +267,10 @@ async function getAllRegions() {
 
 async function getAllWeaponTypes() {
   try {
-    const { data, error: err } = await supabase
+    const { data, error: fetchError } = await supabase
       .from("weapon_types")
       .select("*");
-    if (err) throw err;
+    if (fetchError) throw fetchError;
     weapon_types.value = data;
   } catch (e) {
     error.value = e;
