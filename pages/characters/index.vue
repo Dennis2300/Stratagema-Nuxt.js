@@ -61,84 +61,86 @@
           :key="character.name"
           class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5"
         >
-          <!-- Splash Art -->
-          <div class="absolute -top-10 -right-8 opacity-50 z-0">
-            <img class="w-64" :src="character.splash_art_url" alt="" />
-          </div>
-
-          <!-- Character Card -->
-          <div class="flex items-center gap-4 px-5 py-4">
-            <div
-              class="w-24 h-24 rounded-full overflow-hidden"
-              :class="{
-                'rarity-5': character.rarity === 5,
-                'rarity-4': character.rarity === 4,
-              }"
-            >
-              <img
-                class="w-full h-full object-cover"
-                :src="character.img_url"
-                alt=""
-              />
+          <NuxtLink :to="`/characters/${character.id}`" target="_blank">
+            <!-- Splash Art -->
+            <div class="absolute -top-10 -right-8 opacity-50 z-0">
+              <img class="w-64" :src="character.splash_art_url" alt="" />
             </div>
-            <div>
-              <h3 class="leading-none">{{ character.name }}</h3>
-              <div class="flex gap-0.5 items-center">
-                <span
-                  v-for="n in character.rarity"
-                  :key="n"
-                  class="text-lg leading-none"
-                  :class="
-                    character.rarity === 5
-                      ? 'text-amber-400'
-                      : 'text-purple-400'
-                  "
-                  >★</span
-                >
+
+            <!-- Character Card -->
+            <div class="flex items-center gap-4 px-5 py-4">
+              <div
+                class="w-24 h-24 rounded-full overflow-hidden"
+                :class="{
+                  'rarity-5': character.rarity === 5,
+                  'rarity-4': character.rarity === 4,
+                }"
+              >
+                <img
+                  class="w-full h-full object-cover"
+                  :src="character.img_url"
+                  alt=""
+                />
+              </div>
+              <div>
+                <h3 class="leading-none">{{ character.name }}</h3>
+                <div class="flex gap-0.5 items-center">
+                  <span
+                    v-for="n in character.rarity"
+                    :key="n"
+                    class="text-lg leading-none"
+                    :class="
+                      character.rarity === 5
+                        ? 'text-amber-400'
+                        : 'text-purple-400'
+                    "
+                    >★</span
+                  >
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Character Tags -->
-          <div
-            class="flex items-center justify-between bg-app-secondary px-5 py-2 relative z-10"
-          >
-            <div class="flex gap-3 items-center">
-              <img
-                class="w-6 h-6 object-contain"
-                :src="character.vision.img_url"
-                :alt="character.vision.name"
-              />
-              <span class="text-sm text-white/60">{{
-                character.vision.name
-              }}</span>
-              <span class="text-white/20">·</span>
-              <span class="text-sm text-white/60">{{
-                character.weapon_type.name
-              }}</span>
-              <span class="text-white/20">·</span>
-              <span class="text-sm text-white/60">{{ character.role }}</span>
-              <span class="text-white/20">·</span>
-              <span class="text-sm text-white/60">{{
-                character.main_stat
-              }}</span>
+            <!-- Character Tags -->
+            <div
+              class="flex items-center justify-between bg-app-secondary px-5 py-2 relative z-10"
+            >
+              <div class="flex gap-3 items-center">
+                <img
+                  class="w-6 h-6 object-contain"
+                  :src="character.vision.img_url"
+                  :alt="character.vision.name"
+                />
+                <span class="text-sm text-white/60">{{
+                  character.vision.name
+                }}</span>
+                <span class="text-white/20">·</span>
+                <span class="text-sm text-white/60">{{
+                  character.weapon_type.name
+                }}</span>
+                <span class="text-white/20">·</span>
+                <span class="text-sm text-white/60">{{ character.role }}</span>
+                <span class="text-white/20">·</span>
+                <span class="text-sm text-white/60">{{
+                  character.main_stat
+                }}</span>
+              </div>
+              <span class="text-xs text-white/60">
+                <strong> Released: </strong>
+                {{
+                  character.release_date
+                    ? new Date(character.release_date).toLocaleDateString(
+                        "en-GB",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        },
+                      )
+                    : "UPCOMING"
+                }}
+              </span>
             </div>
-            <span class="text-xs text-white/60">
-              <strong> Released: </strong>
-              {{
-                character.release_date
-                  ? new Date(character.release_date).toLocaleDateString(
-                      "en-GB",
-                      {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      },
-                    )
-                  : "UPCOMING"
-              }}
-            </span>
-          </div>
+          </NuxtLink>
         </div>
         <div class="flex justify-center py-4">
           <span
