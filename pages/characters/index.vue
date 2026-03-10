@@ -314,6 +314,13 @@
               <!--Apply/Reset Button-->
               <div class="flex justify-center items-center gap-10">
                 <button
+                  class="btn btn-warning"
+                  @click="resetFilters"
+                  :disabled="!hasActiveFilters"
+                >
+                  Reset
+                </button>
+                <button
                   class="btn btn-success"
                   @click="getFilteredCharacters"
                   :disabled="!hasActiveFilters"
@@ -323,13 +330,6 @@
                     class="loading loading-spinner loading-sm"
                   ></span>
                   <span>Apply</span>
-                </button>
-                <button
-                  class="btn btn-warning"
-                  @click="resetFilters"
-                  :disabled="!hasActiveFilters"
-                >
-                  Reset
                 </button>
               </div>
             </div>

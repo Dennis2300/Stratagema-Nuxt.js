@@ -242,44 +242,79 @@
           </div>
         </div>
         <!--Builds-->
-        <div v-for="build in character.builds">
-          <div class="bg-white/10 border border-white/25 rounded-lg p-4">
-            <h4 class="divider font-freeman tracking-wide">
+        <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+          <template v-for="build in character.builds">
+            <h4 class="divider font-freeman tracking-wide mb-8">
               {{ build.title }}
             </h4>
-            <!--Main & Sub Stats-->
-            <div class="grid grid-cols-2 gap-x-20">
-              <!--Main Stats-->
-              <div class="space-y-3">
-                <div
-                  class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
-                  v-for="stat in getMainStats(build.stat)"
-                  :key="stat.slot"
-                >
-                  <span class="capitalize">{{ stat.slot }}</span>
-                  <span class="text-app-accent" v-html="stat.stat"></span>
+            <div class="space-y-4">
+              <!--Main & Sub Stats-->
+              <div class="grid grid-cols-2 gap-x-20">
+                <!--Main Stats-->
+                <div class="space-y-3">
+                  <div
+                    class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                    v-for="stat in getMainStats(build.stat)"
+                    :key="stat.slot"
+                  >
+                    <span class="capitalize">{{ stat.slot }}</span>
+                    <span class="text-app-accent" v-html="stat.stat"></span>
+                  </div>
+                </div>
+                <!--Sub Stats-->
+                <div class="space-y-3">
+                  <div
+                    class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                    v-for="stat in getSubstats(build.stat)"
+                    :key="stat.slot"
+                  >
+                    <span class="text-app-accent">{{ stat.stat }}</span>
+                    <span>#{{ stat.rank }}</span>
+                  </div>
                 </div>
               </div>
-              <!--Sub Stats-->
-              <div class="space-y-3">
-                <div
-                  class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
-                  v-for="stat in getSubstats(build.stat)"
-                  :key="stat.slot"
-                >
-                  <span class="text-app-accent">{{ stat.stat }}</span>
-                  <span>#{{ stat.rank }}</span>
-                </div>
+              <!--Build Details-->
+              <div>
+                <h3 class="font-freeman text-app-accent">Build Details</h3>
+                <MarkdownRender v-if="build.details" :content="build.details" />
+                <p v-else class="text-red-500 text-center">
+                  Come back later for the build details.
+                </p>
               </div>
             </div>
-            <!--Build Details-->
-            <div>
-              <h3 class="font-freeman text-app-accent">Build Details</h3>
-              <MarkdownRender v-if="build.details" :content="build.details" />
-              <p v-else class="text-red-500 text-center">
-                Come back later for the build details.
-              </p>
-            </div>
+          </template>
+        </div>
+        <!--Teams-->
+        <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+          <h4 class="divider font-freeman tracking-wide mb-8">
+            {{ character.name }} Teams
+          </h4>
+          <div class="grid grid-cols-2 gap-x-20 gap-y-10">
+            <template v-for="team in teams">
+              <div class="space-y-4">
+                <h6 class="divider px-32 font-freeman tracking-wide">
+                  {{ team.name }}
+                </h6>
+                <div class="flex justify-center gap-8">
+                  <template v-for="member in team.members">
+                    <div class="flex flex-col justify-center items-center">
+                      <img
+                        class="w-20 rounded-xl"
+                        :class="{
+                          'rarity-5': member.character.rarity === 5,
+                          'rarity-4': member.character.rarity === 4,
+                        }"
+                        :src="member.character.img_url"
+                        alt=""
+                      />
+                      <div class="w-20 mt-1 truncate text-center">
+                        <span>{{ member.character.name }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
       </section>
@@ -291,7 +326,7 @@
 import "flag-icons/css/flag-icons.min.css";
 const route = useRoute();
 const { character, error } = await useCharacter(route.params.id);
-
+const { teams } = await useCharacterTeams(route.params.id);
 const languageOrder = ["us", "jp", "cn", "kr"];
 
 function getMainStats(stats) {
