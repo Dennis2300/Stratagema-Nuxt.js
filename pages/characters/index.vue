@@ -362,7 +362,7 @@ const noMoreResults = computed(
 const characters = ref([]);
 const visions = ref([]);
 const regions = ref([]);
-const weapon_types = ref([]);
+const { weapon_types } = useWeaponTypes();
 
 const CACHE_KEY = "characters_cache";
 

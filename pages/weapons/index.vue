@@ -14,7 +14,7 @@
     </section>
     <!--Content-->
     <section v-else>
-      <header class="relative flex justify-center items-center mt-8">
+      <header class="relative flex justify-center items-center my-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-center"
@@ -30,6 +30,60 @@
           Characters Archive
         </h2>
       </header>
+      <!--Filter-->
+      <div class="flex flex-col gap-3 px-32">
+        <!-- Rarity -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span
+            class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
+            >Rarity</span
+          >
+          <div class="flex gap-2 flex-wrap">
+            <span
+              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+            >
+            5 Star
+            </span>
+            <span
+              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+            >
+            4 Star
+            </span>
+          </div>
+        </div>
+        <!-- Weapon Types -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span
+            class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
+            >Type</span
+          >
+          <div class="flex gap-2 flex-wrap">
+            <span
+              v-for="type in weapon_types"
+              :key="type.id"
+              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+            >
+              {{ type.name }}
+            </span>
+          </div>
+        </div>
+        <!-- Bonus Effects -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span
+            class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
+            >Effect</span
+          >
+          <div class="flex gap-2 flex-wrap">
+            <span
+              v-for="weapon_effect in weapon_bonus_effect_types"
+              :key="weapon_effect"
+              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+            >
+              {{ weapon_effect }}
+            </span>
+          </div>
+        </div>
+      </div>
       <div class="divider px-32"></div>
       <article class="px-32">
         <!--Weapon Card-->
@@ -91,6 +145,17 @@ const noMoreResults = computed(
 );
 
 const weapons = ref([]);
+const { weapon_types, fetchWeaponTypes } = useWeaponTypes();
+const weapon_bonus_effect_types = [
+  "ATK%",
+  "DEF%",
+  "HP%",
+  "CRIT Rate",
+  "CRIT DMG",
+  "Energy Recharge",
+  "Elemental Mastery",
+  "Physical DMG Bonus",
+];
 
 async function getMoreWeapons() {
   if (paginationLoading.value || noMoreResults.value) return;
@@ -123,6 +188,7 @@ async function getMoreWeapons() {
 }
 
 onMounted(async () => {
+  fetchWeaponTypes();
   await getMoreWeapons();
   await nextTick();
   const observer = new IntersectionObserver(
