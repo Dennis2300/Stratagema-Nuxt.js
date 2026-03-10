@@ -297,20 +297,33 @@
                 </h6>
                 <div class="flex justify-center gap-8">
                   <template v-for="member in team.members">
-                    <div class="flex flex-col justify-center items-center">
-                      <img
-                        class="w-20 rounded-xl"
-                        :class="{
-                          'rarity-5': member.character.rarity === 5,
-                          'rarity-4': member.character.rarity === 4,
-                        }"
-                        :src="member.character.img_url"
-                        alt=""
-                      />
-                      <div class="w-20 mt-1 truncate text-center">
-                        <span>{{ member.character.name }}</span>
+                    <NuxtLink
+                      :class="{
+                        'pointer-events-none':
+                          member.character.id === character.id,
+                      }"
+                      :to="`/characters/${member.character.id}`"
+                      target="_blank"
+                    >
+                      <div
+                        class="flex flex-col justify-center items-center group"
+                      >
+                        <img
+                          class="w-20 rounded-xl"
+                          :class="{
+                            'rarity-5': member.character.rarity === 5,
+                            'rarity-4': member.character.rarity === 4,
+                          }"
+                          :src="member.character.img_url"
+                          alt=""
+                        />
+                        <div class="w-20 mt-1 truncate text-center">
+                          <span class="group-hover:text-info transition">{{
+                            member.character.name
+                          }}</span>
+                        </div>
                       </div>
-                    </div>
+                    </NuxtLink>
                   </template>
                 </div>
               </div>
@@ -325,6 +338,7 @@
             all Talents to level 10
           </p>
           <div class="space-y-8">
+            <!--Ascenstion-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Ascension</h4>
               <div class="grid grid-cols-4">
@@ -343,7 +357,7 @@
                 </template>
               </div>
             </article>
-
+            <!--Talents-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Talents</h4>
               <div class="space-y-4 md:grid md:grid-cols-4">
@@ -376,7 +390,7 @@
                 </template>
               </div>
             </article>
-
+            <!--Enhancement-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Enhancement</h4>
               <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
@@ -398,7 +412,7 @@
                 </template>
               </div>
             </article>
-
+            <!--Level Up-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Level Up</h4>
               <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
@@ -424,7 +438,7 @@
                 </template>
               </div>
             </article>
-
+            <!--Local Specialty-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Local Specialty</h4>
               <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
@@ -443,7 +457,7 @@
                 </template>
               </div>
             </article>
-
+            <!--Cost-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Cost</h4>
               <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">

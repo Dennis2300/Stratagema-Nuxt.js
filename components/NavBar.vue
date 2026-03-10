@@ -41,7 +41,7 @@
         class="drawer-overlay"
       ></label>
       <div
-        class="flex min-h-full flex-col items-start bg-app-secondary is-drawer-close:w-18 is-drawer-open:w-36"
+        class="flex min-h-full flex-col items-start bg-app-secondary is-drawer-close:w-18 is-drawer-open:w-42"
       >
         <ul class="menu w-full grow">
           <ul class="menu w-full grow">
