@@ -85,7 +85,7 @@
         <div class="grid grid-cols-2 gap-x-24 gap-y-4">
           <!--Rarity-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Rarity</span>
             <div>
@@ -102,21 +102,21 @@
           </div>
           <!--Cons-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Constellation</span>
             <span>{{ character.constellation }}</span>
           </div>
           <!--Birthday-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Birthday</span>
             <span>{{ character.birthday }}</span>
           </div>
           <!--Weapon Type-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Weapon Type</span>
             <div class="flex gap-2 items-center">
@@ -126,14 +126,14 @@
           </div>
           <!--Signature Dish-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Signature Dish</span>
             <span>{{ character.signature_dish.name }}</span>
           </div>
           <!--Release Date-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/5 border border-white/5 rounded-lg px-4 py-2"
+            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Release Date</span>
             <span>
@@ -150,6 +150,67 @@
                   : "UPCOMING"
               }}
             </span>
+          </div>
+        </div>
+        <!--Weapons & Artifacts-->
+        <div class="grid grid-cols-2 gap-x-24 gap-y-4">
+          <!--Weapons-->
+          <div
+            class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
+          >
+            <h4 class="divider font-freeman">Best Weapons</h4>
+            <div class="space-y-6">
+              <template v-for="a in character.weapons">
+                <div class="flex justify-between items-center">
+                  <div class="flex gap-4 items-center">
+                    <div
+                      class="rounded-xl"
+                      :class="{
+                        'rarity-5': a.weapon.rarity === 5,
+                        'rarity-4': a.weapon.rarity === 4,
+                      }"
+                    >
+                      <img class="w-20 h-20" :src="a.weapon.img_url" alt="" />
+                    </div>
+                    <div class="space-y-1">
+                      <h6>{{ a.weapon.name }}</h6>
+                      <div class="flex gap-2">
+                        <span class="badge badge-outline badge-secondary"
+                          >Base Attack: {{ a.weapon.base_attack }}</span
+                        >
+                        <span class="badge badge-outline badge-accent"
+                          >{{ a.weapon.bonus_effect_type }}:
+                          {{ a.weapon.bonus_effect_value }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <span class="badge badge-primary">#{{ a.rank }}</span>
+                </div>
+              </template>
+            </div>
+          </div>
+          <!--Artifacts-->
+          <div
+            class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
+          >
+            <h4 class="divider font-freeman">Best Artifacts</h4>
+            <div class="space-y-6">
+              <template v-for="a in character.artifacts">
+                <div class="flex justify-between items-center">
+                  <div class="flex gap-4 items-center">
+                    <div class="rounded-xl rarity-5">
+                      <img class="w-20 h-20" :src="a.artifact.flower_img_url" alt="" />
+                    </div>
+                    <div class="space-y-1">
+                      <h6>{{ a.artifact.name }}</h6>
+                      <span class="badge badge-warning badge-outline">{{ a.artifact.two_piece_effect.name }}</span>
+                    </div>
+                  </div>
+                  <span class="badge badge-primary">#{{ a.rank }}</span>
+                </div>
+              </template>
+            </div>
           </div>
         </div>
       </section>
