@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center">
           <!--Avatar & Tags-->
           <div class="flex items-center gap-4">
-            <div class="relative w-32 h-32">
+            <div class="relative w-42 h-42">
               <div
                 class="rounded-full overflow-hidden"
                 :class="{
@@ -24,7 +24,7 @@
                 />
               </div>
               <img
-                class="absolute w-12 -top-3 -left-3 bg-gray-700 rounded-full"
+                class="absolute w-16 -top-5 -left-5 bg-gray-700 rounded-full"
                 :src="character.vision.img_url"
                 alt=""
               />
