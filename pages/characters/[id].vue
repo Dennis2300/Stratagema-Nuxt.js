@@ -199,7 +199,7 @@
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
           >
             <h4 class="divider font-freeman">Best Artifacts</h4>
-            <div class="space-y-8">
+            <div class="space-y-6">
               <template
                 v-for="(artifacts, rank) in groupedArtifacts"
                 :key="rank"
@@ -241,6 +241,47 @@
             </div>
           </div>
         </div>
+        <!--Builds-->
+        <div v-for="build in character.builds">
+          <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+            <h4 class="divider font-freeman tracking-wide">
+              {{ build.title }}
+            </h4>
+            <!--Main & Sub Stats-->
+            <div class="grid grid-cols-2 gap-x-20">
+              <!--Main Stats-->
+              <div class="space-y-3">
+                <div
+                  class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                  v-for="stat in getMainStats(build.stat)"
+                  :key="stat.slot"
+                >
+                  <span class="capitalize">{{ stat.slot }}</span>
+                  <span class="text-app-accent" v-html="stat.stat"></span>
+                </div>
+              </div>
+              <!--Sub Stats-->
+              <div class="space-y-3">
+                <div
+                  class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                  v-for="stat in getSubstats(build.stat)"
+                  :key="stat.slot"
+                >
+                  <span class="text-app-accent">{{ stat.stat }}</span>
+                  <span>#{{ stat.rank }}</span>
+                </div>
+              </div>
+            </div>
+            <!--Build Details-->
+            <div>
+              <h3 class="font-freeman text-app-accent">Build Details</h3>
+              <MarkdownRender v-if="build.details" :content="build.details" />
+              <p v-else class="text-red-500 text-center">
+                Come back later for the build details.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </article>
   </main>
@@ -252,6 +293,39 @@ const route = useRoute();
 const { character, error } = await useCharacter(route.params.id);
 
 const languageOrder = ["us", "jp", "cn", "kr"];
+
+function getMainStats(stats) {
+  const mainStats = stats.filter((stat) => stat.slot !== "substat");
+  return joinMainStats(mainStats);
+}
+
+function joinMainStats(mainStats) {
+  const slotOrder = ["sands", "goblet", "circlet"];
+
+  const grouped = mainStats.reduce((acc, stat) => {
+    if (!acc[stat.slot]) {
+      acc[stat.slot] = [];
+    }
+    acc[stat.slot].push(stat.stat);
+    return acc;
+  }, {});
+
+  return Object.entries(grouped)
+    .sort(([a], [b]) => slotOrder.indexOf(a) - slotOrder.indexOf(b))
+    .map(([slot, statValues]) => ({
+      slot,
+      stat:
+        statValues.length >= 2
+          ? statValues.join(' <span class="text-text">or</span> ')
+          : statValues[0],
+    }));
+}
+
+function getSubstats(stats) {
+  return stats
+    .filter((stat) => stat.slot === "substat")
+    .sort((a, b) => a.rank - b.rank);
+}
 
 const groupedVoices = computed(() => {
   const grouped = character.value.voices.reduce((acc, voice) => {
