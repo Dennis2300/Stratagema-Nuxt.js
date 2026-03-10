@@ -3,7 +3,7 @@
     <article v-if="character" class="relative">
       <!--Background-->
       <div class="flex justify-center">
-        <img class="opacity-15" :src="character.splash_art_url" alt="" />
+        <img class="opacity-10" :src="character.splash_art_url" alt="" />
       </div>
       <!--Content-->
       <section class="absolute top-0 left-0 w-full px-32 py-12 space-y-8">
@@ -88,15 +88,12 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Rarity</span>
+            <span>Rarity</span>
             <div>
               <span
                 v-for="n in character.rarity"
                 :key="n"
-                class="text-2xl leading-none"
-                :class="
-                  character.rarity === 5 ? 'text-amber-400' : 'text-purple-400'
-                "
+                class="text-2xl leading-none text-yellow-500"
                 >★</span
               >
             </div>
@@ -105,21 +102,21 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Constellation</span>
+            <span>Constellation</span>
             <span>{{ character.constellation }}</span>
           </div>
           <!--Birthday-->
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Birthday</span>
+            <span>Birthday</span>
             <span>{{ character.birthday }}</span>
           </div>
           <!--Weapon Type-->
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Weapon Type</span>
+            <span>Weapon Type</span>
             <div class="flex gap-2 items-center">
               <span>{{ character.weapon_type?.name }}</span>
               <img class="w-8" :src="character.weapon_type.img_url" alt="" />
@@ -129,7 +126,7 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Signature Dish</span>
+            <span>Signature Dish</span>
             <span v-if="character.signature_dish">{{
               character.signature_dish?.name
             }}</span>
@@ -139,7 +136,7 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span class="text-app-muted">Release Date</span>
+            <span>Release Date</span>
             <span>
               {{
                 character.release_date

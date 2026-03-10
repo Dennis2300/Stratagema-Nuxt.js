@@ -26,11 +26,11 @@
         <!-- Always-visible alt_name + sliding text -->
         <div class="absolute inset-x-0 bottom-0 p-4">
           <p
-            class="text-xs text-white transform translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 mb-1"
+            class="text-sm text-white transform translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 mb-1"
           >
             {{ link.text }}
           </p>
-          <h4 class="text-white text-sm font-semibold">{{ link.alt_name }}</h4>
+          <h4 class="font-semibold">{{ link.alt_name }}</h4>
         </div>
       </div>
     </NuxtLink>
