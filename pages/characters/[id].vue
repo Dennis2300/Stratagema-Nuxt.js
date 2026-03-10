@@ -46,22 +46,37 @@
             </div>
           </div>
           <!-- Voice Actors -->
-          <div class="space-y-3">
-            <h4
-              class="text-xs font-semibold uppercase tracking-widest text-white/40"
-            >
-              Voice Actors
-            </h4>
+          <div class="space-y-2">
+            <div>
+              <h5 class="uppercase tracking-wider text-white/60 leading-none">
+                Voice Actors
+              </h5>
+              <span class="text-xs"
+                >Click on their names to view their page</span
+              >
+            </div>
             <div class="grid grid-cols-2 gap-2">
               <div
-                v-for="voice in character.voices"
                 class="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2.5 border border-white/5"
+                v-for="(voices, language) in groupedVoices"
               >
                 <span
-                  :class="`fi fi-${voice.language} rounded-sm text-base shrink-0`"
+                  :class="`fi fi-${language} rounded-sm text-base shrink-0`"
                 ></span>
-                <span class="text-sm text-white/80 truncate">
-                  <a class="hover:underline" :href="voice.link">{{ voice.name }}</a>
+                <span class="text-sm text-white/80 flex flex-col">
+                  <template v-for="(actor, i) in voices" :key="i">
+                    <a
+                      :href="actor.link"
+                      target="_blank"
+                      class="hover:text-accent transition cursor-pointer"
+                      >{{ actor.name }}</a
+                    >
+                    <span
+                      v-if="i < voices.length - 1"
+                      class="text-white/30 text-xs leading-none"
+                      >&</span
+                    >
+                  </template>
                 </span>
               </div>
             </div>
@@ -76,4 +91,20 @@
 import "flag-icons/css/flag-icons.min.css";
 const route = useRoute();
 const { character, error } = await useCharacter(route.params.id);
+
+const languageOrder = ["us", "jp", "cn", "kr"];
+
+const groupedVoices = computed(() => {
+  const grouped = character.value.voices.reduce((acc, voice) => {
+    if (!acc[voice.language]) acc[voice.language] = [];
+    acc[voice.language].push({ name: voice.name, link: voice.link });
+    return acc;
+  }, {});
+
+  return Object.fromEntries(
+    Object.entries(grouped).sort(
+      ([a], [b]) => languageOrder.indexOf(a) - languageOrder.indexOf(b),
+    ),
+  );
+});
 </script>
