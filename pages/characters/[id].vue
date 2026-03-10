@@ -51,9 +51,7 @@
               <h5 class="uppercase tracking-wider text-white/60 leading-none">
                 Voice Actors
               </h5>
-              <span class="text-xs"
-                >Click on their names to view their page</span
-              >
+              <span class="text-xs">Click a name to view their page</span>
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div
