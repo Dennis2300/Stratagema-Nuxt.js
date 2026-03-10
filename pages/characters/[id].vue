@@ -317,6 +317,151 @@
             </template>
           </div>
         </div>
+        <!--Materials-->
+        <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+          <h4 class="font-acme divider">{{ character.name }} Materials</h4>
+          <p class="text-center text-gray-500">
+            This is all the materials needed for Character level 90 and max out
+            all Talents to level 10
+          </p>
+          <div class="space-y-8">
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Ascension</h4>
+              <div class="grid grid-cols-4">
+                <template v-for="a in sortedAscensions">
+                  <div class="flex items-center gap-2">
+                    <img
+                      class="w-20 bg-app-muted rounded-xl"
+                      :src="a.material_ascension.img_url"
+                      alt=""
+                    />
+                    <div class="flex flex-col">
+                      <span>{{ a.material_ascension.name }}</span>
+                      <strong class="text-accent">x{{ a.amount }}</strong>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </article>
+
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Talents</h4>
+              <div class="space-y-4 md:grid md:grid-cols-4">
+                <div class="flex items-center gap-3">
+                  <img
+                    class="w-20 bg-app-muted rounded-xl"
+                    src="https://wiki.hoyolab.com/_ipx/f_webp/https://bbs.hoyolab.com/hoyowiki/picture/object/Crown%2520of%2520Insight_icon.png"
+                    alt=""
+                  />
+                  <div class="flex flex-col gap-2">
+                    <span>Crown Of Insight</span>
+                    <strong class="text-accent">x3</strong>
+                  </div>
+                </div>
+                <template
+                  v-for="a in sortedTalents"
+                  :key="a.material_talents.id"
+                >
+                  <div class="flex items-center gap-3">
+                    <img
+                      class="w-20 bg-app-muted rounded-xl"
+                      :src="a.material_talents.img_url"
+                      alt=""
+                    />
+                    <div class="flex flex-col gap-2">
+                      <span>{{ a.material_talents.name }}</span>
+                      <strong class="text-accent">x{{ a.amount }}</strong>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </article>
+
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Enhancement</h4>
+              <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
+                <template
+                  v-for="a in sortedEnhancements"
+                  :key="a.material_enhancements.id"
+                >
+                  <div class="flex items-center gap-3">
+                    <img
+                      class="w-20 bg-app-muted rounded-xl"
+                      :src="a.material_enhancements.img_url"
+                      alt=""
+                    />
+                    <div class="flex flex-col gap-2">
+                      <span>{{ a.material_enhancements.name }}</span>
+                      <strong class="text-accent">x{{ a.amount }}</strong>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </article>
+
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Level Up</h4>
+              <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
+                <template v-for="a in character.level_up_material">
+                  <div class="flex items-center gap-3">
+                    <img
+                      class="w-20 bg-app-muted rounded-xl"
+                      :src="a.level_up_material.img_url"
+                      alt=""
+                    />
+                    <div class="flex flex-col gap-2">
+                      <span class="w-56 truncate">
+                        {{ a.level_up_material.name }}
+                        <span
+                          v-if="a.level_up_material.is_new"
+                          class="text-warning"
+                          >(NEW)</span
+                        >
+                      </span>
+                      <strong class="text-accent">x{{ a.amount }}</strong>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </article>
+
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Local Specialty</h4>
+              <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
+                <template v-for="a in character.local_specialty">
+                  <div class="flex items-center gap-3">
+                    <img
+                      class="w-20 bg-app-muted rounded-xl"
+                      :src="a.local_specialty.img_url"
+                      alt=""
+                    />
+                    <div class="flex flex-col gap-2">
+                      <span>{{ a.local_specialty.name }}</span>
+                      <strong class="text-accent">x168</strong>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </article>
+
+            <article class="space-y-2">
+              <h4 class="text-tertiary">Cost</h4>
+              <div class="space-y-4 md:space-y-0 md:grid md:grid-cols-4">
+                <div class="flex items-center gap-3">
+                  <img
+                    class="w-20 bg-app-muted rounded-xl"
+                    src="https://wiki.hoyolab.com/_ipx/f_webp/https://bbs.hoyolab.com/hoyowiki/picture/object/Mora_icon.png"
+                    alt=""
+                  />
+                  <div class="flex flex-col gap-2">
+                    <span>Mora</span>
+                    <strong class="text-accent">7,050,100</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
       </section>
     </article>
   </main>
@@ -361,6 +506,32 @@ function getSubstats(stats) {
     .filter((stat) => stat.slot === "substat")
     .sort((a, b) => a.rank - b.rank);
 }
+
+const sortByMaterialId = (items, getMaterialId) => {
+  if (!items) return [];
+  return [...items].sort((a, b) => getMaterialId(a) - getMaterialId(b));
+};
+
+const sortedAscensions = computed(() => {
+  return sortByMaterialId(
+    character.value?.ascensions,
+    (item) => item.material_ascension.id,
+  );
+});
+
+const sortedEnhancements = computed(() => {
+  return sortByMaterialId(
+    character.value?.enhancements,
+    (item) => item.material_enhancements.id,
+  );
+});
+
+const sortedTalents = computed(() => {
+  return sortByMaterialId(
+    character.value?.talents,
+    (item) => item.material_talents.id,
+  );
+});
 
 const groupedVoices = computed(() => {
   const grouped = character.value.voices.reduce((acc, voice) => {
