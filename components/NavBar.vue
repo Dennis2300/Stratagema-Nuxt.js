@@ -45,11 +45,11 @@
       >
         <ul class="menu w-full grow">
           <ul class="menu w-full grow">
-            <li v-for="link in navLinks" :key="link.name">
+            <li v-for="link in navLinks" :key="link?.name">
               <NuxtLink
                 :to="link.path"
                 class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                :data-tip="link.name"
+                :data-tip="link?.name"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@
                   <path :d="link.icon" />
                 </svg>
                 <span class="is-drawer-close:hidden capitalize">{{
-                  link.name
+                  link?.name
                 }}</span>
               </NuxtLink>
             </li>

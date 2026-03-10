@@ -32,14 +32,14 @@
               />
             </div>
             <div>
-              <h2 class="font-acme">{{ character.name }}</h2>
+              <h2 class="font-acme">{{ character?.name }}</h2>
               <div class="space-x-2">
                 <span class="badge badge-primary">{{ character.role }}</span>
                 <span class="badge badge-primary">{{
-                  character.vision.name
+                  character.vision?.name
                 }}</span>
                 <span class="badge badge-primary">{{
-                  character.weapon_type.name
+                  character.weapon_type?.name
                 }}</span>
                 <span class="badge badge-primary">{{
                   character.main_stat
@@ -69,7 +69,7 @@
                       :href="actor.link"
                       target="_blank"
                       class="hover:text-accent transition cursor-pointer"
-                      >{{ actor.name }}</a
+                      >{{ actor?.name }}</a
                     >
                     <span
                       v-if="i < voices.length - 1"
@@ -121,7 +121,7 @@
           >
             <span class="text-app-muted">Weapon Type</span>
             <div class="flex gap-2 items-center">
-              <span>{{ character.weapon_type.name }}</span>
+              <span>{{ character.weapon_type?.name }}</span>
               <img class="w-8" :src="character.weapon_type.img_url" alt="" />
             </div>
           </div>
@@ -130,7 +130,10 @@
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-app-muted">Signature Dish</span>
-            <span>{{ character.signature_dish.name }}</span>
+            <span v-if="character.signature_dish">{{
+              character.signature_dish?.name
+            }}</span>
+            <span v-else class="text-error">N/A</span>
           </div>
           <!--Release Date-->
           <div
@@ -174,7 +177,7 @@
                       <img class="w-20 h-20" :src="a.weapon.img_url" alt="" />
                     </div>
                     <div class="space-y-1">
-                      <h6>{{ a.weapon.name }}</h6>
+                      <h6>{{ a.weapon?.name }}</h6>
                       <div class="flex gap-2">
                         <span class="badge badge-outline badge-secondary"
                           >Base Attack: {{ a.weapon.base_attack }}</span
@@ -205,7 +208,7 @@
                   <div class="flex flex-col gap-3">
                     <div
                       v-for="a in artifacts"
-                      :key="a.artifact.name"
+                      :key="a.artifact?.name"
                       class="flex gap-4 items-center"
                     >
                       <div class="rounded-xl rarity-5">
@@ -224,10 +227,10 @@
                                 : "4 Piece Effect"
                             }}
                           </span>
-                          <h6 class="leading-none">{{ a.artifact.name }}</h6>
+                          <h6 class="leading-none">{{ a.artifact?.name }}</h6>
                         </div>
                         <span class="badge badge-warning badge-outline">{{
-                          a.artifact.two_piece_effect.name
+                          a.artifact.two_piece_effect?.name
                         }}</span>
                       </div>
                     </div>
@@ -253,7 +256,7 @@ const languageOrder = ["us", "jp", "cn", "kr"];
 const groupedVoices = computed(() => {
   const grouped = character.value.voices.reduce((acc, voice) => {
     if (!acc[voice.language]) acc[voice.language] = [];
-    acc[voice.language].push({ name: voice.name, link: voice.link });
+    acc[voice.language].push({ name: voice?.name, link: voice.link });
     return acc;
   }, {});
 

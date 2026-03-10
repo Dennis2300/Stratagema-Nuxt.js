@@ -57,7 +57,7 @@
       <template v-for="a in currentBannerCharacters" :key="a.character.id">
         <NuxtLink
           :to="`/characters/${a.character.id}?name=${encodeURIComponent(
-            a.character.name,
+            a.character?.name,
           )}`"
           target="_blank"
           class="flex flex-col items-center gap-2 no-underline text-text group"
@@ -79,7 +79,7 @@
           <h3
             class="text-center transition-colors duration-200 group-hover:text-tertiary"
           >
-            {{ a.character.name }}
+            {{ a.character?.name }}
           </h3>
         </NuxtLink>
       </template>

@@ -58,12 +58,12 @@
       >
         <div
           v-for="character in characters"
-          :key="character.name"
+          :key="character?.name"
           class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5 transition-transform duration-200 hover:translate-x-2"
         >
           <NuxtLink
             :to="`/characters/${character.id}?name=${encodeURIComponent(
-              character.name,
+              character?.name,
             )}`"
             target="_blank"
           >
@@ -89,7 +89,7 @@
               </div>
               <div>
                 <h3 class="leading-none font-acme">
-                  {{ character.name }}
+                  {{ character?.name }}
                 </h3>
                 <div class="flex gap-0.5 items-center">
                   <span
@@ -115,14 +115,14 @@
                 <img
                   class="w-6 h-6 object-contain"
                   :src="character.vision.img_url"
-                  :alt="character.vision.name"
+                  :alt="character.vision?.name"
                 />
                 <span class="text-sm text-white/60">{{
-                  character.vision.name
+                  character.vision?.name
                 }}</span>
                 <span class="text-white/20">·</span>
                 <span class="text-sm text-white/60">{{
-                  character.weapon_type.name
+                  character.weapon_type?.name
                 }}</span>
                 <span class="text-white/20">·</span>
                 <span class="text-sm text-white/60">{{ character.role }}</span>
@@ -243,7 +243,7 @@
                         class="btn pl-10"
                         type="checkbox"
                         name="frameworks"
-                        :aria-label="vision.name"
+                        :aria-label="vision?.name"
                         :checked="selectedFilters.visions.includes(vision.id)"
                         @change="toggleVision(vision.id)"
                       />
@@ -267,7 +267,7 @@
                         class="btn pl-10"
                         type="checkbox"
                         name="frameworks"
-                        :aria-label="region.name"
+                        :aria-label="region?.name"
                         :checked="selectedFilters.regions.includes(region.id)"
                         @change="toggleRegion(region.id)"
                       />
@@ -297,7 +297,7 @@
                         class="btn pl-10"
                         type="checkbox"
                         name="frameworks"
-                        :aria-label="weapon_type.name"
+                        :aria-label="weapon_type?.name"
                         :checked="
                           selectedFilters.weapon_types.includes(weapon_type.id)
                         "
