@@ -45,13 +45,25 @@
               </div>
             </div>
           </div>
-          <!--Voice Actors-->
-          <div>
-            <div v-for="voice in character.voices">
-              <span>{{ voice.language }}</span>
-              <span>
-                {{ voice.name }}
-              </span>
+          <!-- Voice Actors -->
+          <div class="space-y-3">
+            <h4
+              class="text-xs font-semibold uppercase tracking-widest text-white/40"
+            >
+              Voice Actors
+            </h4>
+            <div class="grid grid-cols-2 gap-2">
+              <div
+                v-for="voice in character.voices"
+                class="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2.5 border border-white/5"
+              >
+                <span
+                  :class="`fi fi-${voice.language} rounded-sm text-base shrink-0`"
+                ></span>
+                <span class="text-sm text-white/80 truncate">
+                  <a class="hover:underline" :href="voice.link">{{ voice.name }}</a>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -61,6 +73,7 @@
 </template>
 
 <script setup>
+import "flag-icons/css/flag-icons.min.css";
 const route = useRoute();
 const { character, error } = await useCharacter(route.params.id);
 </script>
