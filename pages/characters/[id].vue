@@ -5,6 +5,7 @@
       <div class="flex justify-center">
         <img class="opacity-15" :src="character.splash_art_url" alt="" />
       </div>
+      <!--Content-->
       <section class="absolute top-0 left-0 w-full px-32 py-12 space-y-8">
         <!--Avatar, Tags & Voice Actors-->
         <div class="flex justify-between items-center">
@@ -56,7 +57,7 @@
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div
-                class="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2.5 border border-white/5"
+                class="flex items-center gap-2.5 bg-white/10 rounded-lg px-3 py-2.5 border border-white/25"
                 v-for="(voices, language) in groupedVoices"
               >
                 <span
@@ -82,7 +83,7 @@
           </div>
         </div>
         <!--Character Info-->
-        <div class="grid grid-cols-2 gap-x-24 gap-y-4">
+        <div class="grid grid-cols-2 gap-x-20 gap-y-4">
           <!--Rarity-->
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
@@ -153,7 +154,7 @@
           </div>
         </div>
         <!--Weapons & Artifacts-->
-        <div class="grid grid-cols-2 gap-x-24 gap-y-4">
+        <div class="grid grid-cols-2 gap-x-20 gap-y-4">
           <!--Weapons-->
           <div
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
@@ -195,19 +196,43 @@
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
           >
             <h4 class="divider font-freeman">Best Artifacts</h4>
-            <div class="space-y-6">
-              <template v-for="a in character.artifacts">
+            <div class="space-y-8">
+              <template
+                v-for="(artifacts, rank) in groupedArtifacts"
+                :key="rank"
+              >
                 <div class="flex justify-between items-center">
-                  <div class="flex gap-4 items-center">
-                    <div class="rounded-xl rarity-5">
-                      <img class="w-20 h-20" :src="a.artifact.flower_img_url" alt="" />
-                    </div>
-                    <div class="space-y-1">
-                      <h6>{{ a.artifact.name }}</h6>
-                      <span class="badge badge-warning badge-outline">{{ a.artifact.two_piece_effect.name }}</span>
+                  <div class="flex flex-col gap-3">
+                    <div
+                      v-for="a in artifacts"
+                      :key="a.artifact.name"
+                      class="flex gap-4 items-center"
+                    >
+                      <div class="rounded-xl rarity-5">
+                        <img
+                          class="w-20 h-20"
+                          :src="a.artifact.flower_img_url"
+                          alt=""
+                        />
+                      </div>
+                      <div class="flex flex-col space-y-3">
+                        <div>
+                          <span class="leading-none text-xs text-info">
+                            {{
+                              artifacts.length > 1
+                                ? "2 Piece Effect"
+                                : "4 Piece Effect"
+                            }}
+                          </span>
+                          <h6 class="leading-none">{{ a.artifact.name }}</h6>
+                        </div>
+                        <span class="badge badge-warning badge-outline">{{
+                          a.artifact.two_piece_effect.name
+                        }}</span>
+                      </div>
                     </div>
                   </div>
-                  <span class="badge badge-primary">#{{ a.rank }}</span>
+                  <span class="badge badge-primary">#{{ rank }}</span>
                 </div>
               </template>
             </div>
@@ -237,5 +262,12 @@ const groupedVoices = computed(() => {
       ([a], [b]) => languageOrder.indexOf(a) - languageOrder.indexOf(b),
     ),
   );
+});
+const groupedArtifacts = computed(() => {
+  return character.value.artifacts.reduce((acc, a) => {
+    if (!acc[a.rank]) acc[a.rank] = [];
+    acc[a.rank].push(a);
+    return acc;
+  }, {});
 });
 </script>

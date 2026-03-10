@@ -55,7 +55,7 @@
     </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
       <template v-for="a in currentBannerCharacters" :key="a.character.id">
-        <RouterLink
+        <NuxtLink
           :to="`/characters/${a.character.id}?name=${encodeURIComponent(
             a.character.name,
           )}`"
@@ -81,7 +81,7 @@
           >
             {{ a.character.name }}
           </h3>
-        </RouterLink>
+        </NuxtLink>
       </template>
     </div>
     <div class="text-center mb-6">

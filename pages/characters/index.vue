@@ -61,7 +61,12 @@
           :key="character.name"
           class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5 transition-transform duration-200 hover:translate-x-2"
         >
-          <NuxtLink :to="`/characters/${character.id}`" target="_blank">
+          <NuxtLink
+            :to="`/characters/${character.id}?name=${encodeURIComponent(
+              character.name,
+            )}`"
+            target="_blank"
+          >
             <!-- Splash Art -->
             <div class="absolute -top-10 -right-8 opacity-50 z-0">
               <img class="w-64" :src="character.splash_art_url" alt="" />
