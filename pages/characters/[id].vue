@@ -158,6 +158,7 @@
           <!--Weapons-->
           <div
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
+            v-if="character.weapons?.length > 0"
           >
             <h4 class="divider font-freeman">Best Weapons</h4>
             <div class="space-y-6">
@@ -194,6 +195,7 @@
           <!--Artifacts-->
           <div
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
+            v-if="character.artifacts?.length > 0"
           >
             <h4 class="divider font-freeman">Best Artifacts</h4>
             <div class="space-y-6">
@@ -239,7 +241,10 @@
           </div>
         </div>
         <!--Builds-->
-        <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+        <div
+          class="bg-white/10 border border-white/25 rounded-lg p-4"
+          v-if="character?.builds?.length > 0"
+        >
           <template v-for="build in character.builds">
             <h4 class="divider font-freeman tracking-wide mb-8">
               {{ build.title }}
@@ -282,7 +287,10 @@
           </template>
         </div>
         <!--Teams-->
-        <div class="bg-white/10 border border-white/25 rounded-lg p-4">
+        <div
+          class="bg-white/10 border border-white/25 rounded-lg p-4"
+          v-if="teams.length > 0"
+        >
           <h4 class="divider font-freeman tracking-wide mb-8">
             {{ character.name }} Teams
           </h4>
