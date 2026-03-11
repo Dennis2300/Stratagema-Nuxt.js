@@ -2,11 +2,11 @@
   <main>
     <article v-if="character" class="relative">
       <!--Background-->
-      <div class="flex justify-center">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2">
         <img class="opacity-10" :src="character.splash_art_url" alt="" />
       </div>
       <!--Content-->
-      <section class="absolute top-0 left-0 w-full px-32 py-12 space-y-8">
+      <section class="w-full px-32 py-12 space-y-8">
         <!--Avatar, Tags & Voice Actors-->
         <div class="flex justify-between items-center">
           <!--Avatar & Tags-->
@@ -483,6 +483,7 @@
         </div>
       </section>
     </article>
+    <Footer />
   </main>
 </template>
 
