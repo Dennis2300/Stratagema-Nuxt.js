@@ -162,21 +162,18 @@
 
 <script setup>
 const supabase = useSupabaseClient();
-
 const loading = ref(false);
 const error = ref(null);
-
 const paginationLoading = ref(false);
 const currentPage = ref(0);
 const totalCount = ref(0);
-const pageSize = 20;
+const pageSize = 12;
 const scrollTrigger = ref(null);
-const noMoreResults = computed(
-  () => weapons.value.length >= totalCount.value && totalCount.value > 0,
-);
-
+const CACHE_KEY = "weapons_cache";
 const weapons = ref([]);
 const { weapon_types, fetchWeaponTypes } = useWeaponTypes();
+const isFiltered = ref(false);
+
 const weapon_bonus_effect_types = [
   "ATK%",
   "DEF%",
@@ -187,16 +184,39 @@ const weapon_bonus_effect_types = [
   "Elemental Mastery",
   "Physical DMG Bonus",
 ];
-
-const isFiltered = ref(false);
 const selectedFilters = ref({
   rarity: null,
   weapon_type: null,
   bonus_effect: null,
 });
+
 const hasSelectedFilters = computed(() =>
   Object.values(selectedFilters.value).some((v) => v !== null),
 );
+const noMoreResults = computed(
+  () => weapons.value.length >= totalCount.value && totalCount.value > 0,
+);
+
+function setCache(key, data, ttl = 60 * 60 * 1000) {
+  const entry = {
+    data,
+    expiresAt: Date.now() + ttl,
+  };
+  sessionStorage.setItem(key, JSON.stringify(entry));
+}
+function getCache(key) {
+  const cachedData = sessionStorage.getItem(key);
+  if (!cachedData) return null;
+
+  const entry = JSON.parse(cachedData);
+
+  if (Date.now() > entry.expiresAt) {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+
+  return entry.data;
+}
 
 function toggleFilter(key, value) {
   selectedFilters.value[key] =
@@ -210,6 +230,7 @@ function applyFilters() {
 }
 
 function resetFilters() {
+  sessionStorage.removeItem(CACHE_KEY);
   isFiltered.value = false;
   selectedFilters.value = {
     rarity: null,
@@ -218,7 +239,6 @@ function resetFilters() {
   };
   weapons.value = [];
   currentPage.value = 0;
-  noMoreResults.value = false;
   getMoreWeapons();
 }
 
@@ -240,10 +260,18 @@ async function getMoreWeapons() {
       .select("*", { count: "exact" })
       .order("name")
       .range(from, to);
+
     if (fetchError) throw fetchError;
+
     weapons.value.push(...data);
     totalCount.value = count;
     currentPage.value++;
+
+    setCache(CACHE_KEY, {
+      weapons: weapons.value,
+      totalCount: totalCount.value,
+      currentPage: currentPage.value,
+    });
   } catch (fetchError) {
     error.value = fetchError;
     console.log(fetchError);
@@ -280,8 +308,18 @@ async function getFilteredWeapons() {
 
 onMounted(async () => {
   fetchWeaponTypes();
-  await getMoreWeapons();
+
+  const cached = getCache(CACHE_KEY);
+  if (cached) {
+    weapons.value = cached.weapons;
+    totalCount.value = cached.totalCount;
+    currentPage.value = cached.currentPage;
+  } else {
+    await getMoreWeapons();
+  }
+
   await nextTick();
+
   const observer = new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting && !isFiltered.value) getMoreWeapons();
