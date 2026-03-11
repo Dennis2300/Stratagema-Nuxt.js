@@ -19,7 +19,8 @@
           <img
             class="w-full h-full object-cover object-center"
             src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/06/13/237301566/f3ca1b7fa11e370118b63bf80513e0c7_6565987184341339932.png?x-oss-process=image%2Fformat%2Cwebp"
-            alt=""
+            alt="Stratagema - Character Archive"
+            loading="lazy"
           />
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
@@ -47,7 +48,12 @@
             v-for="artifact in artifacts"
             class="flex flex-col justify-center items-center aspect-square bg-white/10 border border-white/15 rounded-xl"
           >
-            <img class="w-2/3" :src="artifact.flower_img_url" alt="" />
+            <img
+              class="w-2/3"
+              :src="artifact.flower_img_url"
+              :alt="artifact.name"
+              loading="lazy"
+            />
             <span class="w-full truncate text-center px-4">{{
               artifact.name
             }}</span>

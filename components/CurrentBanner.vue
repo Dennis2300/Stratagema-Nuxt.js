@@ -75,7 +75,8 @@
               <img
                 class="w-full h-full object-cover object-center rounded-2xl transition-transform duration-300 ease-out group-hover:scale-105"
                 :src="a.character.img_url"
-                alt=""
+                :alt="a.character.name"
+                loading="lazy"
               />
             </div>
 

@@ -28,7 +28,7 @@
         </label>
         <NuxtLink to="/">
           <div class="flex items-center gap-2">
-            <img class="w-8" src="/public/favicon.webp" alt="" />
+            <img class="w-8" src="/public/favicon.webp" alt="Stratagema" loading="lazy" />
             <h5 class="uppercase font-freeman tracking-wide">Stratagema</h5>
           </div>
         </NuxtLink>
