@@ -26,7 +26,7 @@
                 />
               </div>
               <img
-                class="absolute w-16 -top-5 -left-5 bg-gray-700 rounded-full"
+                class="absolute w-16 -top-5 -left-5 bg-gray-700 border border-white/25 rounded-full"
                 :src="character.vision.img_url"
                 alt=""
               />
