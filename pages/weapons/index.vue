@@ -96,8 +96,8 @@
             </p>
           </div>
           <div class="space-x-4">
-            <button class="btn btn-warning" @click="resetFilters">Reset</button>
             <button class="btn btn-success" @click="applyFilters">Apply</button>
+            <button class="btn btn-warning" @click="resetFilters">Reset</button>
           </div>
         </div>
       </div>
@@ -114,6 +114,7 @@
                 :class="{
                   'rarity-5': weapon.rarity === 5,
                   'rarity-4': weapon.rarity === 4,
+                  'rarity-3': weapon.rarity === 3,
                 }"
               >
                 <img class="w-36" :src="weapon.img_url" alt="" />
@@ -174,6 +175,7 @@ const weapon_bonus_effect_types = [
   "Physical DMG Bonus",
 ];
 
+const isFiltered = ref(false);
 const selectedFilters = ref({
   rarity: null,
   weapon_type: null,
@@ -186,15 +188,22 @@ function toggleFilter(key, value) {
 }
 
 function applyFilters() {
-  console.log(selectedFilters.value);
+  isFiltered.value = true;
+  weapons.value = [];
+  getFilteredWeapons();
 }
 
 function resetFilters() {
+  isFiltered.value = false;
   selectedFilters.value = {
     rarity: null,
     weapon_type: null,
     bonus_effect: null,
   };
+  weapons.value = [];
+  currentPage.value = 0;
+  noMoreResults.value = false;
+  getMoreWeapons();
 }
 
 async function getMoreWeapons() {
@@ -213,6 +222,7 @@ async function getMoreWeapons() {
     } = await supabase
       .from("weapons")
       .select("*", { count: "exact" })
+      .order("name")
       .range(from, to);
     if (fetchError) throw fetchError;
     weapons.value.push(...data);
@@ -227,7 +237,30 @@ async function getMoreWeapons() {
   }
 }
 
-async function getFilteredWeapons() {}
+async function getFilteredWeapons() {
+  paginationLoading.value = true;
+  try {
+    let query = supabase.from("weapons").select("*").order("name");
+
+    if (selectedFilters.value.rarity)
+      query = query.eq("rarity", selectedFilters.value.rarity);
+
+    if (selectedFilters.value.weapon_type)
+      query = query.eq("type", selectedFilters.value.weapon_type);
+
+    if (selectedFilters.value.bonus_effect)
+      query = query.eq("bonus_effect_type", selectedFilters.value.bonus_effect);
+
+    const { data, error: fetchError } = await query;
+    if (fetchError) throw fetchError;
+
+    weapons.value = data;
+  } catch (e) {
+    error.value = e;
+  } finally {
+    paginationLoading.value = false;
+  }
+}
 
 onMounted(async () => {
   fetchWeaponTypes();
@@ -235,7 +268,7 @@ onMounted(async () => {
   await nextTick();
   const observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting) getMoreWeapons();
+      if (entries[0].isIntersecting && !isFiltered.value) getMoreWeapons();
     },
     { threshold: 0.1 },
   );

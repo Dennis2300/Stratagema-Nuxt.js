@@ -31,9 +31,10 @@
         </h2>
       </header>
       <!--Filter-->
-      <div class="pl-32 w-fit cursor-pointer" @click="isFilterPanelOpen = true">
+      <div class="flex ml-32 gap-4 mb-2">
         <div
-          class="bg-app-muted py-1 px-3 flex items-center gap-1 w-fit rounded-md"
+          class="bg-app-muted py-1 px-3 flex items-center gap-1 w-fit rounded-md w-fit cursor-pointer hover:bg-app-muted/50 transition-all"
+          @click="isFilterPanelOpen = true"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -49,6 +50,13 @@
           </svg>
           <p class="cursor-pointer">Filters</p>
         </div>
+        <button
+          class="btn btn-warning"
+          @click="resetFilters"
+          :disabled="!hasActiveFilters"
+        >
+          Reset
+        </button>
       </div>
       <div class="divider px-32 mt-0 mb-8"></div>
       <!--Character Card-->
@@ -314,13 +322,6 @@
               <!--Apply/Reset Button-->
               <div class="flex justify-center items-center gap-10">
                 <button
-                  class="btn btn-warning"
-                  @click="resetFilters"
-                  :disabled="!hasActiveFilters"
-                >
-                  Reset
-                </button>
-                <button
                   class="btn btn-success"
                   @click="getFilteredCharacters"
                   :disabled="!hasActiveFilters"
@@ -330,6 +331,13 @@
                     class="loading loading-spinner loading-sm"
                   ></span>
                   <span>Apply</span>
+                </button>
+                <button
+                  class="btn btn-warning"
+                  @click="resetFilters"
+                  :disabled="!hasActiveFilters"
+                >
+                  Reset
                 </button>
               </div>
             </div>
