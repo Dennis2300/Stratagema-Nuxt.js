@@ -1,6 +1,6 @@
 <template>
-  <article class="w-2/3 space-y-8">
-    <h1 class="divider w-full pb-6 text-quaternary">Notice Board</h1>
+  <article class="space-y-8">
+    <h2 class="divider px-32 font-freeman">Notice Board</h2>
     <div class="flex flex-col items-center gap-10">
       <template v-for="update in updates">
         <div class="bg-app-tertiary rounded-xl p-4 w-2/3">

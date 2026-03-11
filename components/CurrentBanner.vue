@@ -1,91 +1,94 @@
 <template>
-  <article class="w-2/3 space-y-8">
-    <h1 class="divider w-full">Current Banner</h1>
-    <div
-      class="grid auto-cols-max grid-flow-col gap-5 text-center justify-center"
-    >
-      <div v-if="countdownValues.days > 0" class="flex flex-col">
-        <span class="countdown font-mono text-5xl">
-          <span
-            :style="`--value:${countdownValues.days};`"
-            aria-live="polite"
-            :aria-label="countdownValues.days"
-          >
-            {{ countdownValues.days }}
+  <article class="space-y-8">
+    <h2 class="divider px-32 font-freeman">Current Banner</h2>
+    <div class="px-32 space-y-4">
+      <!--Countdown-->
+      <div
+        class="grid auto-cols-max grid-flow-col gap-5 text-center justify-center"
+      >
+        <div v-if="countdownValues.days > 0" class="flex flex-col">
+          <span class="countdown font-mono text-5xl">
+            <span
+              :style="`--value:${countdownValues.days};`"
+              aria-live="polite"
+              :aria-label="countdownValues.days"
+            >
+              {{ countdownValues.days }}
+            </span>
           </span>
-        </span>
-        days
-      </div>
-      <div class="flex flex-col">
-        <span class="countdown font-mono text-5xl">
-          <span
-            :style="`--value:${countdownValues.hours};`"
-            aria-live="polite"
-            :aria-label="countdownValues.hours"
-          >
-            {{ countdownValues.hours }}
+          days
+        </div>
+        <div class="flex flex-col">
+          <span class="countdown font-mono text-5xl">
+            <span
+              :style="`--value:${countdownValues.hours};`"
+              aria-live="polite"
+              :aria-label="countdownValues.hours"
+            >
+              {{ countdownValues.hours }}
+            </span>
           </span>
-        </span>
-        hours
-      </div>
-      <div class="flex flex-col">
-        <span class="countdown font-mono text-5xl">
-          <span
-            :style="`--value:${countdownValues.minutes};`"
-            aria-live="polite"
-            :aria-label="countdownValues.minutes"
-          >
-            {{ countdownValues.minutes }}
+          hours
+        </div>
+        <div class="flex flex-col">
+          <span class="countdown font-mono text-5xl">
+            <span
+              :style="`--value:${countdownValues.minutes};`"
+              aria-live="polite"
+              :aria-label="countdownValues.minutes"
+            >
+              {{ countdownValues.minutes }}
+            </span>
           </span>
-        </span>
-        min
-      </div>
-      <div class="flex flex-col">
-        <span class="countdown font-mono text-5xl">
-          <span
-            :style="`--value:${countdownValues.seconds};`"
-            aria-live="polite"
-            :aria-label="countdownValues.seconds"
-          >
-            {{ countdownValues.seconds }}
+          min
+        </div>
+        <div class="flex flex-col">
+          <span class="countdown font-mono text-5xl">
+            <span
+              :style="`--value:${countdownValues.seconds};`"
+              aria-live="polite"
+              :aria-label="countdownValues.seconds"
+            >
+              {{ countdownValues.seconds }}
+            </span>
           </span>
-        </span>
-        sec
+          sec
+        </div>
       </div>
-    </div>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-      <template v-for="a in currentBannerCharacters" :key="a.character.id">
-        <NuxtLink
-          :to="`/characters/${a.character.id}?name=${encodeURIComponent(
-            a.character?.name,
-          )}`"
-          target="_blank"
-          class="flex flex-col items-center gap-2 no-underline text-text group"
-        >
-          <div
-            class="w-32 h-32 rounded-2xl overflow-hidden transition-transform duration-200 ease-out group-hover:-translate-y-1"
-            :class="{
-              'rarity-5': a.character.rarity === 5,
-              'rarity-4': a.character.rarity === 4,
-            }"
+      <!--Characters-->
+      <div class="flex flex-col md:flex-row justify-center gap-20">
+        <div v-for="a in currentBannerCharacters" :key="a.character.id">
+          <NuxtLink
+            :to="`/characters/${a.character.id}?name=${encodeURIComponent(
+              a.character?.name,
+            )}`"
+            target="_blank"
+            class="flex flex-col items-center gap-2 no-underline text-text group"
           >
-            <img
-              class="w-full h-full object-cover object-center rounded-2xl transition-transform duration-300 ease-out group-hover:scale-105"
-              :src="a.character.img_url"
-              alt=""
-            />
-          </div>
+            <div
+              class="w-32 h-32 rounded-2xl overflow-hidden transition-transform duration-200 ease-out group-hover:-translate-y-1"
+              :class="{
+                'rarity-5': a.character.rarity === 5,
+                'rarity-4': a.character.rarity === 4,
+              }"
+            >
+              <img
+                class="w-full h-full object-cover object-center rounded-2xl transition-transform duration-300 ease-out group-hover:scale-105"
+                :src="a.character.img_url"
+                alt=""
+              />
+            </div>
 
-          <h3
-            class="text-center transition-colors duration-200 group-hover:text-tertiary"
-          >
-            {{ a.character?.name }}
-          </h3>
-        </NuxtLink>
-      </template>
-    </div>
-    <div class="text-center mb-6">
-      <p class="text-sm opacity-70">Ends: {{ formattedEndDate }}</p>
+            <h6 class="font-acme tracking-wide">
+              {{ a.character?.name }}
+            </h6>
+          </NuxtLink>
+        </div>
+      </div>
+      <!--End Date-->
+      <div class="text-center mb-6">
+        <p class="text-sm opacity-70">Ends: {{ formattedEndDate }}</p>
+      </div>
     </div>
   </article>
 </template>

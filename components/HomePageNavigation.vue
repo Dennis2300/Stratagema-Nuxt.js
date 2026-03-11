@@ -1,39 +1,44 @@
 <template>
-  <article class="flex flex-wrap justify-center gap-10">
-    <NuxtLink
-      v-for="link in navLinks"
-      :to="link.path"
-      class="group flex flex-col items-center cursor-pointer"
-    >
-      <div class="relative w-[300px] h-[300px] overflow-hidden rounded-xl">
-        <!-- Image -->
-        <img
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-          :src="link.img"
-          :alt="link.alt_name"
-          width="300"
-          height="300"
-          fetchpriority="high"
-          decoding="async"
-        />
-        <!-- Overlay (appears on hover) -->
+  <article class="space-y-8">
+    <h2 class="divider px-32 font-freeman">Welcome to Stratagema</h2>
+    <div class="flex justify-center items-center gap-20">
+      <NuxtLink
+        v-for="link in navLinks"
+        :to="link.path"
+        class="group flex flex-col items-center cursor-pointer"
+      >
         <div
-          class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        ></div>
-        <div
-          class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 opacity-50"
-        ></div>
-        <!-- Always-visible alt_name + sliding text -->
-        <div class="absolute inset-x-0 bottom-0 p-4">
-          <p
-            class="text-sm text-white transform translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 mb-1"
-          >
-            {{ link.text }}
-          </p>
-          <h4 class="font-semibold">{{ link.alt_name }}</h4>
+          class="relative w-[300px] h-[300px] overflow-hidden rounded-xl border border-white/25"
+        >
+          <!-- Image -->
+          <img
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            :src="link.img"
+            :alt="link.alt_name"
+            width="300"
+            height="300"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <!-- Overlay (appears on hover) -->
+          <div
+            class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          ></div>
+          <div
+            class="absolute inset-0 bg-black/70 opacity-0 transition-opacity duration-500 opacity-50"
+          ></div>
+          <!-- Always-visible alt_name + sliding text -->
+          <div class="absolute inset-x-0 bottom-0 p-4">
+            <p
+              class="text-sm text-white transform translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 mb-1"
+            >
+              {{ link.text }}
+            </p>
+            <h4 class="font-semibold">{{ link.alt_name }}</h4>
+          </div>
         </div>
-      </div>
-    </NuxtLink>
+      </NuxtLink>
+    </div>
   </article>
 </template>
 
