@@ -27,7 +27,7 @@
         <h2
           class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide"
         >
-          Characters Archive
+          Weapons Archive
         </h2>
       </header>
       <!--Filter-->
@@ -45,7 +45,7 @@
             :class="
               selectedFilters.rarity === star
                 ? 'bg-white/25 border-white/25'
-                : 'bg-white/5 border-white/10'
+                : 'bg-white/5 border-white/25'
             "
             class="cursor-pointer border px-3 py-1 rounded-lg transition-all"
           >
@@ -88,7 +88,7 @@
               :class="
                 selectedFilters.bonus_effect === weapon_effect
                   ? 'bg-white/25 border-white/25'
-                  : 'bg-white/5 border-white/10'
+                  : 'bg-white/5 border-white/25'
               "
               class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
             >
