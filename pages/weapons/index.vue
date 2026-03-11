@@ -96,8 +96,20 @@
             </p>
           </div>
           <div class="space-x-4">
-            <button class="btn btn-success" @click="applyFilters">Apply</button>
-            <button class="btn btn-warning" @click="resetFilters">Reset</button>
+            <button
+              class="btn btn-success"
+              @click="applyFilters"
+              :disabled="!hasSelectedFilters"
+            >
+              Apply
+            </button>
+            <button
+              class="btn btn-warning"
+              @click="resetFilters"
+              :disabled="!isFiltered"
+            >
+              Reset
+            </button>
           </div>
         </div>
       </div>
@@ -181,6 +193,9 @@ const selectedFilters = ref({
   weapon_type: null,
   bonus_effect: null,
 });
+const hasSelectedFilters = computed(() =>
+  Object.values(selectedFilters.value).some((v) => v !== null),
+);
 
 function toggleFilter(key, value) {
   selectedFilters.value[key] =
