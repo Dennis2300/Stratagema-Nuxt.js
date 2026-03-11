@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="min-h-screen">
     <!--Loading-->
     <section v-if="loading">
       <div class="flex justify-center items-center h-64">
@@ -158,6 +158,7 @@
       </article>
     </section>
   </main>
+  <Footer />
 </template>
 
 <script setup>
