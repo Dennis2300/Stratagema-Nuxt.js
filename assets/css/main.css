@@ -61,6 +61,13 @@ span {
     0px 0px 30px rgba(155, 114, 213, 0.3);
 }
 
+.rarity-3 {
+  background: linear-gradient(145deg, #6aa8e6, #3f6fb3);
+  box-shadow:
+    0px 0px 15px rgba(106, 168, 230, 0.5),
+    0px 0px 30px rgba(106, 168, 230, 0.3);
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;
