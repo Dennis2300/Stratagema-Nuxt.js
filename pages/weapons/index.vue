@@ -38,18 +38,19 @@
             class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
             >Rarity</span
           >
-          <div class="flex gap-2 flex-wrap">
-            <span
-              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
-            >
-            5 Star
-            </span>
-            <span
-              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
-            >
-            4 Star
-            </span>
-          </div>
+          <p
+            v-for="star in [5, 4, 3]"
+            :key="star"
+            @click="toggleFilter('rarity', star)"
+            :class="
+              selectedFilters.rarity === star
+                ? 'bg-white/25 border-white/25'
+                : 'bg-white/5 border-white/10'
+            "
+            class="cursor-pointer border px-3 py-1 rounded-lg transition-all"
+          >
+            {{ star }} Star
+          </p>
         </div>
         <!-- Weapon Types -->
         <div class="flex items-center gap-2 flex-wrap">
@@ -58,29 +59,45 @@
             >Type</span
           >
           <div class="flex gap-2 flex-wrap">
-            <span
+            <p
               v-for="type in weapon_types"
               :key="type.id"
-              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+              @click="toggleFilter('weapon_type', type.id)"
+              :class="
+                selectedFilters.weapon_type === type.id
+                  ? 'bg-white/25 border-white/25'
+                  : 'bg-white/5 border-white/25'
+              "
+              class="cursor-pointer border px-3 py-1 rounded-lg transition-all"
             >
               {{ type.name }}
-            </span>
+            </p>
           </div>
         </div>
         <!-- Bonus Effects -->
-        <div class="flex items-center gap-2 flex-wrap">
-          <span
-            class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
-            >Effect</span
-          >
-          <div class="flex gap-2 flex-wrap">
+        <div class="flex items-center flex-wrap justify-between">
+          <div class="flex items-center gap-2 flex-wrap">
             <span
+              class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
+              >Effect</span
+            >
+            <p
               v-for="weapon_effect in weapon_bonus_effect_types"
               :key="weapon_effect"
-              class="cursor-pointer px-4 py-1.5 rounded-full text-sm border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/30 transition-all duration-200"
+              @click="toggleFilter('bonus_effect', weapon_effect)"
+              :class="
+                selectedFilters.bonus_effect === weapon_effect
+                  ? 'bg-white/25 border-white/25'
+                  : 'bg-white/5 border-white/10'
+              "
+              class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
             >
               {{ weapon_effect }}
-            </span>
+            </p>
+          </div>
+          <div class="space-x-4">
+            <button class="btn btn-warning" @click="resetFilters">Reset</button>
+            <button class="btn btn-success" @click="applyFilters">Apply</button>
           </div>
         </div>
       </div>
@@ -90,7 +107,7 @@
         <div class="grid grid-cols-4 gap-8">
           <template v-for="weapon in weapons">
             <div
-              class="flex flex-col justify-center items-center bg-white/10 h-72 rounded-xl space-y-2"
+              class="flex flex-col justify-center items-center bg-white/10 h-72 rounded-xl space-y-2 border border-white/15"
             >
               <div
                 class="rounded-2xl"
@@ -157,6 +174,29 @@ const weapon_bonus_effect_types = [
   "Physical DMG Bonus",
 ];
 
+const selectedFilters = ref({
+  rarity: null,
+  weapon_type: null,
+  bonus_effect: null,
+});
+
+function toggleFilter(key, value) {
+  selectedFilters.value[key] =
+    selectedFilters.value[key] === value ? null : value;
+}
+
+function applyFilters() {
+  console.log(selectedFilters.value);
+}
+
+function resetFilters() {
+  selectedFilters.value = {
+    rarity: null,
+    weapon_type: null,
+    bonus_effect: null,
+  };
+}
+
 async function getMoreWeapons() {
   if (paginationLoading.value || noMoreResults.value) return;
   paginationLoading.value = true;
@@ -186,6 +226,8 @@ async function getMoreWeapons() {
     paginationLoading.value = false;
   }
 }
+
+async function getFilteredWeapons() {}
 
 onMounted(async () => {
   fetchWeaponTypes();
