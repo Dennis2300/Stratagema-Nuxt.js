@@ -114,6 +114,7 @@
         </div>
       </div>
       <div class="divider px-32"></div>
+      <!--Content-->
       <article class="px-32">
         <!--Weapon Card-->
         <div class="grid grid-cols-4 gap-8">
