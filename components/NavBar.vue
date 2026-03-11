@@ -1,7 +1,7 @@
 <template>
   <div class="drawer lg:drawer-open h-screen overflow-hidden">
     <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content overflow-y-auto py-16">
+    <div class="drawer-content overflow-y-auto pt-16">
       <!-- Navbar -->
       <nav class="navbar w-full bg-app-secondary fixed top-0 z-50">
         <label

@@ -1,10 +1,8 @@
 <template>
-  <main class="my-10 space-y-24">
-    <!--Navigation Cards-->
+  <main class="mt-10 space-y-24">
     <HomePageNavigation />
-    <!-- Current Banner characters-->
     <CurrentBanner />
-    <!--Notice Boards-->
     <NoticeBoard />
+    <Footer />
   </main>
 </template>
