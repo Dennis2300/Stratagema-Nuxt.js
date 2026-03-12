@@ -14,7 +14,9 @@
     </section>
     <!--Content-->
     <section v-else class="relative">
-      <header class="relative flex justify-center items-center mt-8">
+      <header
+        class="relative flex justify-center items-center mb-8 md:mt-8 md:mb-0"
+      >
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-bottom"
@@ -25,14 +27,14 @@
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
-        <h2
+        <h3
           class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide"
         >
           Characters Archive
-        </h2>
+        </h3>
       </header>
       <!--Filter-->
-      <div class="flex ml-32 gap-4 mb-2">
+      <div class="flex md:ml-32 gap-4 mb-2">
         <div
           class="bg-app-muted py-1 px-3 flex items-center gap-1 w-fit rounded-md w-fit cursor-pointer hover:bg-app-muted/50 transition-all"
           @click="isFilterPanelOpen = true"
@@ -63,11 +65,11 @@
       <Transition name="fade">
         <div
           v-if="isFilterPanelOpen"
-          class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
+          class="fixed inset-0 z-20 flex items-end md:items-center justify-center bg-black/75"
           @click="isFilterPanelOpen = false"
         >
           <div
-            class="max-w-1/2 bg-app-tertiary rounded-b-2xl border-t-4 border-app-accent p-4"
+            class="w-full md:max-w-1/2 bg-app-tertiary rounded-b-xl border-t-4 border-app-accent p-4 max-h-[85vh] overflow-y-auto"
             @click.stop
           >
             <div class="flex items-center justify-between">
@@ -244,7 +246,7 @@
           </div>
         </div>
       </Transition>
-      <div class="divider px-32 mt-0 mb-8"></div>
+      <div class="divider md:px-32 mt-0 mb-8"></div>
       <!--Character Card-->
       <article
         v-if="characters.length > 0"
@@ -253,7 +255,7 @@
         <div
           v-for="character in characters"
           :key="character?.name"
-          class="relative bg-app-tertiary w-2/3 overflow-hidden rounded-xl border border-white/5 transition-transform duration-200 hover:translate-x-3"
+          class="relative w-full bg-app-tertiary md:w-2/3 overflow-hidden rounded-xl border border-white/5 transition-transform duration-200 hover:translate-x-3"
         >
           <NuxtLink
             :to="`/characters/${character.id}?name=${encodeURIComponent(
@@ -262,17 +264,18 @@
             target="_blank"
           >
             <!-- Splash Art -->
-            <div class="absolute -top-10 -right-8 opacity-50 z-0">
+            <div
+              class="absolute -top-4 -right-6 md:-top-10 md:-right-8 opacity-50 z-0"
+            >
               <img
-                class="w-64"
+                class="w-42 md:w-64"
                 :src="character.splash_art_url"
                 :alt="character.name"
-                loading="lazy"
               />
             </div>
 
             <!-- Character Card -->
-            <div class="flex items-center gap-4 px-5 py-4">
+            <div class="flex items-center gap-4 p-3 md:px-5 md:py-4">
               <div
                 class="w-24 h-24 rounded-full overflow-hidden"
                 :class="{
@@ -288,14 +291,14 @@
                 />
               </div>
               <div>
-                <h3 class="leading-none font-acme">
+                <span class="leading-none font-acme text-2xl md:text-4xl">
                   {{ character?.name }}
-                </h3>
+                </span>
                 <div class="flex gap-0.5 items-center">
                   <span
                     v-for="n in character.rarity"
                     :key="n"
-                    class="text-lg leading-none"
+                    class="text-sm md:text-xl leading-none"
                     :class="
                       character.rarity === 5
                         ? 'text-amber-400'
@@ -309,7 +312,7 @@
 
             <!-- Character Tags -->
             <div
-              class="flex items-center justify-between bg-app-secondary px-5 py-2 relative z-10"
+              class="flex items-center justify-between bg-app-secondary px-2 md:px-5 py-2 relative z-10"
             >
               <div class="flex gap-3 items-center">
                 <img
@@ -327,12 +330,12 @@
                 }}</span>
                 <span class="text-white/20">·</span>
                 <span class="text-sm text-white/60">{{ character.role }}</span>
-                <span class="text-white/20">·</span>
-                <span class="text-sm text-white/60">{{
+                <span class="text-white/20 hidden md:block">·</span>
+                <span class="text-sm text-white/60 hidden md:block">{{
                   character.main_stat
                 }}</span>
               </div>
-              <span class="text-xs text-white/60">
+              <span class="text-xs text-white/60 hidden md:block">
                 <strong> Released: </strong>
                 {{
                   character.release_date
