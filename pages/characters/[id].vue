@@ -2,7 +2,9 @@
   <main>
     <article v-if="character" class="relative">
       <!--Background-->
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+      <div
+        class="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 z-10"
+      >
         <img
           class="opacity-10"
           :src="character.splash_art_url"
@@ -11,12 +13,16 @@
         />
       </div>
       <!--Content-->
-      <section class="w-full px-32 py-12 space-y-12">
+      <section
+        class="w-full px-2 py-6 md:px-32 md:py-12 space-y-6 md:space-y-12"
+      >
         <!--Avatar, Tags & Voice Actors-->
-        <div class="flex justify-between items-center">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4"
+        >
           <!--Avatar & Tags-->
           <div class="flex items-center gap-4">
-            <div class="relative w-42 h-42">
+            <div class="relative w-32 h-32 md:w-42 md:h-42">
               <div
                 class="rounded-full overflow-hidden"
                 :class="{
@@ -32,7 +38,7 @@
                 />
               </div>
               <img
-                class="absolute w-16 -top-5 -left-5 bg-gray-700 border border-white/25 rounded-full"
+                class="absolute w-8 h-8 -top-1.5 -left-1.5 md:w-16 md:h-16 md:-top-5 md:-left-5 bg-gray-700 border border-white/25 rounded-full"
                 :src="character.vision.img_url"
                 :alt="character.vision.name"
                 loading="lazy"
@@ -40,7 +46,7 @@
             </div>
             <div>
               <h2 class="font-acme">{{ character?.name }}</h2>
-              <div class="space-x-2">
+              <div class="flex flex-wrap gap-2">
                 <span class="badge badge-primary">{{ character.role }}</span>
                 <span class="badge badge-primary">{{
                   character.vision?.name
@@ -73,7 +79,7 @@
                     <a
                       :href="actor.link"
                       target="_blank"
-                      class="hover:text-accent transition cursor-pointer"
+                      class="hover:text-accent transition cursor-pointer truncate"
                       >{{ actor?.name }}</a
                     >
                     <span
@@ -88,44 +94,44 @@
           </div>
         </div>
         <!--Character Info-->
-        <div class="grid grid-cols-2 gap-x-20 gap-y-4">
+        <div class="grid grid-cols-2 gap-x-3 md:gap-x-20 gap-y-4">
           <!--Rarity-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Rarity</span>
             <div>
               <span
                 v-for="n in character.rarity"
                 :key="n"
-                class="text-2xl leading-none text-yellow-500"
+                class="md:text-2xl leading-none text-yellow-500"
                 >★</span
               >
             </div>
           </div>
           <!--Cons-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Constellation</span>
-            <span>{{ character.constellation }}</span>
+            <span class="italic">{{ character.constellation }}</span>
           </div>
           <!--Birthday-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Birthday</span>
             <span>{{ character.birthday }}</span>
           </div>
           <!--Weapon Type-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Weapon Type</span>
             <div class="flex gap-2 items-center">
               <span>{{ character.weapon_type?.name }}</span>
               <img
-                class="w-8"
+                class="w-6 md:w-8"
                 :src="character.weapon_type.img_url"
                 :alt="character.weapon_type.name"
                 loading="lazy"
@@ -134,7 +140,7 @@
           </div>
           <!--Signature Dish-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Signature Dish</span>
             <span v-if="character.signature_dish">{{
@@ -144,7 +150,7 @@
           </div>
           <!--Release Date-->
           <div
-            class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
+            class="flex flex-col md:flex-row justify-between md:text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
             <span class="text-white/75">Release Date</span>
             <span>
@@ -164,7 +170,7 @@
           </div>
         </div>
         <!--Weapons & Artifacts-->
-        <div class="grid grid-cols-2 gap-x-20 gap-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-4">
           <!--Weapons-->
           <div
             class="bg-white/10 border border-white/25 rounded-lg px-4 pt-2 pb-4 h-fit"
@@ -183,19 +189,21 @@
                       }"
                     >
                       <img
-                        class="w-20 h-20"
+                        class="w-12 h-12 md:w-20 md:h-20"
                         :src="a.weapon.img_url"
                         :alt="a.weapon.name"
                         loading="lazy"
                       />
                     </div>
                     <div class="space-y-1">
-                      <h6>{{ a.weapon?.name }}</h6>
+                      <span>{{ a.weapon?.name }}</span>
                       <div class="flex gap-2">
-                        <span class="badge badge-outline badge-secondary"
+                        <span
+                          class="badge badge-outline badge-secondary hidden md:block"
                           >Base Attack: {{ a.weapon.base_attack }}</span
                         >
-                        <span class="badge badge-outline badge-accent"
+                        <span
+                          class="badge badge-outline badge-accent hidden md:block"
                           >{{ a.weapon.bonus_effect_type }}:
                           {{ a.weapon.bonus_effect_value }}</span
                         >
@@ -227,14 +235,14 @@
                     >
                       <div class="rounded-xl rarity-5">
                         <img
-                          class="w-20 h-20"
+                          class="w-12 h-12 md:w-20 md:h-20"
                           :src="a.artifact.flower_img_url"
                           :alt="a.artifact.name"
                           loading="lazy"
                         />
                       </div>
                       <div class="flex flex-col space-y-3">
-                        <div>
+                        <div class="flex flex-col gap-1">
                           <span class="leading-none text-xs text-info">
                             {{
                               artifacts.length > 1
@@ -242,10 +250,13 @@
                                 : "4 Piece Effect"
                             }}
                           </span>
-                          <h6 class="leading-none">{{ a.artifact?.name }}</h6>
+                          <span
+                            class="leading-none max-w-52 md:max-w-none truncate"
+                            >{{ a.artifact?.name }}</span
+                          >
                         </div>
                         <span
-                          class="badge badge-warning badge-outline max-w-88"
+                          class="badge badge-warning badge-outline max-w-88 hidden md:block"
                         >
                           <span class="truncate">{{
                             a.artifact.two_piece_effect?.name
@@ -262,7 +273,7 @@
         </div>
         <!--Builds-->
         <div
-          class="bg-white/10 border border-white/25 rounded-lg p-4"
+          class="bg-white/10 border border-white/25 rounded-lg p-2 md:p-4"
           v-if="character?.builds?.length > 0"
         >
           <template v-for="build in character.builds">
@@ -271,11 +282,11 @@
             </h4>
             <div class="space-y-4">
               <!--Main & Sub Stats-->
-              <div class="grid grid-cols-2 gap-x-20">
+              <div class="grid grid-cols-2 gap-x-2 md:gap-x-20">
                 <!--Main Stats-->
                 <div class="space-y-3">
                   <div
-                    class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                    class="flex flex-col md:flex-row justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
                     v-for="stat in getMainStats(build.stat)"
                     :key="stat.slot"
                   >
@@ -286,17 +297,20 @@
                 <!--Sub Stats-->
                 <div class="space-y-3">
                   <div
-                    class="flex justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
+                    class="flex flex-col md:flex-row justify-between bg-app-secondary/75 rounded-lg py-2 px-3 border border-white/15"
                     v-for="stat in getSubstats(build.stat)"
                     :key="stat.slot"
                   >
+                    <span class="text-right block md:hidden"
+                      >#{{ stat.rank }}</span
+                    >
                     <span class="text-app-accent">{{ stat.stat }}</span>
-                    <span>#{{ stat.rank }}</span>
+                    <span class="hidden md:block">#{{ stat.rank }}</span>
                   </div>
                 </div>
               </div>
               <!--Build Details-->
-              <div>
+              <div class="p-2 md:p-0">
                 <h3 class="font-freeman text-app-accent">Build Details</h3>
                 <MarkdownRender v-if="build.details" :content="build.details" />
                 <p v-else class="text-red-500 text-center">
@@ -314,13 +328,13 @@
           <h4 class="divider font-freeman tracking-wide mb-8">
             {{ character.name }} Teams
           </h4>
-          <div class="grid grid-cols-2 gap-x-20 gap-y-10">
+          <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-20 gap-y-10">
             <template v-for="team in teams">
               <div class="space-y-4">
-                <h6 class="divider px-32 font-freeman tracking-wide">
+                <h6 class="divider md:px-32 font-freeman tracking-wide">
                   {{ team.name }}
                 </h6>
-                <div class="flex justify-center gap-8">
+                <div class="flex justify-center gap-4 md:gap-8">
                   <template v-for="member in team.members">
                     <NuxtLink
                       :class="{
@@ -334,7 +348,7 @@
                         class="flex flex-col justify-center items-center group"
                       >
                         <img
-                          class="w-20 rounded-xl"
+                          class="w-16 md:w-20 rounded-xl"
                           :class="{
                             'rarity-5': member.character.rarity === 5,
                             'rarity-4': member.character.rarity === 4,
@@ -343,7 +357,7 @@
                           :alt="member.character.name"
                           loading="lazy"
                         />
-                        <div class="w-20 mt-1 truncate text-center">
+                        <div class="w-16 md:w-20 mt-1 truncate text-center">
                           <span class="group-hover:text-info transition">{{
                             member.character.name
                           }}</span>
@@ -359,7 +373,7 @@
         <!--Materials-->
         <div class="bg-white/10 border border-white/25 rounded-lg p-4">
           <h4 class="font-acme divider">{{ character.name }} Materials</h4>
-          <p class="text-center text-gray-500">
+          <p class="text-center text-gray-500 text-xs md:text-base">
             This is all the materials needed for Character level 90 and max out
             all Talents to level 10
           </p>
@@ -367,7 +381,7 @@
             <!--Ascenstion-->
             <article class="space-y-2">
               <h4 class="text-tertiary">Ascension</h4>
-              <div class="grid grid-cols-4">
+              <div class="space-y-4 md:grid md:grid-cols-4">
                 <template v-for="a in sortedAscensions">
                   <div class="flex items-center gap-2">
                     <img
