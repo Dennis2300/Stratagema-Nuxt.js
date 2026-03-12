@@ -3,7 +3,12 @@
     <article v-if="character" class="relative">
       <!--Background-->
       <div class="absolute top-0 left-1/2 -translate-x-1/2">
-        <img class="opacity-10" :src="character.splash_art_url" alt="" />
+        <img
+          class="opacity-10"
+          :src="character.splash_art_url"
+          :alt="character.name"
+          loading="lazy"
+        />
       </div>
       <!--Content-->
       <section class="w-full px-32 py-12 space-y-8">
@@ -22,13 +27,15 @@
                 <img
                   class="w-full h-full object-cover object-center"
                   :src="character.img_url"
-                  alt=""
+                  :alt="character.name"
+                  loading="lazy"
                 />
               </div>
               <img
                 class="absolute w-16 -top-5 -left-5 bg-gray-700 border border-white/25 rounded-full"
                 :src="character.vision.img_url"
-                alt=""
+                :alt="character.vision.name"
+                loading="lazy"
               />
             </div>
             <div>
@@ -119,7 +126,12 @@
             <span>Weapon Type</span>
             <div class="flex gap-2 items-center">
               <span>{{ character.weapon_type?.name }}</span>
-              <img class="w-8" :src="character.weapon_type.img_url" alt="" />
+              <img
+                class="w-8"
+                :src="character.weapon_type.img_url"
+                :alt="character.weapon_type.name"
+                loading="lazy"
+              />
             </div>
           </div>
           <!--Signature Dish-->
@@ -172,7 +184,12 @@
                         'rarity-4': a.weapon.rarity === 4,
                       }"
                     >
-                      <img class="w-20 h-20" :src="a.weapon.img_url" alt="" />
+                      <img
+                        class="w-20 h-20"
+                        :src="a.weapon.img_url"
+                        :alt="a.weapon.name"
+                        loading="lazy"
+                      />
                     </div>
                     <div class="space-y-1">
                       <h6>{{ a.weapon?.name }}</h6>
@@ -214,7 +231,8 @@
                         <img
                           class="w-20 h-20"
                           :src="a.artifact.flower_img_url"
-                          alt=""
+                          :alt="a.article.name"
+                          loading="lazy"
                         />
                       </div>
                       <div class="flex flex-col space-y-3">
@@ -320,7 +338,8 @@
                             'rarity-4': member.character.rarity === 4,
                           }"
                           :src="member.character.img_url"
-                          alt=""
+                          :alt="member.character.name"
+                          loading="lazy"
                         />
                         <div class="w-20 mt-1 truncate text-center">
                           <span class="group-hover:text-info transition">{{
@@ -352,7 +371,8 @@
                     <img
                       class="w-20 bg-app-muted rounded-xl"
                       :src="a.material_ascension.img_url"
-                      alt=""
+                      :alt="a.material_ascension.name"
+                      loading="lazy"
                     />
                     <div class="flex flex-col">
                       <span>{{ a.material_ascension.name }}</span>
@@ -370,7 +390,8 @@
                   <img
                     class="w-20 bg-app-muted rounded-xl"
                     src="https://wiki.hoyolab.com/_ipx/f_webp/https://bbs.hoyolab.com/hoyowiki/picture/object/Crown%2520of%2520Insight_icon.png"
-                    alt=""
+                    alt="Crown of Insight"
+                    loading="lazy"
                   />
                   <div class="flex flex-col gap-2">
                     <span>Crown Of Insight</span>
@@ -385,7 +406,8 @@
                     <img
                       class="w-20 bg-app-muted rounded-xl"
                       :src="a.material_talents.img_url"
-                      alt=""
+                      :alt="a.material_talents.name"
+                      loading="lazy"
                     />
                     <div class="flex flex-col gap-2">
                       <span>{{ a.material_talents.name }}</span>
@@ -407,7 +429,8 @@
                     <img
                       class="w-20 bg-app-muted rounded-xl"
                       :src="a.material_enhancements.img_url"
-                      alt=""
+                      :alt="a.material_enhancements.name"
+                      loading="lazy"
                     />
                     <div class="flex flex-col gap-2">
                       <span>{{ a.material_enhancements.name }}</span>
@@ -426,7 +449,8 @@
                     <img
                       class="w-20 bg-app-muted rounded-xl"
                       :src="a.level_up_material.img_url"
-                      alt=""
+                      :alt="a.level_up_material.name"
+                      loading="lazy"
                     />
                     <div class="flex flex-col gap-2">
                       <span class="w-56 truncate">
@@ -452,7 +476,8 @@
                     <img
                       class="w-20 bg-app-muted rounded-xl"
                       :src="a.local_specialty.img_url"
-                      alt=""
+                      :alt="a.local_specialty.name"
+                      loading="lazy"
                     />
                     <div class="flex flex-col gap-2">
                       <span>{{ a.local_specialty.name }}</span>
@@ -470,7 +495,7 @@
                   <img
                     class="w-20 bg-app-muted rounded-xl"
                     src="https://wiki.hoyolab.com/_ipx/f_webp/https://bbs.hoyolab.com/hoyowiki/picture/object/Mora_icon.png"
-                    alt=""
+                    alt="Mora"
                   />
                   <div class="flex flex-col gap-2">
                     <span>Mora</span>

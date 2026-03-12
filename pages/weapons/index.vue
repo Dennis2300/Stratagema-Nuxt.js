@@ -19,7 +19,7 @@
           <img
             class="w-full h-full object-cover object-center"
             src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/06/13/237301566/f3ca1b7fa11e370118b63bf80513e0c7_6565987184341339932.png?x-oss-process=image%2Fformat%2Cwebp"
-            alt=""
+            alt="Weapon Archive"
           />
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
@@ -130,7 +130,12 @@
                   'rarity-3': weapon.rarity === 3,
                 }"
               >
-                <img class="w-36" :src="weapon.img_url" alt="" />
+                <img
+                  class="w-36"
+                  :src="weapon.img_url"
+                  :alt="weapon.name"
+                  loading="lazy"
+                />
               </div>
               <h6 class="font-acme tracking-wide">{{ weapon.name }}</h6>
               <span class="badge badge-info badge-outline"

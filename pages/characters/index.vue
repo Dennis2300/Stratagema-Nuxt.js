@@ -19,7 +19,8 @@
           <img
             class="w-full h-full object-cover object-bottom"
             src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/06/13/237301566/fcea1426526d00185e04c4abe3cd8bdc_5451103014835655107.png?x-oss-process=image%2Fformat%2Cwebp"
-            alt=""
+            alt="Character Archive"
+            loading="lazy"
           />
           <!-- dark overlay -->
           <div class="absolute inset-0 bg-black/60"></div>
@@ -77,7 +78,12 @@
           >
             <!-- Splash Art -->
             <div class="absolute -top-10 -right-8 opacity-50 z-0">
-              <img class="w-64" :src="character.splash_art_url" alt="" />
+              <img
+                class="w-64"
+                :src="character.splash_art_url"
+                :alt="character.name"
+                loading="lazy"
+              />
             </div>
 
             <!-- Character Card -->
@@ -92,7 +98,8 @@
                 <img
                   class="w-full h-full object-cover"
                   :src="character.img_url"
-                  alt=""
+                  :alt="character.name"
+                  loading="lazy"
                 />
               </div>
               <div>
@@ -124,6 +131,7 @@
                   class="w-6 h-6 object-contain"
                   :src="character.vision.img_url"
                   :alt="character.vision?.name"
+                  loading="lazy"
                 />
                 <span class="text-sm text-white/60">{{
                   character.vision?.name
@@ -256,8 +264,10 @@
                         @change="toggleVision(vision.id)"
                       />
                       <img
-                        :src="vision.img_url"
                         class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="vision.img_url"
+                        :alt="vision.name"
+                        loading="lazy"
                       />
                     </div>
                   </template>
@@ -281,13 +291,16 @@
                       />
                       <img
                         v-if="region.img_url"
-                        :src="region.img_url"
                         class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="region.img_url"
+                        :alt="region.name"
+                        loading="lazy"
                       />
                       <img
                         v-else
-                        src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
                         class="absolute left-2 w-6 h-6 pointer-events-none"
+                        src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
+                        alt="Region"
                       />
                     </div>
                   </template>
@@ -312,8 +325,10 @@
                         @change="toggleWeaponType(weapon_type.id)"
                       />
                       <img
-                        :src="weapon_type.img_url"
                         class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="weapon_type.img_url"
+                        :alt="weapon_type.name"
+                        loading="lazy"
                       />
                     </div>
                   </template>
