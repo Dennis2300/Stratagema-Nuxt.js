@@ -2,7 +2,7 @@
   <main>
     <article v-if="character" class="relative">
       <!--Background-->
-      <div class="absolute top-0 left-1/2 -translate-x-1/2">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 z-10">
         <img
           class="opacity-10"
           :src="character.splash_art_url"
@@ -11,7 +11,7 @@
         />
       </div>
       <!--Content-->
-      <section class="w-full px-32 py-12 space-y-10">
+      <section class="w-full px-32 py-12 space-y-12">
         <!--Avatar, Tags & Voice Actors-->
         <div class="flex justify-between items-center">
           <!--Avatar & Tags-->
@@ -55,7 +55,7 @@
             </div>
           </div>
           <!--Voice Actors-->
-          <div class="space-y-2">
+          <div class="space-y-2 z-10">
             <div>
               <h5 class="uppercase tracking-wider text-white/60 leading-none">
                 Voice Actors
