@@ -1,7 +1,7 @@
 <template>
   <article class="space-y-8">
-    <h2 class="divider px-32 font-freeman">Welcome to Stratagema</h2>
-    <div class="flex justify-center items-center gap-20">
+    <h3 class="divider md:px-32 font-freeman">Welcome to Stratagema</h3>
+    <div class="flex flex-col md:flex-row justify-center items-center gap-20">
       <NuxtLink
         v-for="link in navLinks"
         :to="link.path"

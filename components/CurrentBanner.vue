@@ -1,7 +1,7 @@
 <template>
   <article class="space-y-8">
-    <h2 class="divider px-32 font-freeman">Current Banner</h2>
-    <div class="px-32 space-y-4">
+    <h3 class="divider md:px-32 font-freeman">Current Banner</h3>
+    <div class="md:px-32 space-y-4">
       <!--Countdown-->
       <div
         class="grid auto-cols-max grid-flow-col gap-5 text-center justify-center"
@@ -56,7 +56,7 @@
         </div>
       </div>
       <!--Characters-->
-      <div class="flex flex-col md:flex-row justify-center gap-20">
+      <div class="flex flex-col md:flex-row justify-center gap-10 md:gap-20">
         <div v-for="a in currentBannerCharacters" :key="a.character.id">
           <NuxtLink
             :to="`/characters/${a.character.id}?name=${encodeURIComponent(
@@ -87,8 +87,8 @@
         </div>
       </div>
       <!--End Date-->
-      <div class="text-center mb-6">
-        <p class="text-sm opacity-70">Ends: {{ formattedEndDate }}</p>
+      <div class="text-center">
+        <p class="opacity-70">Ends: {{ formattedEndDate }}</p>
       </div>
     </div>
   </article>
