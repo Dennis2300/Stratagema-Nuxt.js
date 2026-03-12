@@ -67,9 +67,7 @@
                 class="flex items-center gap-2.5 bg-white/10 rounded-lg px-3 py-2.5 border border-white/25"
                 v-for="(voices, language) in groupedVoices"
               >
-                <span
-                  :class="`fi fi-${language} rounded-sm text-base shrink-0`"
-                ></span>
+                <span :class="`fi fi-${language}`"></span>
                 <span class="text-sm text-white/80 flex flex-col">
                   <template v-for="(actor, i) in voices" :key="i">
                     <a
@@ -246,9 +244,13 @@
                           </span>
                           <h6 class="leading-none">{{ a.artifact?.name }}</h6>
                         </div>
-                        <span class="badge badge-warning badge-outline">{{
-                          a.artifact.two_piece_effect?.name
-                        }}</span>
+                        <span
+                          class="badge badge-warning badge-outline max-w-88"
+                        >
+                          <span class="truncate">{{
+                            a.artifact.two_piece_effect?.name
+                          }}</span>
+                        </span>
                       </div>
                     </div>
                   </div>
