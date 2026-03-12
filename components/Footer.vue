@@ -108,7 +108,7 @@
         </nav>
       </div>
       <div class="text-white/60 space-y-4">
-        <p class="hover:text-white/90 transition-colors duration-300 mt-6">
+        <p class="mt-6">
           This website is a fan-made project and is not affiliated with,
           endorsed by, or sponsored by
           <strong class="text-white">HoYoverse</strong> or
@@ -129,7 +129,12 @@
           </span>
           <span>&</span>
           <span class="flex gap-1">
-            <img class="w-5" src="/assets/tailwindcss.svg" alt="TailwindCSS" loading="lazy" />
+            <img
+              class="w-5"
+              src="/assets/tailwindcss.svg"
+              alt="TailwindCSS"
+              loading="lazy"
+            />
             <a
               class="text-white hover:text-white/75 hover:underline transition"
               href="https://tailwindcss.com/"
@@ -139,7 +144,12 @@
           </span>
           <span>&</span>
           <span class="flex gap-1">
-            <img class="w-5" src="/assets/supabase.svg" alt="Supabase" loading="lazy" />
+            <img
+              class="w-5"
+              src="/assets/supabase.svg"
+              alt="Supabase"
+              loading="lazy"
+            />
             <a
               class="text-white hover:text-white/75 hover:underline transition"
               href="https://supabase.com/"
