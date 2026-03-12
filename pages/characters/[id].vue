@@ -11,7 +11,7 @@
         />
       </div>
       <!--Content-->
-      <section class="w-full px-32 py-12 space-y-8">
+      <section class="w-full px-32 py-12 space-y-10">
         <!--Avatar, Tags & Voice Actors-->
         <div class="flex justify-between items-center">
           <!--Avatar & Tags-->
@@ -95,7 +95,7 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Rarity</span>
+            <span class="text-white/75">Rarity</span>
             <div>
               <span
                 v-for="n in character.rarity"
@@ -109,21 +109,21 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Constellation</span>
+            <span class="text-white/75">Constellation</span>
             <span>{{ character.constellation }}</span>
           </div>
           <!--Birthday-->
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Birthday</span>
+            <span class="text-white/75">Birthday</span>
             <span>{{ character.birthday }}</span>
           </div>
           <!--Weapon Type-->
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Weapon Type</span>
+            <span class="text-white/75">Weapon Type</span>
             <div class="flex gap-2 items-center">
               <span>{{ character.weapon_type?.name }}</span>
               <img
@@ -138,7 +138,7 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Signature Dish</span>
+            <span class="text-white/75">Signature Dish</span>
             <span v-if="character.signature_dish">{{
               character.signature_dish?.name
             }}</span>
@@ -148,7 +148,7 @@
           <div
             class="flex justify-between text-2xl font-acme bg-white/10 border border-white/25 rounded-lg px-4 py-2"
           >
-            <span>Release Date</span>
+            <span class="text-white/75">Release Date</span>
             <span>
               {{
                 character.release_date
@@ -231,7 +231,7 @@
                         <img
                           class="w-20 h-20"
                           :src="a.artifact.flower_img_url"
-                          :alt="a.article.name"
+                          :alt="a.artifact.name"
                           loading="lazy"
                         />
                       </div>
