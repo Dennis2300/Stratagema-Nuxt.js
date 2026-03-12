@@ -59,6 +59,191 @@
           Reset
         </button>
       </div>
+      <!--Filter Panel-->
+      <Transition name="fade">
+        <div
+          v-if="isFilterPanelOpen"
+          class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
+          @click="isFilterPanelOpen = false"
+        >
+          <div
+            class="max-w-1/2 bg-app-tertiary rounded-b-2xl border-t-4 border-app-accent p-4"
+            @click.stop
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  fill="currentColor"
+                  class="bi bi-funnel-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
+                  />
+                </svg>
+                <h4>Filter Characters</h4>
+              </div>
+              <button
+                class="btn btn-error btn-xs"
+                @click="
+                  filtersWereApplied
+                    ? (isFilterPanelOpen = false)
+                    : hasActiveFilters
+                      ? resetFilters()
+                      : (isFilterPanelOpen = false)
+                "
+              >
+                X
+              </button>
+            </div>
+            <div class="space-y-8">
+              <!--Visions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Rarity</span
+                >
+                <div class="filter">
+                  <input
+                    class="btn filter-reset"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="All"
+                    :defaultChecked="selectedFilters.rarity === null"
+                    @click="selectRarity(null)"
+                  />
+                  <input
+                    class="btn checked:bg-primary transition"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="★★★★★"
+                    :defaultChecked="selectedFilters.rarity === 5"
+                    @click="selectRarity(5)"
+                  />
+                  <input
+                    class="btn checked:bg-primary transition"
+                    type="radio"
+                    name="metaframeworks"
+                    aria-label="★★★★"
+                    :defaultChecked="selectedFilters.rarity === 4"
+                    @click="selectRarity(4)"
+                  />
+                </div>
+              </div>
+              <!--Visions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Visions/Element</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="vision in visions">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="vision?.name"
+                        :checked="selectedFilters.visions.includes(vision.id)"
+                        @change="toggleVision(vision.id)"
+                      />
+                      <img
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="vision.img_url"
+                        :alt="vision.name"
+                        loading="lazy"
+                      />
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <!--Regions-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Regions</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="region in regions">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="region?.name"
+                        :checked="selectedFilters.regions.includes(region.id)"
+                        @change="toggleRegion(region.id)"
+                      />
+                      <img
+                        v-if="region.img_url"
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="region.img_url"
+                        :alt="region.name"
+                        loading="lazy"
+                      />
+                      <img
+                        v-else
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                        src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
+                        alt="Region"
+                      />
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <!--Weapon Types-->
+              <div>
+                <span class="divider divider-start font-acme tracking-wide mb-2"
+                  >Weapon Types</span
+                >
+                <div class="flex flex-wrap gap-4">
+                  <template v-for="weapon_type in weapon_types">
+                    <div class="relative inline-flex items-center">
+                      <input
+                        class="btn pl-10"
+                        type="checkbox"
+                        name="frameworks"
+                        :aria-label="weapon_type?.name"
+                        :checked="
+                          selectedFilters.weapon_types.includes(weapon_type.id)
+                        "
+                        @change="toggleWeaponType(weapon_type.id)"
+                      />
+                      <img
+                        class="absolute left-2 w-6 h-6 pointer-events-none"
+                        :src="weapon_type.img_url"
+                        :alt="weapon_type.name"
+                        loading="lazy"
+                      />
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <!--Apply/Reset Button-->
+              <div class="flex justify-center items-center gap-10">
+                <button
+                  class="btn btn-success"
+                  @click="getFilteredCharacters"
+                  :disabled="!hasActiveFilters"
+                >
+                  <span
+                    v-if="filterLoading"
+                    class="loading loading-spinner loading-sm"
+                  ></span>
+                  <span>Apply</span>
+                </button>
+                <button
+                  class="btn btn-warning"
+                  @click="resetFilters"
+                  :disabled="!hasActiveFilters"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
       <div class="divider px-32 mt-0 mb-8"></div>
       <!--Character Card-->
       <article
@@ -177,188 +362,6 @@
         <div ref="scrollTrigger"></div>
       </article>
       <NoCharacterFound v-else />
-      <!--Filter Panel-->
-      <Transition name="fade">
-        <div
-          v-if="isFilterPanelOpen"
-          class="fixed inset-0 z-20 top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/75"
-          @click="isFilterPanelOpen = false"
-        >
-          <div
-            class="max-w-1/2 bg-app-tertiary rounded-b-2xl border-t-4 border-app-accent p-4"
-            @click.stop
-          >
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  fill="currentColor"
-                  class="bi bi-funnel-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z"
-                  />
-                </svg>
-                <h4>Filter Characters</h4>
-              </div>
-              <button
-                class="btn btn-error btn-xs"
-                @click="
-                  filtersWereApplied
-                    ? (isFilterPanelOpen = false)
-                    : hasActiveFilters
-                      ? resetFilters()
-                      : (isFilterPanelOpen = false)
-                "
-              >
-                X
-              </button>
-            </div>
-            <div class="space-y-8">
-              <!--Visions-->
-              <div>
-                <span class="divider divider-start font-acme tracking-wide mb-2"
-                  >Rarity</span
-                >
-                <div class="filter">
-                  <input
-                    class="btn filter-reset"
-                    type="radio"
-                    name="metaframeworks"
-                    aria-label="All"
-                    @click="selectRarity(null)"
-                  />
-                  <input
-                    class="btn"
-                    type="radio"
-                    name="metaframeworks"
-                    aria-label="★★★★★"
-                    @click="selectRarity(5)"
-                  />
-                  <input
-                    class="btn"
-                    type="radio"
-                    name="metaframeworks"
-                    aria-label="★★★★"
-                    @click="selectRarity(4)"
-                  />
-                </div>
-              </div>
-              <!--Visions-->
-              <div>
-                <span class="divider divider-start font-acme tracking-wide mb-2"
-                  >Visions/Element</span
-                >
-                <div class="flex flex-wrap gap-4">
-                  <template v-for="vision in visions">
-                    <div class="relative inline-flex items-center">
-                      <input
-                        class="btn pl-10"
-                        type="checkbox"
-                        name="frameworks"
-                        :aria-label="vision?.name"
-                        :checked="selectedFilters.visions.includes(vision.id)"
-                        @change="toggleVision(vision.id)"
-                      />
-                      <img
-                        class="absolute left-2 w-6 h-6 pointer-events-none"
-                        :src="vision.img_url"
-                        :alt="vision.name"
-                        loading="lazy"
-                      />
-                    </div>
-                  </template>
-                </div>
-              </div>
-              <!--Regions-->
-              <div>
-                <span class="divider divider-start font-acme tracking-wide mb-2"
-                  >Regions</span
-                >
-                <div class="flex flex-wrap gap-4">
-                  <template v-for="region in regions">
-                    <div class="relative inline-flex items-center">
-                      <input
-                        class="btn pl-10"
-                        type="checkbox"
-                        name="frameworks"
-                        :aria-label="region?.name"
-                        :checked="selectedFilters.regions.includes(region.id)"
-                        @change="toggleRegion(region.id)"
-                      />
-                      <img
-                        v-if="region.img_url"
-                        class="absolute left-2 w-6 h-6 pointer-events-none"
-                        :src="region.img_url"
-                        :alt="region.name"
-                        loading="lazy"
-                      />
-                      <img
-                        v-else
-                        class="absolute left-2 w-6 h-6 pointer-events-none"
-                        src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/11/22/237301566/8ef5e0aaf7edf5d156a382a5b0cc72da_8094299417877861659.png?x-oss-process=image%2Fformat%2Cwebp"
-                        alt="Region"
-                      />
-                    </div>
-                  </template>
-                </div>
-              </div>
-              <!--Weapon Types-->
-              <div>
-                <span class="divider divider-start font-acme tracking-wide mb-2"
-                  >Weapon Types</span
-                >
-                <div class="flex flex-wrap gap-4">
-                  <template v-for="weapon_type in weapon_types">
-                    <div class="relative inline-flex items-center">
-                      <input
-                        class="btn pl-10"
-                        type="checkbox"
-                        name="frameworks"
-                        :aria-label="weapon_type?.name"
-                        :checked="
-                          selectedFilters.weapon_types.includes(weapon_type.id)
-                        "
-                        @change="toggleWeaponType(weapon_type.id)"
-                      />
-                      <img
-                        class="absolute left-2 w-6 h-6 pointer-events-none"
-                        :src="weapon_type.img_url"
-                        :alt="weapon_type.name"
-                        loading="lazy"
-                      />
-                    </div>
-                  </template>
-                </div>
-              </div>
-              <!--Apply/Reset Button-->
-              <div class="flex justify-center items-center gap-10">
-                <button
-                  class="btn btn-success"
-                  @click="getFilteredCharacters"
-                  :disabled="!hasActiveFilters"
-                >
-                  <span
-                    v-if="filterLoading"
-                    class="loading loading-spinner loading-sm"
-                  ></span>
-                  <span>Apply</span>
-                </button>
-                <button
-                  class="btn btn-warning"
-                  @click="resetFilters"
-                  :disabled="!hasActiveFilters"
-                >
-                  Reset
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Transition>
     </section>
   </main>
   <Footer />
