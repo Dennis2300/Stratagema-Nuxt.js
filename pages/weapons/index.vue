@@ -122,7 +122,11 @@
       <article class="px-8 md:px-32">
         <!--Weapon Card-->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <template v-for="weapon in weapons">
+          <NuxtLink
+            v-for="weapon in weapons"
+            :to="`/weapons/${weapon.id}`"
+            target="_blank"
+          >
             <div
               class="flex flex-col justify-center items-center bg-white/10 h-72 rounded-xl space-y-2 border border-white/15"
             >
@@ -150,7 +154,7 @@
                 {{ weapon.bonus_effect_value }}</span
               >
             </div>
-          </template>
+          </NuxtLink>
         </div>
         <!--Loading Infinite-->
         <div class="flex justify-center py-4">
