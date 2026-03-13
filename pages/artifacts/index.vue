@@ -43,13 +43,14 @@
       <div class="divider px-32"></div>
       <!--Content-->
       <article>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 px-4 md:px-32">
-          <div
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-8 px-4 md:px-32">
+          <NuxtLink
             v-for="artifact in artifacts"
+            :to="`/artifacts/${artifact.id}`"
             class="flex flex-col justify-center items-center aspect-square bg-white/10 border border-white/15 rounded-xl"
           >
             <img
-              class="w-2/3"
+              class="w-32"
               :src="artifact.flower_img_url"
               :alt="artifact.name"
               loading="lazy"
@@ -57,7 +58,7 @@
             <span class="w-full truncate text-center px-4">{{
               artifact.name
             }}</span>
-          </div>
+          </NuxtLink>
         </div>
       </article>
     </section>
