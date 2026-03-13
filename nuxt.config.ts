@@ -1,6 +1,12 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+  css: ["@/assets/css/main.css"],
+  vite: {
+    plugins: [tailwindcss()],
+  },
   app: {
     head: {
       link: [{ rel: "icon", type: "image/png", href: "/favicon.webp" }],
@@ -11,8 +17,7 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => tag.startsWith("l-"),
     },
   },
-  css: ["~/assets/css/main.css"],
-  modules: ["@nuxtjs/supabase", "@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/supabase"],
   supabase: {
     types: false,
   },
