@@ -28,7 +28,7 @@
           <div class="absolute inset-0 bg-black/60"></div>
         </div>
         <h3
-          class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide"
+          class="absolute inset-0 flex items-center justify-center font-rubik-dirt tracking-wide cursor-default"
         >
           Characters Archive
         </h3>
@@ -293,11 +293,11 @@
                 />
               </div>
               <div>
-                <span class="leading-none font-acme text-2xl md:text-4xl">
+                <p class="leading-none font-acme text-2xl md:text-4xl">
                   {{ character?.name }}
-                </span>
+                </p>
                 <div class="flex gap-0.5 items-center">
-                  <span
+                  <p
                     v-for="n in character.rarity"
                     :key="n"
                     class="text-sm md:text-xl leading-none"
@@ -306,7 +306,7 @@
                         ? 'text-amber-400'
                         : 'text-purple-400'
                     "
-                    >★</span
+                    >★</p
                   >
                 </div>
               </div>

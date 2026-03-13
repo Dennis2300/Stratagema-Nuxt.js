@@ -38,7 +38,7 @@
           </div>
         </NuxtLink>
         <div
-          class="absolute top-0 right-16 w-18 h-18 bg-[linear-gradient(225deg,white_50%,transparent_50%)]"
+          class="absolute top-0 right-16 w-18 h-18 bg-[linear-gradient(225deg,white_50%,transparent_50%)] hidden md:block"
         >
           <span
             class="absolute gap-0.5 leading-none text-black rotate-45 top-3.75 right-2.25 font-freeman"

@@ -118,8 +118,13 @@
         </p>
         <div class="flex gap-2">
           <span>Built with:</span>
-          <span class="flex gap-0.5">
-            <img class="w-5" src="/assets/nuxt.svg" alt="Nuxt" loading="lazy" />
+          <span class="flex flex-wrap gap-0.5">
+            <img
+              class="w-5 hidden md:block"
+              src="/assets/nuxt.svg"
+              alt="Nuxt"
+              loading="lazy"
+            />
             <a
               class="text-white hover:text-white/75 hover:underline transition"
               href="https://nuxt.com/"
@@ -130,7 +135,7 @@
           <span>&</span>
           <span class="flex gap-1">
             <img
-              class="w-5"
+              class="w-5 hidden md:block"
               src="/assets/tailwindcss.svg"
               alt="TailwindCSS"
               loading="lazy"
@@ -145,7 +150,7 @@
           <span>&</span>
           <span class="flex gap-1">
             <img
-              class="w-5"
+              class="w-5 hidden md:block"
               src="/assets/supabase.svg"
               alt="Supabase"
               loading="lazy"
