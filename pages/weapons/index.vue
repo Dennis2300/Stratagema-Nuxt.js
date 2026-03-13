@@ -14,7 +14,7 @@
     </section>
     <!--Content-->
     <section v-else>
-      <header class="relative flex justify-center items-center my-8">
+      <header class="relative flex justify-center items-center mb-8 md:my-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-center"
@@ -119,9 +119,9 @@
       </div>
       <div class="divider px-32"></div>
       <!--Content-->
-      <article class="px-32">
+      <article class="px-8 md:px-32">
         <!--Weapon Card-->
-        <div class="grid grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           <template v-for="weapon in weapons">
             <div
               class="flex flex-col justify-center items-center bg-white/10 h-72 rounded-xl space-y-2 border border-white/15"

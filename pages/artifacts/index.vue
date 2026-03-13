@@ -14,7 +14,7 @@
     </section>
     <!--Content-->
     <section v-else>
-      <header class="relative flex justify-center items-center my-8">
+      <header class="relative flex justify-center items-center mb-8 md:my-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
             class="w-full h-full object-cover object-center"
@@ -43,7 +43,7 @@
       <div class="divider px-32"></div>
       <!--Content-->
       <article>
-        <div class="grid grid-cols-5 gap-8 px-32">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 px-4 md:px-32">
           <div
             v-for="artifact in artifacts"
             class="flex flex-col justify-center items-center aspect-square bg-white/10 border border-white/15 rounded-xl"
