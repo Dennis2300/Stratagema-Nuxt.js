@@ -31,26 +31,28 @@
         </h2>
       </header>
       <!--Filter-->
-      <div class="flex flex-col gap-3 px-32">
+      <div class="flex flex-col gap-3 px-2 md:px-32">
         <!-- Rarity -->
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex flex-col md:flex-row md:items-center gap-2">
           <span
             class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
             >Rarity</span
           >
-          <p
-            v-for="star in [5, 4, 3]"
-            :key="star"
-            @click="toggleFilter('rarity', star)"
-            :class="
-              selectedFilters.rarity === star
-                ? 'bg-white/25 border-white/25'
-                : 'bg-white/5 border-white/25'
-            "
-            class="cursor-pointer border px-3 py-1 rounded-lg transition-all"
-          >
-            {{ star }} Star
-          </p>
+          <div class="flex flex-wrap gap-2">
+            <p
+              v-for="star in [5, 4, 3]"
+              :key="star"
+              @click="toggleFilter('rarity', star)"
+              :class="
+                selectedFilters.rarity === star
+                  ? 'bg-white/25 border-white/25'
+                  : 'bg-white/5 border-white/25'
+              "
+              class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
+            >
+              {{ star }} Star
+            </p>
+          </div>
         </div>
         <!-- Weapon Types -->
         <div class="flex items-center gap-2 flex-wrap">
@@ -68,32 +70,34 @@
                   ? 'bg-white/25 border-white/25'
                   : 'bg-white/5 border-white/25'
               "
-              class="cursor-pointer border px-3 py-1 rounded-lg transition-all"
+              class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
             >
               {{ type.name }}
             </p>
           </div>
         </div>
         <!-- Bonus Effects -->
-        <div class="flex items-center flex-wrap justify-between">
-          <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex gap-4 md:gap-0 items-center flex-wrap justify-between">
+          <div class="md:flex gap-2">
             <span
               class="text-xs text-gray-400 uppercase tracking-widest w-20 shrink-0"
               >Effect</span
             >
-            <p
-              v-for="weapon_effect in weapon_bonus_effect_types"
-              :key="weapon_effect"
-              @click="toggleFilter('bonus_effect', weapon_effect)"
-              :class="
-                selectedFilters.bonus_effect === weapon_effect
-                  ? 'bg-white/25 border-white/25'
-                  : 'bg-white/5 border-white/25'
-              "
-              class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
-            >
-              {{ weapon_effect }}
-            </p>
+            <div class="flex flex-wrap gap-2">
+              <p
+                v-for="weapon_effect in weapon_bonus_effect_types"
+                :key="weapon_effect"
+                @click="toggleFilter('bonus_effect', weapon_effect)"
+                :class="
+                  selectedFilters.bonus_effect === weapon_effect
+                    ? 'bg-white/25 border-white/25'
+                    : 'bg-white/5 border-white/25'
+                "
+                class="cursor-pointer border px-3 py-1 rounded-lg transition-all hover:bg-white/25"
+              >
+                {{ weapon_effect }}
+              </p>
+            </div>
           </div>
           <div class="space-x-4">
             <button
