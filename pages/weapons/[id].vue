@@ -1,11 +1,11 @@
 <template>
   <main class="min-h-[93vh]">
     <!--Loading-->
-    <section v-if="loading">
+    <article v-if="loading">
       <div class="flex justify-center items-center h-64">
         <LoadingSpinner />
       </div>
-    </section>
+    </article>
     <!--Error-->
     <article v-else-if="error">
       <div class="flex flex-col items-center mt-12 gap-4">
@@ -26,7 +26,7 @@
     </article>
     <!--Content-->
     <article v-else class="md:px-32 py-4 md:py-12 space-y-8">
-      <!--Weapon img, name % rarity-->
+      <!--Weapon img, name & rarity-->
       <div class="flex items-start gap-4">
         <div
           class="w-32 h-32 rounded-xl shrink-0"
@@ -127,12 +127,12 @@
 </template>
 
 <script setup>
+const supabase = useSupabaseClient();
 const route = useRoute();
 const loading = ref(true);
 const weapon = ref(null);
 const error = ref(null);
 const relatedCharacters = ref([]);
-const supabase = useSupabaseClient();
 
 const nonPercentageTypes = ["Elemental Mastery"];
 
@@ -168,9 +168,9 @@ async function getRelatedCharacters() {
       .eq("weapon", route.params.id);
     if (fetchError) throw fetchError;
     relatedCharacters.value = data;
-  } catch (error) {
-    error.value = error;
-    console.log(error);
+  } catch (fetchError) {
+    error.value = fetchError;
+    console.log(fetchError);
   } finally {
     loading.value = false;
   }
