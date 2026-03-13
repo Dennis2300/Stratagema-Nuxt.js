@@ -1,6 +1,31 @@
 <template>
   <main class="min-h-[93vh]">
-    <article v-if="weapon" class="md:px-32 py-4 md:py-12 space-y-8">
+    <!--Loading-->
+    <section v-if="loading">
+      <div class="flex justify-center items-center h-64">
+        <LoadingSpinner />
+      </div>
+    </section>
+    <!--Error-->
+    <article v-else-if="error">
+      <div class="flex flex-col items-center mt-12 gap-4">
+        <img
+          class="rounded-full w-42"
+          src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2025/02/23/151578876/6778b9ab915cd5c7791a4e565189305e_9109751496005555445.png?x-oss-process=image%2Fformat%2Cwebp"
+          alt=""
+        />
+        <div class="text-center">
+          <h4 class="leading-none text-white/50">404</h4>
+          <h2 class="text-center m-0 leading-none">No Weapon Found!</h2>
+          <p>
+            The weapon you're looking for doesn't exist or has been removed from
+            the armory.
+          </p>
+        </div>
+      </div>
+    </article>
+    <!--Content-->
+    <article v-else class="md:px-32 py-4 md:py-12 space-y-8">
       <!--Weapon img, name % rarity-->
       <div class="flex items-start gap-4">
         <div
@@ -14,7 +39,8 @@
           <img
             class="w-full h-full object-cover"
             :src="weapon.img_url"
-            alt=""
+            :alt="weapon.name"
+            fetchpriority="high"
           />
         </div>
         <div class="flex flex-col">
@@ -102,7 +128,9 @@
 
 <script setup>
 const route = useRoute();
+const loading = ref(true);
 const weapon = ref(null);
+const error = ref(null);
 const relatedCharacters = ref([]);
 const supabase = useSupabaseClient();
 
@@ -125,7 +153,10 @@ async function getWeaponById() {
     if (fetchError) throw fetchError;
     weapon.value = data;
   } catch (error) {
+    error.value = error;
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -138,7 +169,10 @@ async function getRelatedCharacters() {
     if (fetchError) throw fetchError;
     relatedCharacters.value = data;
   } catch (error) {
+    error.value = error;
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 }
 
