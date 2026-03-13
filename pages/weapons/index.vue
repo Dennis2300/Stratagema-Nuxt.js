@@ -128,10 +128,10 @@
             target="_blank"
           >
             <div
-              class="flex flex-col justify-center items-center bg-white/10 h-72 rounded-xl space-y-2 border border-white/15"
+              class="flex flex-col justify-center items-center bg-white/10 hover:bg-white/25 transition h-72 rounded-xl space-y-2 border border-white/15"
             >
               <div
-                class="rounded-2xl"
+                class="rounded-2xl border border-2 border-white/50"
                 :class="{
                   'rarity-5': weapon.rarity === 5,
                   'rarity-4': weapon.rarity === 4,
