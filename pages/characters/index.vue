@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="min-h-screen">
     <!--Loading-->
     <section v-if="loading">
       <div class="flex justify-center items-center h-64">
@@ -271,6 +271,7 @@
                 class="w-42 md:w-64"
                 :src="character.splash_art_url"
                 :alt="character.name"
+                fetchpriority="high"
               />
             </div>
 
@@ -288,6 +289,7 @@
                   :src="character.img_url"
                   :alt="character.name"
                   loading="lazy"
+                  fetchpriority="high"
                 />
               </div>
               <div>

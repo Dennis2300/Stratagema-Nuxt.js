@@ -18,7 +18,6 @@
             width="300"
             height="300"
             fetchpriority="high"
-            loading="lazy"
             decoding="async"
           />
           <!-- Overlay (appears on hover) -->
