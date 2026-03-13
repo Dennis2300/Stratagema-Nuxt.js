@@ -79,7 +79,7 @@
                     <a
                       :href="actor.link"
                       target="_blank"
-                      class="hover:text-accent transition cursor-pointer truncate"
+                      class="hover:text-accent transition cursor-pointer w-32 truncate"
                       >{{ actor?.name }}</a
                     >
                     <span
