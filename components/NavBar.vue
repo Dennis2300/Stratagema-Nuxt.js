@@ -28,10 +28,26 @@
         </label>
         <NuxtLink to="/">
           <div class="flex items-center gap-2">
-            <img class="w-8" src="/public/favicon.webp" alt="Stratagema" loading="lazy" />
+            <img
+              class="w-8"
+              src="/public/favicon.webp"
+              alt="Stratagema"
+              loading="lazy"
+            />
             <h5 class="uppercase font-freeman tracking-wide">Stratagema</h5>
           </div>
         </NuxtLink>
+        <div
+          class="absolute top-0 right-16 w-18 h-18 bg-[linear-gradient(225deg,white_50%,transparent_50%)]"
+        >
+          <span
+            class="absolute gap-0.5 leading-none text-black rotate-45 top-3.75 right-2.25 font-freeman"
+          >
+            <a href="https://ko-fi.com/" target="_blank" class="flex gap-0.5 tracking-wide">
+              <img class="w-4" src="/assets/kofi.svg" alt="Ko-Fi" /> Ko-fi</a
+            >
+          </span>
+        </div>
       </nav>
       <!-- Page content -->
       <slot />
