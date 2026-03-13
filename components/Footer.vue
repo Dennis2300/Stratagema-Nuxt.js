@@ -11,18 +11,18 @@
             Links
           </h6>
           <div class="flex flex-col gap-2 sm:gap-3">
-            <router-link
+            <NuxtLink
               to="/privacy-policy"
               class="text-white/90 hover:text-white hover:translate-x-2 transition-all duration-300 ease-out inline-block text-sm sm:text-base"
             >
               Privacy Policy
-            </router-link>
+            </NuxtLink>
             <a
-              href="https://www.patreon.com/cw/stratagema"
+              href="https://www.ko-fi.com/"
               target="_blank"
               class="text-white/90 hover:text-white hover:translate-x-2 transition-all duration-300 ease-out inline-block text-sm sm:text-base"
             >
-              Patreon
+              Ko-fi
             </a>
             <a
               href="https://github.com/Dennis2300"
@@ -31,12 +31,6 @@
             >
               Github
             </a>
-            <router-link
-              to="/login"
-              class="text-white/90 hover:text-white hover:translate-x-2 transition-all duration-300 ease-out inline-block text-sm sm:text-base"
-            >
-              Login
-            </router-link>
           </div>
         </nav>
 
