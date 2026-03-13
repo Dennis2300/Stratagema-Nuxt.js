@@ -2,4 +2,5 @@
   <NavBar>
     <NuxtPage />
   </NavBar>
+  <KoFi />
 </template>

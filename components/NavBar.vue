@@ -37,17 +37,6 @@
             <h5 class="uppercase font-freeman tracking-wide">Stratagema</h5>
           </div>
         </NuxtLink>
-        <div
-          class="absolute top-0 right-16 w-18 h-18 bg-[linear-gradient(225deg,white_50%,transparent_50%)] hidden md:block"
-        >
-          <span
-            class="absolute gap-0.5 leading-none text-black rotate-45 top-3.75 right-2.25 font-freeman"
-          >
-            <a href="https://ko-fi.com/" target="_blank" class="flex gap-0.5 tracking-wide">
-              <img class="w-4" src="/assets/kofi.svg" alt="Ko-Fi" /> Ko-fi</a
-            >
-          </span>
-        </div>
       </nav>
       <!-- Page content -->
       <slot />
@@ -67,6 +56,7 @@
               <NuxtLink
                 :to="link.path"
                 class="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                @click="closeDrawer"
                 :data-tip="link?.name"
               >
                 <svg
@@ -116,4 +106,8 @@ const navLinks = [
     icon: "M6 3h12l4 6-10 13L2 9zM6 3l6 16M18 3l-6 16M2 9h20",
   },
 ];
+
+const closeDrawer = () => {
+  document.getElementById("my-drawer-4").checked = false;
+};
 </script>
