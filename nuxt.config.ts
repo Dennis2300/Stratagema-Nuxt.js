@@ -3,8 +3,14 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/supabase", "@vercel/analytics", "@vercel/speed-insights"],
+  modules: [
+    "@nuxtjs/supabase",
+    "@vercel/analytics",
+    "@vercel/speed-insights",
+    "@nuxtjs/sitemap",
+  ],
   css: ["@/assets/css/main.css"],
+
   vite: {
     plugins: [tailwindcss()],
   },
@@ -25,5 +31,11 @@ export default defineNuxtConfig({
       callback: "/confirm",
       exclude: ["/*"],
     },
+  },
+  site: {
+    url: "https://stratagema.app",
+  },
+  sitemap: {
+    exclude: ["/confirm", "/login"],
   },
 });
