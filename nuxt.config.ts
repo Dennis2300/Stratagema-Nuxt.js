@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: "Stratagema – Genshin Impact Builds, Teams & Artifacts",
       link: [{ rel: "icon", type: "image/png", href: "/favicon.webp" }],
     },
   },
