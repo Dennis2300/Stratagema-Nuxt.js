@@ -1,6 +1,9 @@
 <template>
   <article class="space-y-8">
-    <h3 class="divider md:px-32 font-freeman">Welcome to Stratagema</h3>
+    <div>
+      <h3 class="divider md:px-32 font-freeman">Welcome to Stratagema</h3>
+      <p class="text-center text-sm font-freeman tracking-wide">Genshin Impact Infographics</p>
+    </div>
     <div class="flex flex-col md:flex-row justify-center items-center gap-20">
       <NuxtLink
         v-for="link in navLinks"
