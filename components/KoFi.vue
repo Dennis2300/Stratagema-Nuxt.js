@@ -6,7 +6,7 @@
       class="absolute gap-0.5 leading-none text-black rotate-45 top-3.75 right-0 font-freeman"
     >
       <a
-        href="https://ko-fi.com/"
+        href="https://ko-fi.com/stratagema"
         target="_blank"
         class="flex gap-0.5 tracking-wide"
       >
