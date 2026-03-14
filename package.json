@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxtjs/supabase": "^2.0.4",
     "@tailwindcss/vite": "^4.2.1",
+    "@vercel/analytics": "^2.0.1",
     "flag-icons": "^7.5.0",
     "ldrs": "^1.1.9",
     "marked": "^17.0.4",

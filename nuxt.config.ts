@@ -3,6 +3,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+  modules: ["@nuxtjs/supabase", "@vercel/analytics"],
   css: ["@/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],
@@ -17,7 +18,6 @@ export default defineNuxtConfig({
       isCustomElement: (tag) => tag.startsWith("l-"),
     },
   },
-  modules: ["@nuxtjs/supabase"],
   supabase: {
     types: false,
     redirectOptions: {
