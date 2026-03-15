@@ -104,6 +104,9 @@ let countdownInterval = null;
 const loading = ref(false);
 const error = ref(false);
 
+const CACHE_KEY = "banner_characters_cache";
+const CACHE_DURATION = 15 * 60 * 1000;
+
 const countdownValues = computed(() => {
   if (!currentBannerCharacters.value.length) {
     return { days: 0, hours: 0, minutes: 0, seconds: 0 };
@@ -143,6 +146,15 @@ const formattedEndDate = computed(() => {
 });
 
 async function fetchCurrentBannerCharacters() {
+  const cached = sessionStorage.getItem(CACHE_KEY);
+  if (cached) {
+    const { data, timestamp } = JSON.parse(cached);
+    const isExpired = Date.now() - timestamp > CACHE_DURATION;
+    if (!isExpired) {
+      currentBannerCharacters.value = data;
+      return;
+    }
+  }
   loading.value = true;
   try {
     let query = supabase
@@ -152,6 +164,13 @@ async function fetchCurrentBannerCharacters() {
       );
     const { data, error } = await query;
     if (error) throw error;
+    sessionStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({
+        data,
+        timestamp: Date.now(),
+      }),
+    );
     currentBannerCharacters.value = data;
   } catch (err) {
     console.error("Error fetching Current Banners");
