@@ -17,6 +17,13 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Stratagema – Genshin Impact Builds, Teams & Artifacts",
+      meta: [
+        {
+          name: "description",
+          content:
+            "Simple Genshin Impact build guides. Find the best artifacts, weapons and teams for every character.",
+        },
+      ],
       link: [{ rel: "icon", type: "image/png", href: "/favicon.webp" }],
     },
   },
