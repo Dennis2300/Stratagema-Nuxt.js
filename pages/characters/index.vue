@@ -295,16 +295,11 @@
                 <p class="leading-none font-acme text-2xl md:text-4xl">
                   {{ character?.name }}
                 </p>
-                <div class="flex gap-0.5 items-center">
+                <div class="flex gap-0.25 items-center">
                   <p
                     v-for="n in character.rarity"
                     :key="n"
-                    class="text-sm md:text-xl leading-none"
-                    :class="
-                      character.rarity === 5
-                        ? 'text-amber-400'
-                        : 'text-purple-400'
-                    "
+                    class="text-sm md:text-xl leading-none text-yellow-500"
                   >
                     ★
                   </p>
