@@ -126,7 +126,7 @@
               >Nuxt</a
             >
           </span>
-          <span>&</span>
+          <span>|</span>
           <span class="flex gap-1">
             <img
               class="w-5 hidden md:block"
@@ -141,7 +141,7 @@
               >TailwindCSS</a
             >
           </span>
-          <span>&</span>
+          <span>|</span>
           <span class="flex gap-1">
             <img
               class="w-5 hidden md:block"
