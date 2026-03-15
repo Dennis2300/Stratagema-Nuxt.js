@@ -1,19 +1,6 @@
 <template>
   <main class="min-h-screen pb-10">
-    <!--Loading-->
-    <section v-if="loading">
-      <div class="flex justify-center items-center h-64">
-        <LoadingSpinner />
-      </div>
-    </section>
-    <!--Error-->
-    <section v-else-if="error">
-      <div class="flex justify-center items-center h-64">
-        <ErrorMessage :error="error" />
-      </div>
-    </section>
-    <!--Content-->
-    <section v-else>
+    <section>
       <header class="relative flex justify-center items-center mb-8 md:my-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
@@ -41,6 +28,18 @@
         />
       </div>
       <div class="divider px-32"></div>
+      <!--Loading-->
+      <article v-if="loading">
+        <div class="flex justify-center items-center h-64">
+          <LoadingSpinner />
+        </div>
+      </article>
+      <!--Error-->
+      <article v-else-if="error">
+        <div class="flex justify-center items-center h-64">
+          <ErrorMessage :error="error" />
+        </div>
+      </article>
       <!--Content-->
       <article>
         <div class="grid grid-cols-2 md:grid-cols-6 gap-8 px-4 md:px-32">
@@ -74,23 +73,48 @@ const artifacts = ref([]);
 const search = ref("");
 
 const CACHE_KEY = "artifacts_cache";
+const CACHE_DURATION = 60 * 60 * 1000;
+
+function setCache(data) {
+  sessionStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify({
+      data,
+      timestamp: Date.now(),
+    }),
+  );
+}
+
+function getCache() {
+  const cached = sessionStorage.getItem(CACHE_KEY);
+  if (!cached) return null;
+
+  const { data, timestamp } = JSON.parse(cached);
+  const isExpired = Date.now() - timestamp > CACHE_DURATION;
+
+  if (isExpired) {
+    sessionStorage.removeItem(CACHE_KEY);
+    return null;
+  }
+  return data;
+}
 
 async function getAllArtifacts() {
-  // Cache check
-  const cached = sessionStorage.getItem(CACHE_KEY);
+  const cached = getCache();
   if (cached) {
-    artifacts.value = JSON.parse(cached);
+    artifacts.value = cached;
     loading.value = false;
     return;
   }
-  // Fetch from DB
+
   try {
     const { data, error: fetchError } = await supabase
       .from("artifacts")
       .select("*");
     if (fetchError) throw fetchError;
+
     artifacts.value = data;
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    setCache(data);
   } catch (e) {
     error.value = e;
     console.log(e);

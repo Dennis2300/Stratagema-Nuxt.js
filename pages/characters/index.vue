@@ -1,19 +1,7 @@
 <template>
   <main class="min-h-screen">
-    <!--Loading-->
-    <section v-if="loading">
-      <div class="flex justify-center items-center h-64">
-        <LoadingSpinner />
-      </div>
-    </section>
-    <!--Error-->
-    <section v-else-if="error">
-      <div class="flex justify-center items-center h-64">
-        <ErrorMessage :error="error" />
-      </div>
-    </section>
     <!--Content-->
-    <section v-else class="relative">
+    <section class="relative">
       <header
         class="relative flex justify-center items-center mb-8 md:mt-8 md:mb-0"
       >
@@ -247,9 +235,21 @@
         </div>
       </Transition>
       <div class="divider md:px-32 mt-0 mb-8"></div>
+      <!--Loading-->
+      <article v-if="loading">
+        <div class="flex justify-center items-center h-64">
+          <LoadingSpinner />
+        </div>
+      </article>
+      <!--Error-->
+      <article v-else-if="error">
+        <div class="flex justify-center items-center h-64">
+          <ErrorMessage :error="error" />
+        </div>
+      </article>
       <!--Character Card-->
       <article
-        v-if="characters.length > 0"
+        v-else-if="characters.length > 0"
         class="w-full min-h-screen flex flex-col items-center gap-12"
       >
         <div
@@ -306,8 +306,9 @@
                         ? 'text-amber-400'
                         : 'text-purple-400'
                     "
-                    >★</p
                   >
+                    ★
+                  </p>
                 </div>
               </div>
             </div>
