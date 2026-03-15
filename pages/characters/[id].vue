@@ -3,10 +3,10 @@
     <article v-if="character" class="relative">
       <!--Background-->
       <div
-        class="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 z-10"
+        class="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
       >
         <img
-          class="opacity-10"
+          class="opacity-10 pointer-events-none"
           :src="character.splash_art_url"
           :alt="character.name"
           loading="lazy"
@@ -180,7 +180,10 @@
             <div class="space-y-6">
               <template v-for="a in character.weapons">
                 <div class="flex justify-between items-center">
-                  <div class="flex gap-4 items-center">
+                  <NuxtLink
+                    :to="`/weapons/${a.weapon.id}?name=${encodeURIComponent(a.weapon?.name)}`"
+                    class="flex gap-4 items-center group"
+                  >
                     <div
                       class="rounded-xl"
                       :class="{
@@ -196,20 +199,20 @@
                       />
                     </div>
                     <div class="space-y-1">
-                      <span>{{ a.weapon?.name }}</span>
+                      <p class="group-hover:underline">{{ a.weapon?.name }}</p>
                       <div class="flex gap-2">
-                        <span
+                        <p
                           class="badge badge-outline badge-secondary hidden md:block"
-                          >Base Attack: {{ a.weapon.base_attack }}</span
+                          >Base Attack: {{ a.weapon.base_attack }}</p
                         >
-                        <span
+                        <p
                           class="badge badge-outline badge-accent hidden md:block"
                           >{{ a.weapon.bonus_effect_type }}:
-                          {{ a.weapon.bonus_effect_value }}</span
+                          {{ a.weapon.bonus_effect_value }}</p
                         >
                       </div>
                     </div>
-                  </div>
+                  </NuxtLink>
                   <span class="badge badge-primary">#{{ a.rank }}</span>
                 </div>
               </template>
@@ -228,10 +231,11 @@
               >
                 <div class="flex justify-between items-center">
                   <div class="flex flex-col gap-3">
-                    <div
+                    <NuxtLink
                       v-for="a in artifacts"
                       :key="a.artifact?.name"
-                      class="flex gap-4 items-center"
+                      :to="`/artifacts/${a.artifact.id}?name=${encodeURIComponent(a.artifact?.name)}`"
+                      class="flex gap-4 items-center group"
                     >
                       <div class="rounded-xl rarity-5">
                         <img
@@ -243,25 +247,26 @@
                       </div>
                       <div class="flex flex-col space-y-3">
                         <div class="flex flex-col gap-1">
-                          <span class="leading-none text-xs text-info">
+                          <p class="leading-none text-xs text-info">
                             {{
                               artifacts.length > 1
                                 ? "2 Piece Effect"
                                 : "4 Piece Effect"
                             }}
-                          </span>
-                          <span
-                            class="leading-none max-w-52 md:max-w-none truncate"
-                            >{{ a.artifact?.name }}</span
+                          </p>
+                          <p
+                            class="leading-none max-w-52 md:max-w-none truncate group-hover:underline"
                           >
+                            {{ a.artifact?.name }}
+                          </p>
                         </div>
-                        <span
+                        <p
                           class="badge badge-warning badge-outline max-w-88 truncate hidden md:block"
                         >
                           {{ a.artifact.two_piece_effect?.name }}
-                        </span>
+                        </p>
                       </div>
-                    </div>
+                    </NuxtLink>
                   </div>
                   <span class="badge badge-primary">#{{ rank }}</span>
                 </div>

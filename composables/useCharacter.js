@@ -10,7 +10,7 @@ export function useCharacter(id) {
   voices:voice_actors(language, name, link),
   signature_dish:signature_dish(*),
   artifacts:character_artifact(artifact(*, two_piece_effect(name)), rank),
-  weapons:character_weapon(weapon(name, rarity, base_attack, bonus_effect_type, bonus_effect_value, img_url), rank),
+  weapons:character_weapon(weapon(id, name, rarity, base_attack, bonus_effect_type, bonus_effect_value, img_url), rank),
   builds:builds(character, details, title, stat:build_stat(build, slot, stat, rank)),
   ascensions:character_ascension(material_ascension(*), amount),
   enhancements:character_enhancement(material_enhancements(*), amount),
