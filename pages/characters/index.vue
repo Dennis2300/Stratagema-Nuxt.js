@@ -288,7 +288,6 @@
                   class="w-full h-full object-cover"
                   :src="character.img_url"
                   :alt="character.name"
-                  loading="lazy"
                   fetchpriority="high"
                 />
               </div>
