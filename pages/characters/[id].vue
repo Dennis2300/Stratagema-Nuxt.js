@@ -256,11 +256,9 @@
                           >
                         </div>
                         <span
-                          class="badge badge-warning badge-outline max-w-88 hidden md:block"
+                          class="badge badge-warning badge-outline max-w-88 truncate hidden md:block"
                         >
-                          <span class="truncate">{{
-                            a.artifact.two_piece_effect?.name
-                          }}</span>
+                          {{ a.artifact.two_piece_effect?.name }}
                         </span>
                       </div>
                     </div>
