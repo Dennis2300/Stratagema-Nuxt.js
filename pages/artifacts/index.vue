@@ -4,8 +4,8 @@
       <header class="relative flex justify-center items-center mb-8 md:my-8">
         <div class="relative w-[800px] h-[100px] overflow-hidden rounded-xl">
           <img
-            class="w-full h-full object-cover object-center"
-            src="https://act-upload.hoyoverse.com/event-ugc-hoyowiki/2024/06/13/237301566/f3ca1b7fa11e370118b63bf80513e0c7_6565987184341339932.png?x-oss-process=image%2Fformat%2Cwebp"
+            class="w-full h-full object-cover object-center flex justify-center items-center"
+            src="https://upload-static.hoyoverse.com/hoyolab-wiki/2023/06/07/77454259/7bd0679652002b6cb47945eb61db7407_7959825444362231913.png?x-oss-process=image%2Fformat%2Cwebp"
             alt="Stratagema - Character Archive"
             loading="lazy"
           />
