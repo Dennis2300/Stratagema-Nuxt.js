@@ -285,7 +285,7 @@
                 }"
               >
                 <img
-                  class="w-full h-full object-cover"
+                  class="w-full h-full object-cover flex justify-center items-center text-xs"
                   :src="character.img_url"
                   :alt="character.name"
                   fetchpriority="high"
