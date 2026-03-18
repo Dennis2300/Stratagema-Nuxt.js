@@ -47,14 +47,20 @@
             <div>
               <h2 class="font-acme">{{ character?.name }}</h2>
               <div class="flex flex-wrap gap-2">
-                <span class="badge badge-primary">{{ character.role }}</span>
-                <span class="badge badge-primary">{{
-                  character.vision?.name
+                <span class="badge badge-primary" v-if="character.role">{{
+                  character.role
                 }}</span>
-                <span class="badge badge-primary">{{
-                  character.weapon_type?.name
-                }}</span>
-                <span class="badge badge-primary">{{
+                <span
+                  class="badge badge-primary"
+                  v-if="character.vision?.name"
+                  >{{ character.vision?.name }}</span
+                >
+                <span
+                  class="badge badge-primary"
+                  v-if="character.weapon_type?.name"
+                  >{{ character.weapon_type?.name }}</span
+                >
+                <span class="badge badge-primary" v-if="character.main_stat">{{
                   character.main_stat
                 }}</span>
               </div>
@@ -203,13 +209,15 @@
                       <div class="flex gap-2">
                         <p
                           class="badge badge-outline badge-secondary hidden md:block"
-                          >Base Attack: {{ a.weapon.base_attack }}</p
                         >
+                          Base Attack: {{ a.weapon.base_attack }}
+                        </p>
                         <p
                           class="badge badge-outline badge-accent hidden md:block"
-                          >{{ a.weapon.bonus_effect_type }}:
-                          {{ a.weapon.bonus_effect_value }}</p
                         >
+                          {{ a.weapon.bonus_effect_type }}:
+                          {{ a.weapon.bonus_effect_value }}
+                        </p>
                       </div>
                     </div>
                   </NuxtLink>
@@ -466,20 +474,34 @@
                 <template v-for="a in character.level_up_material">
                   <div class="flex items-center gap-3">
                     <img
-                      class="w-20 bg-app-muted rounded-xl"
+                      class="w-20 h-20 bg-app-muted rounded-xl"
+                      v-if="a.level_up_material.img_url"
                       :src="a.level_up_material.img_url"
                       :alt="a.level_up_material.name"
                       loading="lazy"
                     />
+                    <img
+                      class="w-20 h-20 bg-app-muted rounded-xl"
+                      v-else
+                      src="https://placehold.co/80x80?text=N/A"
+                      alt=""
+                    />
                     <div class="flex flex-col gap-2">
-                      <span class="w-56 truncate">
-                        {{ a.level_up_material.name }}
+                      <span
+                        class="w-54 flex items-center gap-1 overflow-hidden"
+                      >
+                        <span class="truncate">
+                          {{ a.level_up_material.name }}
+                        </span>
+
                         <span
                           v-if="a.level_up_material.is_new"
-                          class="text-warning"
-                          >(NEW)</span
+                          class="text-warning shrink-0"
                         >
+                          (NEW)
+                        </span>
                       </span>
+
                       <strong class="text-accent">x{{ a.amount }}</strong>
                     </div>
                   </div>
@@ -493,13 +515,33 @@
                 <template v-for="a in character.local_specialty">
                   <div class="flex items-center gap-3">
                     <img
-                      class="w-20 bg-app-muted rounded-xl"
+                      class="w-20 h-20 bg-app-muted rounded-xl"
+                      v-if="a.local_specialty.img_url"
                       :src="a.local_specialty.img_url"
                       :alt="a.local_specialty.name"
                       loading="lazy"
                     />
+                    <img
+                      class="w-20 h-20 bg-app-muted rounded-xl"
+                      v-else
+                      src="https://placehold.co/80x80?text=N/A"
+                      alt=""
+                    />
                     <div class="flex flex-col gap-2">
-                      <span>{{ a.local_specialty.name }}</span>
+                      <span
+                        class="w-54 flex items-center gap-1 overflow-hidden"
+                      >
+                        <span class="truncate">
+                          {{ a.local_specialty.name }}
+                        </span>
+
+                        <span
+                          v-if="a.local_specialty.is_new"
+                          class="text-warning shrink-0"
+                        >
+                          (NEW)
+                        </span>
+                      </span>
                       <strong class="text-accent">x168</strong>
                     </div>
                   </div>
