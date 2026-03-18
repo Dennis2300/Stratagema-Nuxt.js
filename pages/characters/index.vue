@@ -321,17 +321,28 @@
                 <span class="text-sm text-white/60">{{
                   character.vision?.name
                 }}</span>
+
                 <span class="text-white/20">·</span>
+
                 <span class="text-sm text-white/60">{{
                   character.weapon_type?.name
                 }}</span>
-                <span class="text-white/20">·</span>
+
+                <span class="text-white/20" v-if="character.role">·</span>
+
                 <span class="text-sm text-white/60">{{ character.role }}</span>
-                <span class="text-white/20 hidden md:block">·</span>
+
+                <span
+                  class="text-white/20 hidden md:block"
+                  v-if="character.main_stat"
+                  >·</span
+                >
+
                 <span class="text-sm text-white/60 hidden md:block">{{
                   character.main_stat
                 }}</span>
               </div>
+
               <span class="text-xs text-white/60 hidden md:block">
                 <strong> Released: </strong>
                 {{
