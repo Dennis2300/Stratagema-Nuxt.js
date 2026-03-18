@@ -2,11 +2,20 @@
   <article class="space-y-8">
     <h3 class="divider md:px-32 font-freeman">Current Banner</h3>
     <div class="md:px-32 space-y-4">
+      <!-- Fallback -->
+      <div
+        class="text-center uppercase font-freeman"
+        v-if="countdownValues.days < 0"
+      >
+        <h3>Banner has ended</h3>
+        <span>This will be updated shortly. Come back Later!</span>
+      </div>
       <!--Countdown-->
       <div
+        v-else
         class="grid auto-cols-max grid-flow-col gap-5 text-center justify-center"
       >
-        <div v-if="countdownValues.days > 0" class="flex flex-col">
+        <div class="flex flex-col">
           <span class="countdown font-mono text-5xl">
             <span
               :style="`--value:${countdownValues.days};`"
@@ -55,6 +64,7 @@
           sec
         </div>
       </div>
+
       <!--Characters-->
       <div class="flex flex-col md:flex-row justify-center gap-10 md:gap-20">
         <div v-for="a in currentBannerCharacters" :key="a.character.id">
