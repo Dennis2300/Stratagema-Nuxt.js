@@ -188,6 +188,7 @@
                 <div class="flex justify-between items-center">
                   <NuxtLink
                     :to="`/weapons/${a.weapon.id}?name=${encodeURIComponent(a.weapon?.name)}`"
+                    target="_blank"
                     class="flex gap-4 items-center group"
                   >
                     <div
@@ -243,6 +244,7 @@
                       v-for="a in artifacts"
                       :key="a.artifact?.name"
                       :to="`/artifacts/${a.artifact.id}?name=${encodeURIComponent(a.artifact?.name)}`"
+                      target="_blank"
                       class="flex gap-4 items-center group"
                     >
                       <div class="rounded-xl rarity-5">
