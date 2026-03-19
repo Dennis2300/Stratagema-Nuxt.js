@@ -236,7 +236,7 @@
       </Transition>
       <div class="divider md:px-32 mt-0 mb-8"></div>
       <!--Loading-->
-      <article v-if="loading">
+      <article v-if="loading || resetting">
         <div class="flex justify-center items-center h-64">
           <LoadingSpinner />
         </div>
@@ -406,6 +406,7 @@ const CACHE_KEY = "characters_cache";
 
 // Filter
 const isFiltered = ref(false);
+const resetting = ref(false);
 const filtersWereApplied = ref(false);
 const selectedFilters = ref({
   rarity: null,
@@ -596,14 +597,14 @@ async function getFilteredCharacters() {
 }
 async function resetFilters() {
   if (!hasActiveFilters.value) return;
-
   const wasFiltered = isFiltered.value;
   clearFilterState();
   isFilterPanelOpen.value = false;
-
   if (wasFiltered) {
+    resetting.value = true;
     clearCharacterState();
     await getMoreCharacters();
+    resetting.value = false;
   }
 }
 
