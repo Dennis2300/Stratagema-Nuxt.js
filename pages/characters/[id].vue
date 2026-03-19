@@ -348,15 +348,17 @@
         <!--Teams-->
         <div
           v-if="teams.length > 0"
-          class="grid grid-cols-2 gap-x-32 gap-y-8 bg-white/10 border border-white/25 rounded-lg p-2 md:p-4"
+          class="grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-32 md:gap-y-8 bg-white/10 border border-white/25 rounded-lg p-2 md:p-4"
         >
           <div v-for="team in teams">
-            <h5 class="divider divider-start font-freeman">{{ team.name }}</h5>
+            <h5 class="divider divider-start font-freeman">
+              {{ character.name }} - {{ team.name }}
+            </h5>
             <div class="flex justify-around">
               <!--Primary Character-->
               <div class="space-y-1">
                 <div
-                  class="w-24 h-24 rounded-xl overflow-hidden"
+                  class="w-16 h-16 md:w-24 md:h-24 rounded-xl overflow-hidden"
                   :class="{
                     'rarity-5': character.rarity === 5,
                     'rarity-4': character.rarity === 4,
@@ -366,10 +368,10 @@
                     class="w-full h-full object-cover object-center"
                     :src="character.img_url"
                     :alt="character.name"
-                    loading="lazy"
+                    fetchpriority="high"
                   />
                 </div>
-                <p class="w-24 text-center overflow-hidden truncate">
+                <p class="w-16 md:w-24 text-center overflow-hidden truncate">
                   <span class="font-acme tracking-wide">{{
                     character.name
                   }}</span>
@@ -378,7 +380,7 @@
               <!--Team Characters-->
               <div class="space-y-1" v-for="member in team.character_team">
                 <div
-                  class="w-24 h-24 rounded-xl overflow-hidden"
+                  class="w-16 h-16 md:w-24 md:h-24 rounded-xl overflow-hidden"
                   :class="{
                     'rarity-5': member.character.rarity === 5,
                     'rarity-4': member.character.rarity === 4,
@@ -391,7 +393,7 @@
                     loading="lazy"
                   />
                 </div>
-                <p class="w-24 text-center overflow-hidden truncate">
+                <p class="w-16 md:w-24 text-center overflow-hidden truncate">
                   <span class="font-freeman tracking-wide">{{
                     member.character.name
                   }}</span>
