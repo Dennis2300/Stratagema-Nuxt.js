@@ -1,6 +1,18 @@
 <template>
   <main>
-    <article v-if="character" class="relative">
+    <!--Loading-->
+    <article v-if="loading">
+      <div class="flex justify-center items-center min-h-[92vh]">
+        <LoadingSpinner />
+      </div>
+    </article>
+    <!--Error-->
+    <article v-else-if="error">
+      <div class="flex justify-center items-center h-64">
+        <ErrorMessage :error="error" />
+      </div>
+    </article>
+    <article v-else-if="character" class="relative">
       <!--Background-->
       <div
         class="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
@@ -335,52 +347,57 @@
         </div>
         <!--Teams-->
         <div
-          class="bg-white/10 border border-white/25 rounded-lg p-4"
           v-if="teams.length > 0"
+          class="grid grid-cols-2 gap-x-32 gap-y-8 bg-white/10 border border-white/25 rounded-lg p-2 md:p-4"
         >
-          <h4 class="divider font-freeman tracking-wide mb-8">
-            {{ character.name }} Teams
-          </h4>
-          <div class="grid grid-cols-1 md:grid-cols-2 md:gap-x-20 gap-y-10">
-            <template v-for="team in teams">
-              <div class="space-y-4">
-                <h6 class="divider md:px-32 font-freeman tracking-wide">
-                  {{ team.name }}
-                </h6>
-                <div class="flex justify-center gap-4 md:gap-8">
-                  <template v-for="member in team.members">
-                    <NuxtLink
-                      :class="{
-                        'pointer-events-none':
-                          member.character.id === character.id,
-                      }"
-                      :to="`/characters/${member.character.id}`"
-                      target="_blank"
-                    >
-                      <div
-                        class="flex flex-col justify-center items-center group"
-                      >
-                        <img
-                          class="w-16 md:w-20 rounded-xl"
-                          :class="{
-                            'rarity-5': member.character.rarity === 5,
-                            'rarity-4': member.character.rarity === 4,
-                          }"
-                          :src="member.character.img_url"
-                          :alt="member.character.name"
-                          loading="lazy"
-                        />
-                        <div class="w-16 md:w-20 mt-1 truncate text-center">
-                          <span class="group-hover:text-info transition">{{
-                            member.character.name
-                          }}</span>
-                        </div>
-                      </div>
-                    </NuxtLink>
-                  </template>
+          <div v-for="team in teams">
+            <h5 class="divider divider-start font-freeman">{{ team.name }}</h5>
+            <div class="flex justify-around">
+              <!--Primary Character-->
+              <div class="space-y-1">
+                <div
+                  class="w-24 h-24 rounded-xl overflow-hidden"
+                  :class="{
+                    'rarity-5': character.rarity === 5,
+                    'rarity-4': character.rarity === 4,
+                  }"
+                >
+                  <img
+                    class="w-full h-full object-cover object-center"
+                    :src="character.img_url"
+                    :alt="character.name"
+                    loading="lazy"
+                  />
                 </div>
+                <p class="w-24 text-center overflow-hidden truncate">
+                  <span class="font-acme tracking-wide">{{
+                    character.name
+                  }}</span>
+                </p>
               </div>
-            </template>
+              <!--Team Characters-->
+              <div class="space-y-1" v-for="member in team.character_team">
+                <div
+                  class="w-24 h-24 rounded-xl overflow-hidden"
+                  :class="{
+                    'rarity-5': member.character.rarity === 5,
+                    'rarity-4': member.character.rarity === 4,
+                  }"
+                >
+                  <img
+                    class="w-full h-full object-cover object-center"
+                    :src="member.character.img_url"
+                    :alt="member.character.name"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="w-24 text-center overflow-hidden truncate">
+                  <span class="font-freeman tracking-wide">{{
+                    member.character.name
+                  }}</span>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         <!--Materials-->
@@ -578,9 +595,65 @@
 <script setup>
 import "flag-icons/css/flag-icons.min.css";
 const route = useRoute();
-const { character, error } = await useCharacter(route.params.id);
-const { teams } = await useCharacterTeams(route.params.id);
+const supabase = useSupabaseClient();
+
 const languageOrder = ["us", "jp", "cn", "kr"];
+
+const loading = ref(true);
+const character = ref();
+const teams = ref([]);
+const error = ref(false);
+
+async function getCharacterById() {
+  const CHARACTER_SELECT = `
+  *,
+  vision(name, img_url),
+  weapon_type(name, img_url),
+  regions:character_region(region(name)),
+  affiliations:character_affiliation(affiliation(name)),
+  voices:voice_actors(language, name, link),
+  signature_dish:signature_dish(*),
+  artifacts:character_artifact(artifact(*, two_piece_effect(name)), rank),
+  weapons:character_weapon(weapon(id, name, rarity, base_attack, bonus_effect_type, bonus_effect_value, img_url), rank),
+  builds:builds(character, details, title, stat:build_stat(build, slot, stat, rank)),
+  ascensions:character_ascension(material_ascension(*), amount),
+  enhancements:character_enhancement(material_enhancements(*), amount),
+  talents:character_talent(material_talents(*), amount),
+  local_specialty:character_local_specialty(local_specialty(*)),
+  level_up_material:character_level_up_material(level_up_material(*), amount)
+`;
+  try {
+    const { data, error: fetchError } = await supabase
+      .from("characters")
+      .select(CHARACTER_SELECT)
+      .eq("id", route.params.id)
+      .single();
+    if (fetchError) throw fetchError;
+    character.value = data;
+  } catch (error) {
+    error.value = fetchError;
+    console.log(fetchError);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function getCharacterTeams() {
+  try {
+    const { data, error: fetchError } = await supabase
+      .from("teams")
+      .select("*, character_team(*, character(id, name, img_url, rarity))")
+      .eq("primary_character", route.params.id);
+    if (fetchError) throw fetchError;
+    teams.value = data;
+  } catch (error) {
+    error.value = error;
+    console.log(error);
+  } finally {
+    console.log(teams.value);
+    loading.value = false;
+  }
+}
 
 function getMainStats(stats) {
   const mainStats = stats.filter((stat) => stat.slot !== "substat");
@@ -660,5 +733,10 @@ const groupedArtifacts = computed(() => {
     acc[a.rank].push(a);
     return acc;
   }, {});
+});
+
+onMounted(() => {
+  getCharacterById();
+  getCharacterTeams();
 });
 </script>

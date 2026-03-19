@@ -1,16 +1,7 @@
 export function useCharacterTeams(characterId) {
   const supabase = useSupabaseClient();
 
-  const CHARACTER_TEAM_SELECT = `
-    slot,
-    team(
-      id, name, detail,
-      members:character_team(
-        slot,
-        character:characters(id, name, img_url, rarity)
-      )
-    )
-  `;
+  const CHARACTER_TEAM_SELECT = "*";
 
   const { data, error } = useAsyncData(`character-teams-${characterId}`, () =>
     supabase
