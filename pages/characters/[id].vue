@@ -650,6 +650,7 @@ async function getCharacterTeams() {
       .order("slot", { referencedTable: "character_team", ascending: true });
     if (fetchError) throw fetchError;
     teams.value = data;
+    teams.value = teams.value.sort((a, b) => a.name.localeCompare(b.name));
   } catch (error) {
     error.value = error;
     console.log(error);
