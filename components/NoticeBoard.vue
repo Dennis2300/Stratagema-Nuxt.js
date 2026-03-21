@@ -1,27 +1,24 @@
 <template>
   <article class="space-y-8">
-    <h3 class="divider md:px-32 font-freeman">Notice Board</h3>
-    <div class="flex flex-col items-center gap-10">
-      <template v-for="update in updates">
-        <div class="bg-app-tertiary rounded-xl mx-2 p-4 md:w-2/3">
-          <div
-            class="flex flex-col md:flex-row items-start justify-between gap-4 mb-2"
-          >
-            <h6 class="text-warning leading-snug">
-              {{ update.title }}
-            </h6>
-            <span
-              class="text-xs text-gray-400 whitespace-nowrap mt-0.5 font-mono"
-            >
-              {{ update.slug }}
-            </span>
+    <h1 class="divider md:px-32 font-freeman">Notice Board</h1>
+    <section class="md:px-32" v-for="update in updates">
+      <div class="bg-white/10 border border-white/25 p-4 rounded-xl">
+        <div class="flex justify-between">
+          <div>
+            <h4 class="leading-none text-app-accent">{{ update.title }}</h4>
+            <span class="text-white/25">{{ update.slug }}</span>
           </div>
-          <p class="text-sm text-text leading-relaxed">
-            {{ update.content }}
-          </p>
+          <div>
+            <span class="text-white/25">Posted: </span>
+            <span class="text-app-accent">
+              {{ formatDate(update.published_at) }}</span
+            >
+          </div>
         </div>
-      </template>
-    </div>
+        <div class="divider mt-0 mb-2"></div>
+        <p class="text-app-text">{{ update.content }}</p>
+      </div>
+    </section>
   </article>
 </template>
 
@@ -45,6 +42,14 @@ async function fetchUpdates() {
   } catch (err) {
     console.error("Error fetching updates:", err);
   }
+}
+
+function formatDate(date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 onMounted(() => {

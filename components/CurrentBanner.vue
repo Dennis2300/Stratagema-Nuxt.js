@@ -1,6 +1,6 @@
 <template>
   <article class="space-y-8">
-    <h3 class="divider md:px-32 font-freeman">Current Banner</h3>
+    <h1 class="divider md:px-32 font-freeman">Current Banner</h1>
     <div class="md:px-32 space-y-4">
       <!-- Fallback -->
       <div

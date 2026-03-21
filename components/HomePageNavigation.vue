@@ -1,12 +1,10 @@
 <template>
   <article class="space-y-8">
-    <div>
-      <h3 class="divider md:px-32 font-freeman">Welcome to Stratagema</h3>
-      <p class="text-center text-sm font-freeman tracking-wide">
-        Simple Genshin Impact build guides. Discover the best builds, weapons
-        and team compositions for every character.
-      </p>
-    </div>
+    <h1 class="divider md:px-32 font-freeman m-0">Welcome to Stratagema</h1>
+    <p class="text-center font-freeman tracking-wide my-6">
+      Simple Genshin Impact build guides. Discover the best builds, weapons and
+      team compositions for every character.
+    </p>
     <div class="flex flex-col md:flex-row justify-center items-center gap-20">
       <NuxtLink
         v-for="link in navLinks"
