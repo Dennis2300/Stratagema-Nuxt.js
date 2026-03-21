@@ -12,6 +12,7 @@
         <ErrorMessage :error="error" />
       </div>
     </article>
+    <!--Character By Id-->
     <article v-else-if="character" class="relative">
       <!--Background-->
       <div
@@ -645,7 +646,8 @@ async function getCharacterTeams() {
     const { data, error: fetchError } = await supabase
       .from("teams")
       .select("*, character_team(*, character(id, name, img_url, rarity))")
-      .eq("primary_character", route.params.id);
+      .eq("primary_character", route.params.id)
+      .order("slot", { referencedTable: "character_team", ascending: true });
     if (fetchError) throw fetchError;
     teams.value = data;
   } catch (error) {
