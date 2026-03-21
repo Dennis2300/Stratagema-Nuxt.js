@@ -349,9 +349,12 @@
         <!--Teams-->
         <div
           v-if="teams.length > 0"
-          class="grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-32 md:gap-y-8 bg-white/10 border border-white/25 rounded-lg p-2 md:p-4"
+          class="grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-32 md:gap-y-8"
         >
-          <div v-for="team in teams">
+          <div
+            v-for="team in teams"
+            class="bg-white/10 border border-white/50 rounded-lg px-2 pb-2 md:px-4"
+          >
             <h5 class="divider divider-start font-freeman">
               {{ character.name }} - {{ team.name }}
             </h5>
